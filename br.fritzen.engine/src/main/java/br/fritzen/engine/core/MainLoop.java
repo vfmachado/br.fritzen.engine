@@ -1,7 +1,5 @@
 package br.fritzen.engine.core;
 
-import java.util.logging.Logger;
-
 /**
  * This class contains the main gameloop of the engine. Which attempted to stay at a fix FPS and UPS given the numbers of the Engine file.
  * 
@@ -12,10 +10,8 @@ import java.util.logging.Logger;
  * @author fritz
  *
  */
-public abstract class GameLoop {
+public abstract class MainLoop {
 
-	private final static Logger LOG = Logger.getLogger(GameLoop.class.getName());
-		
 	private final static long SECOND_IN_NANOS = 1_000_000_000L;
 	
 	private final static long DESIRED_UPDATE_TIME = SECOND_IN_NANOS/EngineState.UPS;
@@ -29,6 +25,7 @@ public abstract class GameLoop {
 	
 	public void run() {
 
+		EngineLog.info("Initializing systems");
 		this.init();
 		
 		isRunning = true;
@@ -46,6 +43,7 @@ public abstract class GameLoop {
 			
 		long lastRender =0;
 		
+		EngineLog.info("Application main loop");
 		while (isRunning) {
 			
 			long deltaTime = afterTime - beforeTime; 
@@ -83,7 +81,7 @@ public abstract class GameLoop {
 			if (System.nanoTime() - timer >= SECOND_IN_NANOS) {
 				
 				if (EngineState.DEBUG_FPS) {
-					LOG.info("UPS: " + currentUPS +"\tFPS: " + currentFPS);
+					EngineLog.info("UPS: " + currentUPS +"\tFPS: " + currentFPS);
 				}
 				
 				currentUPS = 0;
@@ -135,7 +133,7 @@ public abstract class GameLoop {
 			Thread.sleep(time / 1_000_000L, (int) (time % 1_000_000L));
 			this.overSleep = System.nanoTime() - beforeSleep - time;
 		} catch (InterruptedException e) {
-			LOG.severe("Error on sleeping");
+			EngineLog.severe("Error on sleeping " + e.getMessage());
 			//e.printStackTrace();
 		}
 	}

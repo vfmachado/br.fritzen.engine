@@ -1,8 +1,8 @@
 package br.fritzen.engine;
 
-import br.fritzen.engine.core.GameLoop;
+import br.fritzen.engine.core.MainLoop;
 
-public class Application extends GameLoop {
+public class Application extends MainLoop {
 
 	
 	@Override
