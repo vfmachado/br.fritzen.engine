@@ -7,8 +7,9 @@ public class ApplicationTest extends Application {
 
 	
 	public static void main(String[] args) {
-		//Log.getInstance().info("Teste");
+		
 		EngineLog.info("Starting app");
+		
 		Application app = new ApplicationTest();
 		app.run();
 		

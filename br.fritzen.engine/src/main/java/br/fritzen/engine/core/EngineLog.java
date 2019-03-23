@@ -13,17 +13,15 @@ public class EngineLog {
 	private static EngineLog log = new EngineLog();
 	
 	
-	private class Data{
+	private class Data {
 	
 		String filename;
-		//String className;
 		String methodName;
 		int line;
 		
 		public Data(StackTraceElement stack) {
 			filename = stack.getFileName();
 			line = stack.getLineNumber();
-			//className = stack.getClassName();
 			methodName = stack.getMethodName();
 		}
 	}

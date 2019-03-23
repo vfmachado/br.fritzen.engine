@@ -19,7 +19,12 @@ public class EngineState {
 	/**
 	 * Enable/Disable FPS Log of the engine console
 	 */
-	public final static boolean DEBUG_FPS = true;
+	public static boolean DEBUG_FPS = true;
+	
+	/**
+	 * Enable/Disable FPS Log of the engine console
+	 */
+	public static boolean DEBUG_UPS = true;
 	
 	/**
 	 * Enable/Disable FileUtils Log of the engine console
