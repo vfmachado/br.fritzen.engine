@@ -90,6 +90,11 @@ public class EngineState {
 	 * Max number of SpotLight in one scene
 	 */
 	public final static int MAX_SPOT_LIGHTS = 20;
+
+	/**
+	 * VSync enable / disable in the application
+	 */
+	public static final boolean VSync = false;
 	
 	/**
 	 * Enable/Disable Wireframe render for the main shader
