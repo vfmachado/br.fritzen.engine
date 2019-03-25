@@ -111,6 +111,7 @@ public class Window {
 		return this.width;
 	}
 	
+	
 	public int getHeight() {
 		return this.height;
 	}
