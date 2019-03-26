@@ -3,6 +3,8 @@ package br.fritzen.engine;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.MainLoop;
+import br.fritzen.engine.events.Event;
+import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.window.Window;
 
 public class Application extends MainLoop {
@@ -18,7 +20,7 @@ public class Application extends MainLoop {
 	
 	public Application(String title, int width, int height) {
 		
-		window = new Window(width, height, title);
+		window = new WindowsWindowImpl(width, height, title);
 		
 	}
 	
@@ -36,6 +38,11 @@ public class Application extends MainLoop {
 
 	}
 
+	
+	public void onEvent(Event e) {
+		
+	}
+	
 	
 	@Override
 	protected void render() {
