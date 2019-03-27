@@ -17,7 +17,7 @@ public class KeyPressedEvent extends KeyEvent {
 	
 	@Override
 	public EventType getEventType() {
-		return EventType.KeyPressed;
+		return EventType.KeyPressedEvent;
 	}
 
 

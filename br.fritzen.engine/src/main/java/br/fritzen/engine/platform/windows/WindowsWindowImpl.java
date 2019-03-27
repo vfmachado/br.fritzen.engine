@@ -1,13 +1,18 @@
 package br.fritzen.engine.platform.windows;
 
 import static org.lwjgl.system.MemoryUtil.NULL;
+import static org.lwjgl.system.MemoryUtil.memUTF8;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.EngineState;
+import br.fritzen.engine.events.Event;
+import br.fritzen.engine.events.key.KeyPressedEvent;
+import br.fritzen.engine.events.key.KeyReleasedEvent;
+import br.fritzen.engine.events.mouse.MouseMovedEvent;
+import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.window.Window;
 
 public class WindowsWindowImpl extends Window {
@@ -39,12 +44,18 @@ public class WindowsWindowImpl extends Window {
 	@Override
 	protected void init() {
 		
-		GLFWErrorCallback.createPrint(System.err).set();
-		
 		if (!GLFW.glfwInit()) {
+			
 			throw new IllegalStateException("Unable to initialize GLFW");
+			
 		} else {
+			
 			EngineLog.info("GLFW initialized!");
+		
+			GLFW.glfwSetErrorCallback((error, text) -> {
+				EngineLog.severe(String.format("GLFW error [0x%X]: %s", error, getDescription(text)));
+			});
+			
 		}
 		
 		// Configure GLFW
@@ -70,6 +81,63 @@ public class WindowsWindowImpl extends Window {
 		vsync = EngineState.VSync;
 		this.setVSync(vsync);
 		
+		
+		GLFW.glfwSetCursorPosCallback(this.handler, (window, posx, posy) -> {
+			
+			Event event = new MouseMovedEvent((float)posx, (float)posy);
+			this.eventCallback(event);
+			
+		});
+		
+		
+		//CREATE AN EVENT ACCORDING WITH THE CORRECT TYPE
+		GLFW.glfwSetKeyCallback(this.handler, (window, key, scancode, action, mods) -> {
+			
+			//EngineLog.info("GLFW CAUGTH THE EVENT ON KEY " + (char)key);
+			
+			Event event;
+			switch (action) {
+				
+				case GLFW.GLFW_PRESS:
+				
+					event = new KeyPressedEvent(key, 0);
+					
+					this.eventCallback(event);
+					//this.evtCallback(event);
+					
+					break;
+				
+				case GLFW.GLFW_RELEASE:
+				
+					event = new KeyReleasedEvent(key);
+					this.eventCallback(event);
+					//data.EventCallback(event);
+					
+					break;
+				
+				case GLFW.GLFW_REPEAT:
+				
+					event = new KeyPressedEvent(key, 1);
+					this.eventCallback(event);
+					//data.EventCallback(event);
+					
+					break;
+				
+			}
+			
+		});
+		
+		
+		GLFW.glfwSetWindowCloseCallback(this.handler, (window) -> {
+			Event event = new WindowCloseEvent();
+			this.eventCallback(event);
+		});
+		
+		
+		
+		
+		
+		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
 		GL.createCapabilities();
 
 		GLFW.glfwShowWindow(handler);
@@ -95,8 +163,8 @@ public class WindowsWindowImpl extends Window {
 	@Override
 	public void onUpdate() {
 		
-		GLFW.glfwSwapBuffers(this.handler);
 		GLFW.glfwPollEvents();
+		GLFW.glfwSwapBuffers(this.handler);
 		
 	}
 	
@@ -107,4 +175,7 @@ public class WindowsWindowImpl extends Window {
 	}
 	
 
+	private String getDescription(long description) {
+        return memUTF8(description);
+    }
 }

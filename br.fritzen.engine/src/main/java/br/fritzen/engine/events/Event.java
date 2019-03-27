@@ -12,6 +12,14 @@ public abstract class Event {
 	public String getName() {
 		return getEventType().toString();
 	}
+
+	public void setHandled(boolean handled) {
+		this.handled = handled;;
+	}
+	
+	public boolean isHandled() {
+		return this.handled;
+	}
 	
 	
 }

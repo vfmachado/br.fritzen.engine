@@ -4,24 +4,24 @@ public enum EventType {
 
 	None,
 	
-	WindowClose,
-	WindowResize,
+	WindowCloseEvent,
+	WindowResizeEvent,
 	//WindowFocus,
 	//WindowLostFocus,
-	WindowMoved,
+	WindowMovedEvent,
 	
 	//AppTick,
 	//AppUpdate,
 	//AppRender,
 	
-	KeyPressed,
-	KeyReleased,
-	KeyTyped,
+	KeyPressedEvent,
+	KeyReleasedEvent,
+	KeyTypedEvent,
 	
-	MouseButtonPressed,
-	MouseButtonReleased,
-	MouseMoved,
-	MouseScrolled;
+	MouseButtonPressedEvent,
+	MouseButtonReleasedEvent,
+	MouseMovedEvent,
+	MouseScrolledEvent;
 	
 	
 }

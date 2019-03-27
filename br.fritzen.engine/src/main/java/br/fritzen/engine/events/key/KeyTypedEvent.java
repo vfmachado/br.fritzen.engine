@@ -12,7 +12,7 @@ public class KeyTypedEvent extends KeyEvent {
 	
 	@Override
 	public EventType getEventType() {
-		return EventType.KeyTyped;
+		return EventType.KeyTypedEvent;
 	}
 
 

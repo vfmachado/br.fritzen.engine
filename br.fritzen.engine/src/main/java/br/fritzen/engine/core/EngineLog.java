@@ -2,6 +2,7 @@ package br.fritzen.engine.core;
 
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -74,6 +75,12 @@ public class EngineLog {
 		getInstance().log(msg, "INFO");
 	}
 
+	
+	public static void info(Object msg) {
+		getInstance().log(msg.toString(), "INFO");
+	}
+	
+	
 	
 	/**
 	 * Default method for SEVRE Level Logging with the Fritzen Engine

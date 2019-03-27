@@ -21,9 +21,14 @@ public abstract class KeyEvent extends Event {
 	
 	@Override
 	public String getName() {
-		return getEventType().toString() + ": " + this.keycode;
+		return getEventType().toString() + ": " + (char)this.keycode;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 	
 	public static final int
 	    KEY_SPACE         = 32,

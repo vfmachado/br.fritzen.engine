@@ -7,13 +7,14 @@ import br.fritzen.engine.events.key.KeyPressedEvent;
 public class ApplicationTest extends Application {
 
 	
+	
 	public static void main(String[] args) {
 		
 		EngineLog.info(new KeyPressedEvent('A', 0).toString());
 		
 		EngineLog.info("Starting app");
 		
-		Application app = new ApplicationTest();
+		Application app = Application.create("App Teste", 1280, 720);
 		app.run();
 		
 	}
