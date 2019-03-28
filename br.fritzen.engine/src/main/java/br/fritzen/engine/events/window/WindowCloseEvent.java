@@ -11,11 +11,11 @@ public class WindowCloseEvent extends Event {
 		return EventType.WindowCloseEvent;
 	}
 
+	
 	@Override
 	public EventCategory getEventCategory() {
 		return EventCategory.Window;
 	}
-
 	
 	
 }

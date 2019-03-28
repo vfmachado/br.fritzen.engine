@@ -9,7 +9,8 @@ public class EventDispatcher {
 		this.event = e;
 	}
 
-	
+		
+	@SuppressWarnings("rawtypes")
 	public void dispatch(Dispatcher disp, Class type) {
 	
 		//TODO CHECK THE OPTION TO THE ACTUAL EVENT DON'T BE HANDLED BY NEXT DISPATCHS.
@@ -21,4 +22,5 @@ public class EventDispatcher {
 		}
 		
 	}
+	
 }

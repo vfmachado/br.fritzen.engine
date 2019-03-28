@@ -19,28 +19,32 @@ public class Application extends MainLoop {
 	private static Application instance = null;
 	
 	
-	public Application() {
-		this("Fritzen Engine", 1280, 720);
+	private Application() {
+		//this("Fritzen Engine", 1280, 720);
 	}
 	
 	
 	private Application(String title, int width, int height) {
+
 		
-		window = new WindowsWindowImpl(width, height, title);
-		//window.setEventCallback(() -> this.onEvent());
 	}
 	
 	
 	public static Application create(String title, int width, int height) {
+		
+		EngineLog.info("Creating applicaiton instance");
+		
 		instance = new Application(title, width, height);
+		instance.window = new WindowsWindowImpl(width, height, title);
 		return instance;
+		
 	}
 	
 	
 	public static Application getInstance() {
 		
 		if (instance == null) {
-			instance = new Application();
+			instance = Application.create("Fritzen Engine", 800, 600);
 		}
 		
 		return instance;
@@ -48,7 +52,7 @@ public class Application extends MainLoop {
 	
 	
 	public Window getWindow() {
-		return this.window;
+		return getInstance().window;
 	}
 	
 	
@@ -72,24 +76,10 @@ public class Application extends MainLoop {
 		
 		EventDispatcher dispatcher = new EventDispatcher(e);
 		dispatcher.dispatch(this::onWindowCloseEvent, WindowCloseEvent.class);
-		dispatcher.dispatch(this::onMouseEvent, MouseMovedEvent.class);
 		
-		dispatcher.dispatch(this::onMouseEvent2, MouseMovedEvent.class);
-		
-		
-		/*
-		
-		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<MouseButtonPressedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonPressedEvent));
-		dispatcher.Dispatch<MouseButtonReleasedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonReleasedEvent));
-		dispatcher.Dispatch<MouseMovedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
-		dispatcher.Dispatch<MouseScrolledEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
-		dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
-		dispatcher.Dispatch<KeyTypedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
-		dispatcher.Dispatch<KeyReleasedEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
-		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(ImGuiLayer::OnWindowResizeEvent));
-		
-		 */
+		//DISPATCHER TEST
+		//dispatcher.dispatch(this::onMouseEvent, MouseMovedEvent.class);
+		//dispatcher.dispatch(this::onMouseEvent2, MouseMovedEvent.class);
 		
 		
 	}

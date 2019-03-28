@@ -13,6 +13,12 @@ public abstract class Event {
 		return getEventType().toString();
 	}
 
+	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+	
 	public void setHandled(boolean handled) {
 		this.handled = handled;;
 	}

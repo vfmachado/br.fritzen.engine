@@ -11,8 +11,13 @@ import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.events.key.KeyReleasedEvent;
+import br.fritzen.engine.events.key.KeyTypedEvent;
+import br.fritzen.engine.events.mouse.MouseButtonPressedEvent;
+import br.fritzen.engine.events.mouse.MouseButtonReleasedEvent;
 import br.fritzen.engine.events.mouse.MouseMovedEvent;
+import br.fritzen.engine.events.mouse.MouseScrolledEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
+import br.fritzen.engine.events.window.WindowResizeEvent;
 import br.fritzen.engine.window.Window;
 
 public class WindowsWindowImpl extends Window {
@@ -81,6 +86,9 @@ public class WindowsWindowImpl extends Window {
 		vsync = EngineState.VSync;
 		this.setVSync(vsync);
 		
+		//SETTING UP THE EVENT SYSTEM
+		
+		//-----------------------MOUSE EVENTS-----------------------------
 		
 		GLFW.glfwSetCursorPosCallback(this.handler, (window, posx, posy) -> {
 			
@@ -90,7 +98,36 @@ public class WindowsWindowImpl extends Window {
 		});
 		
 		
-		//CREATE AN EVENT ACCORDING WITH THE CORRECT TYPE
+		GLFW.glfwSetMouseButtonCallback(this.handler, (window, button, action, mods) -> {
+		
+				Event event;
+				
+				switch (action) {
+				
+					case GLFW.GLFW_PRESS:
+						event = new MouseButtonPressedEvent(button);
+						this.eventCallback(event);
+						break;
+					
+					case GLFW.GLFW_RELEASE:
+						event = new MouseButtonReleasedEvent(button);
+						this.eventCallback(event);
+						break;
+					
+				}
+		});
+		
+		
+		GLFW.glfwSetScrollCallback(this.handler, (window, xoffset, yoffset) -> {
+			
+			Event event = new MouseScrolledEvent((float)xoffset, (float)yoffset);
+			this.eventCallback(event);
+		
+		});
+		
+		
+		//-----------------------KEYBOARD EVENTS-----------------------------
+		
 		GLFW.glfwSetKeyCallback(this.handler, (window, key, scancode, action, mods) -> {
 			
 			//EngineLog.info("GLFW CAUGTH THE EVENT ON KEY " + (char)key);
@@ -128,13 +165,28 @@ public class WindowsWindowImpl extends Window {
 		});
 		
 		
+		GLFW.glfwSetCharCallback(this.handler, (window, keycode) -> {
+			
+			Event event = new KeyTypedEvent(keycode); 
+			this.eventCallback(event);
+			
+		});
+		
+		
+		//-----------------------WINDOW EVENTS-----------------------------
+		
 		GLFW.glfwSetWindowCloseCallback(this.handler, (window) -> {
 			Event event = new WindowCloseEvent();
 			this.eventCallback(event);
 		});
+				
 		
-		
-		
+		GLFW.glfwSetWindowSizeCallback(this.handler, (window, width, height) -> {
+			
+			Event event = new WindowResizeEvent(width, height);
+			this.eventCallback(event);
+			
+		});
 		
 		
 		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF

@@ -30,6 +30,10 @@ public abstract class KeyEvent extends Event {
 		return this.getName();
 	}
 	
+	
+	/**
+	 * Same code of GLFW
+	 */
 	public static final int
 	    KEY_SPACE         = 32,
 	    KEY_APOSTROPHE    = 39,
