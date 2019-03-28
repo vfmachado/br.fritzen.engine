@@ -4,6 +4,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.system.MemoryUtil.memUTF8;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import br.fritzen.engine.core.EngineLog;
@@ -19,17 +20,39 @@ import br.fritzen.engine.events.mouse.MouseScrolledEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.events.window.WindowResizeEvent;
 import br.fritzen.engine.window.Window;
+import br.fritzen.engine.window.Window.WindowMode;
 
 public class WindowsWindowImpl extends Window {
 
-	
 	private long handler;
 	
 	private boolean vsync;
-			
+		
+	private long primaryMonitor;
+	
+	private GLFWVidMode monitorVideoMode;
+	
+	
+	private class WindowedParams {
+		int width;
+		int height;
+		int posx;
+		int posy;
+	}
+	
+	private WindowedParams windowedParams;
+	
 	
 	public WindowsWindowImpl(int width, int height, String title) {
+		
 		super(width, height, title);
+		
+		windowedParams = new WindowedParams();
+		windowedParams.width = width;
+		windowedParams.height = height;
+		windowedParams.posx = 0;
+		windowedParams.posy = 0;
+		
 	}
 
 
@@ -70,7 +93,20 @@ public class WindowsWindowImpl extends Window {
 
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
 
+		primaryMonitor = GLFW.glfwGetPrimaryMonitor();
+		monitorVideoMode = GLFW.glfwGetVideoMode(primaryMonitor);
 
+		EngineLog.info(String.format("Video Mode details: %dx%d - %dHz (RxGxB) %dx%dx%d  ",
+				monitorVideoMode.width(),
+				monitorVideoMode.height(),
+				monitorVideoMode.refreshRate(),
+				monitorVideoMode.redBits(),
+				monitorVideoMode.greenBits(),
+				monitorVideoMode.blueBits()
+				)
+		);
+		
+		
 		EngineLog.info("Creating window " + this.title + " (" + this.width + ", " + this.height + ")");
 		handler = GLFW.glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
 		
@@ -230,4 +266,92 @@ public class WindowsWindowImpl extends Window {
 	private String getDescription(long description) {
         return memUTF8(description);
     }
+
+
+	@Override
+	public void setWindowMode(WindowMode mode) {
+		
+		
+		if (this.windowMode == mode) {
+			return;
+		}
+		
+		
+		// If currently windowed, stash the current size and position of the window
+		if (this.windowMode == WindowMode.WINDOWED) {
+			
+			this.windowedParams.width = this.width;
+			this.windowedParams.height = this.height;
+			
+			int [] x = {0}, y = {0};
+			GLFW.glfwGetWindowPos(this.handler, x, y);
+			this.windowedParams.posx = x[0];
+			this.windowedParams.posy = y[0];
+			
+		}
+		
+		this.windowMode = mode;
+		
+		long monitor;
+		
+		if (mode == WindowMode.BORDERLESS) {
+			
+		}
+		
+		/*
+		GLFWmonitor* monitor = nullptr;
+
+		if (mode == WindowMode::BORDERLESS) {
+			// For borderless full screen, the new width and height will be the video mode width and height
+			width = m_BaseVideoMode.width;
+			height = m_BaseVideoMode.height;
+			monitor = m_PrimaryMonitor;
+		}
+		else if (mode == WindowMode::WINDOWED && (width == 0 || height == 0)) {
+			// For windowed, use old window height and width if none provided
+			width = m_OldWindowedParams.Width;
+			height = m_OldWindowedParams.Height;
+			// monitor = nullptr; 
+		}
+		else if (mode == WindowMode::FULL_SCREEN) {
+			if (width == 0 || height == 0) {
+				// Use the old window size
+				// TODO: May want to change this to check if it is a valid full screen resolution pair
+				width = m_Data.Width;
+				height = m_Data.Height;
+			}
+			monitor = m_PrimaryMonitor;
+		}
+
+		// Update stored width and height
+		m_Data.Width = width;
+		m_Data.Height = height;
+
+		// Trigger resize event
+		if (m_Data.EventCallback) {
+			WindowResizeEvent e(width, height);
+			m_Data.EventCallback(e);
+		}
+
+		HZ_CORE_INFO("Changing window mode from {0} to {1}: [{2}, {3}]", m_Data.Mode, mode, width, height);
+
+		// Record new window type
+		m_Data.Mode = mode;
+
+		glfwSetWindowMonitor(m_Window, monitor, m_OldWindowedParams.XPos, m_OldWindowedParams.YPos, width, height, m_BaseVideoMode.refreshRate);
+		 */
+		
+	}
+
+
+	@Override
+	public void setWindowSize(int width, int height) {
+
+		this.width = width;
+		this.height = height;
+		
+		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);
+		
+		
+	}
 }

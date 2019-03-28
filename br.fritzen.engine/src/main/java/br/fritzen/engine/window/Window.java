@@ -8,14 +8,22 @@ import br.fritzen.engine.events.Event;
  * @author fritz
  *
  */
+
 public abstract class Window {
 
+	public enum WindowMode {
+		WINDOWED,
+		FULL_SCREEN,
+		BORDERLESS;
+	};
+	
 	protected int width;
 	
 	protected int height;
 	
 	protected String title;
 	
+	protected WindowMode windowMode;
 	
 	protected abstract void init();
 	
@@ -29,6 +37,9 @@ public abstract class Window {
 	
 	public abstract boolean isVSync();
 	
+	public abstract void setWindowMode(WindowMode windowMode);
+	
+	public abstract void setWindowSize(int width, int height);
 	
 	public void eventCallback(Event e) {
 		
@@ -36,11 +47,13 @@ public abstract class Window {
 		
 	}
 	
+	
 	public Window(int width, int height, String title) {
 		
 		this.width = width;
 		this.height = height;
 		this.title = title;
+		this.windowMode = WindowMode.WINDOWED;
 		
 		init();
 		
@@ -59,6 +72,11 @@ public abstract class Window {
 	
 	public String getTitle() {
 		return this.title;
+	}
+	
+	
+	public WindowMode getCurrentWindowMode() {
+		return windowMode;
 	}
 	
 }

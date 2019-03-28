@@ -6,6 +6,8 @@ import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.MainLoop;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
+import br.fritzen.engine.events.key.KeyEvent;
+import br.fritzen.engine.events.key.KeyTypedEvent;
 import br.fritzen.engine.events.mouse.MouseMovedEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
@@ -136,4 +138,6 @@ public class Application extends MainLoop {
 		
 		return false;
 	}
+	
+
 }
