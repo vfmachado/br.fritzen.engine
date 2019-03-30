@@ -20,7 +20,6 @@ import br.fritzen.engine.events.mouse.MouseScrolledEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.events.window.WindowResizeEvent;
 import br.fritzen.engine.window.Window;
-import br.fritzen.engine.window.Window.WindowMode;
 
 public class WindowsWindowImpl extends Window {
 
@@ -90,7 +89,10 @@ public class WindowsWindowImpl extends Window {
 		GLFW.glfwDefaultWindowHints(); // optional, the current window hints are already the default
 		GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE); // the window will stay hidden after creation
 		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); // the window will be resizable
-
+		GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
+		//GLFW.glfwWindowHint(GLFW.GLFW_FLOATING, GLFW.GLFW_TRUE);
+		//GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
+		
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
 
 		primaryMonitor = GLFW.glfwGetPrimaryMonitor();
@@ -218,7 +220,7 @@ public class WindowsWindowImpl extends Window {
 				
 		
 		GLFW.glfwSetWindowSizeCallback(this.handler, (window, width, height) -> {
-			
+			this.setWindowSize(width, height);
 			Event event = new WindowResizeEvent(width, height);
 			this.eventCallback(event);
 			
@@ -271,7 +273,6 @@ public class WindowsWindowImpl extends Window {
 	@Override
 	public void setWindowMode(WindowMode mode) {
 		
-		
 		if (this.windowMode == mode) {
 			return;
 		}
@@ -292,55 +293,31 @@ public class WindowsWindowImpl extends Window {
 		
 		this.windowMode = mode;
 		
-		long monitor;
+		long monitor = 0;
 		
 		if (mode == WindowMode.BORDERLESS) {
 			
+			width = monitorVideoMode.width();
+			height = monitorVideoMode.height();
+			
+			monitor = primaryMonitor;
+			
+		} else if (mode == WindowMode.WINDOWED) {
+			
+			width = windowedParams.width;
+			height = windowedParams.height;
+			
+		} else if (mode == WindowMode.FULL_SCREEN) {
+			
+			width = monitorVideoMode.width();
+			height = monitorVideoMode.height();
+			
+			monitor = primaryMonitor;
+			
 		}
-		
-		/*
-		GLFWmonitor* monitor = nullptr;
-
-		if (mode == WindowMode::BORDERLESS) {
-			// For borderless full screen, the new width and height will be the video mode width and height
-			width = m_BaseVideoMode.width;
-			height = m_BaseVideoMode.height;
-			monitor = m_PrimaryMonitor;
-		}
-		else if (mode == WindowMode::WINDOWED && (width == 0 || height == 0)) {
-			// For windowed, use old window height and width if none provided
-			width = m_OldWindowedParams.Width;
-			height = m_OldWindowedParams.Height;
-			// monitor = nullptr; 
-		}
-		else if (mode == WindowMode::FULL_SCREEN) {
-			if (width == 0 || height == 0) {
-				// Use the old window size
-				// TODO: May want to change this to check if it is a valid full screen resolution pair
-				width = m_Data.Width;
-				height = m_Data.Height;
-			}
-			monitor = m_PrimaryMonitor;
-		}
-
-		// Update stored width and height
-		m_Data.Width = width;
-		m_Data.Height = height;
-
-		// Trigger resize event
-		if (m_Data.EventCallback) {
-			WindowResizeEvent e(width, height);
-			m_Data.EventCallback(e);
-		}
-
-		HZ_CORE_INFO("Changing window mode from {0} to {1}: [{2}, {3}]", m_Data.Mode, mode, width, height);
-
-		// Record new window type
-		m_Data.Mode = mode;
-
-		glfwSetWindowMonitor(m_Window, monitor, m_OldWindowedParams.XPos, m_OldWindowedParams.YPos, width, height, m_BaseVideoMode.refreshRate);
-		 */
-		
+				
+		GLFW.glfwSetWindowMonitor(this.handler, monitor, windowedParams.posx, windowedParams.posy, this.width, this.height, monitorVideoMode.refreshRate());
+				
 	}
 
 

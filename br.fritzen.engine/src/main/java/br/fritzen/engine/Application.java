@@ -7,11 +7,13 @@ import br.fritzen.engine.core.MainLoop;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.key.KeyEvent;
+import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.events.key.KeyTypedEvent;
 import br.fritzen.engine.events.mouse.MouseMovedEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.window.Window;
+import br.fritzen.engine.window.Window.WindowMode;
 
 public class Application extends MainLoop {
 
@@ -79,6 +81,8 @@ public class Application extends MainLoop {
 		EventDispatcher dispatcher = new EventDispatcher(e);
 		dispatcher.dispatch(this::onWindowCloseEvent, WindowCloseEvent.class);
 		
+		dispatcher.dispatch(this::onKeyPressedEvent, KeyPressedEvent.class);
+		
 		//DISPATCHER TEST
 		//dispatcher.dispatch(this::onMouseEvent, MouseMovedEvent.class);
 		//dispatcher.dispatch(this::onMouseEvent2, MouseMovedEvent.class);
@@ -95,6 +99,15 @@ public class Application extends MainLoop {
 		
 		GL11.glClearColor(0, 0.7f, 0.7f, 1.0f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+		
+		GL11.glViewport(0, 0, this.getWindow().getWidth(), this.getWindow().getHeight());
+		
+		GL11.glColor3f(1, 1, 0);
+		GL11.glBegin(GL11.GL_TRIANGLES);
+		GL11.glVertex2f( -1 , -1);
+		GL11.glVertex2f(  0 ,  1);
+		GL11.glVertex2f(  1 , -1 );
+		GL11.glEnd();
 		
 		//the update method from window is related to render (VSYNC) ??
 		window.onUpdate();
@@ -140,4 +153,22 @@ public class Application extends MainLoop {
 	}
 	
 
+	
+	private boolean onKeyPressedEvent(Event e) {
+	
+		KeyPressedEvent evt = (KeyPressedEvent)e;
+		
+		System.out.println("Event dispatched");
+		System.out.println(evt.getKeyCode() + "\t" + KeyEvent.KEY_F12);
+		
+		if (evt.getKeyCode() == KeyEvent.KEY_F12) {
+			this.window.setWindowMode(WindowMode.FULL_SCREEN);
+		} else if (evt.getKeyCode() == KeyEvent.KEY_F11) {
+			this.window.setWindowMode(WindowMode.BORDERLESS);
+		} else if (evt.getKeyCode() == KeyEvent.KEY_F10) {
+			this.window.setWindowMode(WindowMode.WINDOWED);
+		} 
+		
+		return false;
+	}
 }
