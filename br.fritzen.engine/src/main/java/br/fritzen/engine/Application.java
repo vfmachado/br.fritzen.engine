@@ -8,8 +8,6 @@ import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.key.KeyEvent;
 import br.fritzen.engine.events.key.KeyPressedEvent;
-import br.fritzen.engine.events.key.KeyTypedEvent;
-import br.fritzen.engine.events.mouse.MouseMovedEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.window.Window;
@@ -129,7 +127,7 @@ public class Application extends MainLoop {
 		
 	}
 	
-	
+	/*
 	private boolean onMouseEvent(Event e) {
 		
 		MouseMovedEvent evt = (MouseMovedEvent) e;
@@ -151,7 +149,7 @@ public class Application extends MainLoop {
 		
 		return false;
 	}
-	
+	*/
 
 	
 	private boolean onKeyPressedEvent(Event e) {
