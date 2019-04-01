@@ -5,7 +5,6 @@ import static org.lwjgl.system.MemoryUtil.memUTF8;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.EngineState;
@@ -110,25 +109,21 @@ public class WindowsWindowImpl extends Window {
 		
 		
 		EngineLog.info("Creating window " + this.title + " (" + this.width + ", " + this.height + ")");
-		handler = GLFW.glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
-		
-		if (handler == NULL ) {
-			throw new RuntimeException("Failed to create the GLFW window");
-		} else { 
-			EngineLog.info("Window created with no errors");
-		}
-		
-		GLFW.glfwMakeContextCurrent(handler);
+		this.handler = createWindow();
 		
 		// Enable v-sync according to EngineState
 		vsync = EngineState.VSync;
 		this.setVSync(vsync);
 		
-		//SETTING UP THE EVENT SYSTEM
+		GLFW.glfwShowWindow(handler);
+	}
+	
+	
+	private void setCallBacks(long handler) {
 		
 		//-----------------------MOUSE EVENTS-----------------------------
 		
-		GLFW.glfwSetCursorPosCallback(this.handler, (window, posx, posy) -> {
+		GLFW.glfwSetCursorPosCallback(handler, (window, posx, posy) -> {
 			
 			Event event = new MouseMovedEvent((float)posx, (float)posy);
 			this.eventCallback(event);
@@ -136,7 +131,7 @@ public class WindowsWindowImpl extends Window {
 		});
 		
 		
-		GLFW.glfwSetMouseButtonCallback(this.handler, (window, button, action, mods) -> {
+		GLFW.glfwSetMouseButtonCallback(handler, (window, button, action, mods) -> {
 		
 				Event event;
 				
@@ -156,7 +151,7 @@ public class WindowsWindowImpl extends Window {
 		});
 		
 		
-		GLFW.glfwSetScrollCallback(this.handler, (window, xoffset, yoffset) -> {
+		GLFW.glfwSetScrollCallback(handler, (window, xoffset, yoffset) -> {
 			
 			Event event = new MouseScrolledEvent((float)xoffset, (float)yoffset);
 			this.eventCallback(event);
@@ -166,36 +161,24 @@ public class WindowsWindowImpl extends Window {
 		
 		//-----------------------KEYBOARD EVENTS-----------------------------
 		
-		GLFW.glfwSetKeyCallback(this.handler, (window, key, scancode, action, mods) -> {
-			
-			//EngineLog.info("GLFW CAUGTH THE EVENT ON KEY " + (char)key);
+		GLFW.glfwSetKeyCallback(handler, (window, key, scancode, action, mods) -> {
 			
 			Event event;
 			switch (action) {
 				
 				case GLFW.GLFW_PRESS:
-				
 					event = new KeyPressedEvent(key, 0);
-					
 					this.eventCallback(event);
-					//this.evtCallback(event);
-					
 					break;
 				
 				case GLFW.GLFW_RELEASE:
-				
 					event = new KeyReleasedEvent(key);
 					this.eventCallback(event);
-					//data.EventCallback(event);
-					
 					break;
 				
 				case GLFW.GLFW_REPEAT:
-				
 					event = new KeyPressedEvent(key, 1);
 					this.eventCallback(event);
-					//data.EventCallback(event);
-					
 					break;
 				
 			}
@@ -203,7 +186,7 @@ public class WindowsWindowImpl extends Window {
 		});
 		
 		
-		GLFW.glfwSetCharCallback(this.handler, (window, keycode) -> {
+		GLFW.glfwSetCharCallback(handler, (window, keycode) -> {
 			
 			Event event = new KeyTypedEvent(keycode); 
 			this.eventCallback(event);
@@ -213,26 +196,37 @@ public class WindowsWindowImpl extends Window {
 		
 		//-----------------------WINDOW EVENTS-----------------------------
 		
-		GLFW.glfwSetWindowCloseCallback(this.handler, (window) -> {
+		GLFW.glfwSetWindowCloseCallback(handler, (window) -> {
 			Event event = new WindowCloseEvent();
 			this.eventCallback(event);
 		});
 				
 		
-		GLFW.glfwSetWindowSizeCallback(this.handler, (window, width, height) -> {
+		GLFW.glfwSetWindowSizeCallback(handler, (window, width, height) -> {
 			this.setWindowSize(width, height);
 			Event event = new WindowResizeEvent(width, height);
 			this.eventCallback(event);
 			
 		});
-		
-		
-		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
-		GL.createCapabilities();
-
-		GLFW.glfwShowWindow(handler);
 	}
 	
+	
+	private long createWindow() {
+		
+		long handler = GLFW.glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
+		
+		if (handler == NULL ) {
+			throw new RuntimeException("Failed to create the GLFW window");
+		} else { 
+			EngineLog.info("Window created with no errors");
+		}
+		
+		GLFW.glfwMakeContextCurrent(handler);
+		
+		this.setCallBacks(handler);
+		return handler;
+		
+	}
 	
 	public void setVSync(boolean enabled) {
 		
@@ -276,8 +270,7 @@ public class WindowsWindowImpl extends Window {
 		if (this.windowMode == mode) {
 			return;
 		}
-		
-		
+				
 		// If currently windowed, stash the current size and position of the window
 		if (this.windowMode == WindowMode.WINDOWED) {
 			
@@ -293,19 +286,27 @@ public class WindowsWindowImpl extends Window {
 		
 		this.windowMode = mode;
 		
+		//destroy the current window to recreate with correct properties
+		GLFW.glfwDestroyWindow(this.handler);
 		long monitor = 0;
 		
-		if (mode == WindowMode.BORDERLESS) {
-			
-			width = monitorVideoMode.width();
-			height = monitorVideoMode.height();
-			
-			monitor = primaryMonitor;
-			
-		} else if (mode == WindowMode.WINDOWED) {
+		GLFW.glfwDefaultWindowHints(); 
+		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); 
+		GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
+		
+		
+		if (mode == WindowMode.WINDOWED) {
+				
+			width = windowedParams.width;
+			height = windowedParams.height;
+				
+		} else if (mode == WindowMode.BORDERLESS) {
 			
 			width = windowedParams.width;
 			height = windowedParams.height;
+		
+			GLFW.glfwWindowHint(GLFW.GLFW_FLOATING, GLFW.GLFW_TRUE);
+			GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
 			
 		} else if (mode == WindowMode.FULL_SCREEN) {
 			
@@ -315,7 +316,8 @@ public class WindowsWindowImpl extends Window {
 			monitor = primaryMonitor;
 			
 		}
-				
+		
+		this.handler = this.createWindow();
 		GLFW.glfwSetWindowMonitor(this.handler, monitor, windowedParams.posx, windowedParams.posy, this.width, this.height, monitorVideoMode.refreshRate());
 				
 	}
@@ -328,7 +330,6 @@ public class WindowsWindowImpl extends Window {
 		this.height = height;
 		
 		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);
-		
-		
+			
 	}
 }

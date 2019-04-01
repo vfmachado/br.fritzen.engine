@@ -1,5 +1,6 @@
 package br.fritzen.engine;
 
+import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
@@ -15,10 +16,11 @@ import br.fritzen.engine.window.Window.WindowMode;
 
 public class Application extends MainLoop {
 
+	private static Application instance = null;
 	
 	private Window window;
-	
-	private static Application instance = null;
+		
+	private EventDispatcher dispatcher;
 	
 	
 	private Application() {
@@ -28,6 +30,7 @@ public class Application extends MainLoop {
 	
 	private Application(String title, int width, int height) {
 
+		this.dispatcher = new EventDispatcher();
 		
 	}
 	
@@ -60,7 +63,8 @@ public class Application extends MainLoop {
 	
 	@Override
 	protected void init() {
-		// TODO Auto-generated method stub
+		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
+		GL.createCapabilities();
 
 	}
 
@@ -72,14 +76,18 @@ public class Application extends MainLoop {
 	}
 
 	
+	
+	
 	public void onEvent(Event e) {
 		
 		EngineLog.info(e.toString());
 		
-		EventDispatcher dispatcher = new EventDispatcher(e);
+		dispatcher.setEvent(e);
+		
 		dispatcher.dispatch(this::onWindowCloseEvent, WindowCloseEvent.class);
 		
-		dispatcher.dispatch(this::onKeyPressedEvent, KeyPressedEvent.class);
+		dispatcher.dispatch(this::onFKeyWindowModeEvent, KeyPressedEvent.class);
+		
 		
 		//DISPATCHER TEST
 		//dispatcher.dispatch(this::onMouseEvent, MouseMovedEvent.class);
@@ -92,7 +100,7 @@ public class Application extends MainLoop {
 	@Override
 	protected void render() {
 		
-
+		
 		//Now it's tied to OpenGL
 		
 		GL11.glClearColor(0, 0.7f, 0.7f, 1.0f);
@@ -127,6 +135,7 @@ public class Application extends MainLoop {
 		
 	}
 	
+	
 	/*
 	private boolean onMouseEvent(Event e) {
 		
@@ -152,19 +161,22 @@ public class Application extends MainLoop {
 	*/
 
 	
-	private boolean onKeyPressedEvent(Event e) {
+	private boolean onFKeyWindowModeEvent(Event e) {
 	
 		KeyPressedEvent evt = (KeyPressedEvent)e;
 		
-		System.out.println("Event dispatched");
-		System.out.println(evt.getKeyCode() + "\t" + KeyEvent.KEY_F12);
-		
 		if (evt.getKeyCode() == KeyEvent.KEY_F12) {
+			
 			this.window.setWindowMode(WindowMode.FULL_SCREEN);
+		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F11) {
+			
 			this.window.setWindowMode(WindowMode.BORDERLESS);
+		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F10) {
+		
 			this.window.setWindowMode(WindowMode.WINDOWED);
+		
 		} 
 		
 		return false;
