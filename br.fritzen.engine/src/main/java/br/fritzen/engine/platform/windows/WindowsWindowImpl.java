@@ -45,11 +45,13 @@ public class WindowsWindowImpl extends Window {
 		
 		super(width, height, title);
 		
+		this.windowMode = null;
+		
 		windowedParams = new WindowedParams();
 		windowedParams.width = width;
 		windowedParams.height = height;
 		windowedParams.posx = 0;
-		windowedParams.posy = 0;
+		windowedParams.posy = 20;
 		
 	}
 
@@ -84,16 +86,6 @@ public class WindowsWindowImpl extends Window {
 			
 		}
 		
-		// Configure GLFW
-		GLFW.glfwDefaultWindowHints(); // optional, the current window hints are already the default
-		GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE); // the window will stay hidden after creation
-		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); // the window will be resizable
-		GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
-		//GLFW.glfwWindowHint(GLFW.GLFW_FLOATING, GLFW.GLFW_TRUE);
-		//GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
-		
-		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
-
 		primaryMonitor = GLFW.glfwGetPrimaryMonitor();
 		monitorVideoMode = GLFW.glfwGetVideoMode(primaryMonitor);
 
@@ -111,11 +103,11 @@ public class WindowsWindowImpl extends Window {
 		EngineLog.info("Creating window " + this.title + " (" + this.width + ", " + this.height + ")");
 		this.handler = createWindow();
 		
-		// Enable v-sync according to EngineState
+		this.setWindowMode(WindowMode.WINDOWED);
+		
 		vsync = EngineState.VSync;
 		this.setVSync(vsync);
 		
-		GLFW.glfwShowWindow(handler);
 	}
 	
 	
@@ -228,6 +220,7 @@ public class WindowsWindowImpl extends Window {
 		
 	}
 	
+	
 	public void setVSync(boolean enabled) {
 		
 		this.vsync = enabled;
@@ -293,7 +286,8 @@ public class WindowsWindowImpl extends Window {
 		GLFW.glfwDefaultWindowHints(); 
 		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); 
 		GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
-		
+
+		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
 		
 		if (mode == WindowMode.WINDOWED) {
 				

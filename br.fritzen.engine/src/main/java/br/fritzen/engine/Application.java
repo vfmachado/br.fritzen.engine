@@ -19,7 +19,7 @@ public class Application extends MainLoop {
 	private static Application instance = null;
 	
 	private Window window;
-		
+	
 	private EventDispatcher dispatcher;
 	
 	
