@@ -5,11 +5,21 @@ public class EventDispatcher {
 	private Event event;
 	
 	
+	public EventDispatcher() {
+		
+	}
+	
+	
 	public EventDispatcher(Event e) {
 		this.event = e;
 	}
 
+	
+	public void setEvent(Event event) {
+		this.event = event;
+	}
 		
+	
 	@SuppressWarnings("rawtypes")
 	public void dispatch(Dispatcher disp, Class type) {
 	
