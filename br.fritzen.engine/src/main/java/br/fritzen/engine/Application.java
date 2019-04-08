@@ -5,11 +5,14 @@ import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.MainLoop;
+import br.fritzen.engine.core.layers.Layer;
+import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.key.KeyEvent;
 import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
+import br.fritzen.engine.imgui.ImGuiLayer;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.window.Window;
 import br.fritzen.engine.window.Window.WindowMode;
@@ -22,6 +25,9 @@ public class Application extends MainLoop {
 	
 	private EventDispatcher dispatcher;
 	
+	private LayerStack layerStack;
+	
+	private ImGuiLayer imguiLayer;
 	
 	private Application() {
 		//this("Fritzen Engine", 1280, 720);
@@ -31,6 +37,7 @@ public class Application extends MainLoop {
 	private Application(String title, int width, int height) {
 
 		this.dispatcher = new EventDispatcher();
+		this.layerStack = new LayerStack();
 		
 	}
 	
@@ -41,6 +48,9 @@ public class Application extends MainLoop {
 		
 		instance = new Application(title, width, height);
 		instance.window = new WindowsWindowImpl(width, height, title);
+		
+				
+		
 		return instance;
 		
 	}
@@ -65,6 +75,10 @@ public class Application extends MainLoop {
 	protected void init() {
 		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
 		GL.createCapabilities();
+		
+		imguiLayer = new ImGuiLayer();
+		layerStack.pushOverlay(imguiLayer);
+		imguiLayer.onAttach();
 
 	}
 
@@ -89,11 +103,6 @@ public class Application extends MainLoop {
 		dispatcher.dispatch(this::onFKeyWindowModeEvent, KeyPressedEvent.class);
 		
 		
-		//DISPATCHER TEST
-		//dispatcher.dispatch(this::onMouseEvent, MouseMovedEvent.class);
-		//dispatcher.dispatch(this::onMouseEvent2, MouseMovedEvent.class);
-		
-		
 	}
 	
 	
@@ -115,8 +124,7 @@ public class Application extends MainLoop {
 		GL11.glVertex2f(  1 , -1 );
 		GL11.glEnd();
 		
-		//the update method from window is related to render (VSYNC) ??
-		window.onUpdate();
+		
 	}
 	
 	
@@ -124,6 +132,25 @@ public class Application extends MainLoop {
 	protected void update(long deltatime) {
 		
 		
+		
+		for (Layer layer : layerStack) {
+		
+			layer.onUpdate();
+		
+		}
+		
+		
+		imguiLayer.begin();
+		
+		for (Layer layer : layerStack) {
+			layer.onImGuiRender();
+		}
+		
+		imguiLayer.end();
+		
+		
+		//the update method from window is related to render (VSYNC) or update ??
+		window.onUpdate();
 		
 	}
 	
@@ -135,31 +162,6 @@ public class Application extends MainLoop {
 		
 	}
 	
-	
-	/*
-	private boolean onMouseEvent(Event e) {
-		
-		MouseMovedEvent evt = (MouseMovedEvent) e;
-		
-		boolean willReturn = Math.random() > 0.5 ? false :  true;
-		
-		System.out.printf("Mouse movimentado para: (%.0f, %.0f) : " + willReturn + "\n", evt.getPosX(), evt.getPosY());
-		
-		
-		return willReturn;
-	}
-	
-	
-	private boolean onMouseEvent2(Event e) {
-		
-		MouseMovedEvent evt = (MouseMovedEvent) e;
-		
-		System.out.printf("Mouse movimentado para: (%.0f, %.0f)\n", evt.getPosX(), evt.getPosY());
-		
-		return false;
-	}
-	*/
-
 	
 	private boolean onFKeyWindowModeEvent(Event e) {
 	
