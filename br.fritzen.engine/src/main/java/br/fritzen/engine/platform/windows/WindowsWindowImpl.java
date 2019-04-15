@@ -210,7 +210,7 @@ public class WindowsWindowImpl extends Window {
 		if (handler == NULL ) {
 			throw new RuntimeException("Failed to create the GLFW window");
 		} else { 
-			EngineLog.info("Window created with no errors");
+			EngineLog.info("Window created with no errors. Handler: " + handler);
 		}
 		
 		GLFW.glfwMakeContextCurrent(handler);

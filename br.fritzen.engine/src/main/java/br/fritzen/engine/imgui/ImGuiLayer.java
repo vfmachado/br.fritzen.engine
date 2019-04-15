@@ -3,8 +3,8 @@ package br.fritzen.engine.imgui;
 import br.fritzen.engine.Application;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
+import glm_.vec2.Vec2;
 import imgui.Context;
-import imgui.IO;
 import imgui.ImGui;
 import imgui.impl.ImplGL3;
 import imgui.impl.LwjglGlfw;
@@ -19,9 +19,11 @@ public class ImGuiLayer extends Layer {
 	
 	private ImGui imgui = ImGui.INSTANCE;
 	
-	private IO io;
+	//private IO io;
 	
 	private Context ctx;
+	
+	private boolean showDemo[] = {true};
 	
 	
 	public ImGuiLayer() {
@@ -35,17 +37,16 @@ public class ImGuiLayer extends Layer {
 	
 	
 	public void begin() {
+		
 		/*
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		
-		*/
-		
-		//ImGui_ImplOpenGL3_NewFrame();
+		 */
+
 		imguiGlfw.newFrame();
-		imgui.newFrame();
-		
+	
+		imgui.showDemoWindow(showDemo);
 		
 	}
 	
@@ -63,9 +64,11 @@ public class ImGuiLayer extends Layer {
 	@Override
 	public void onAttach() {
 		
-		ctx = new Context();
-		io = imgui.getIo();
-		imguiGlfw.init(GlfwWindow.from(Application.getInstance().getWindow().getNativeWindow()), true, GlfwClientApi.OpenGL);
+		ctx = new Context(null);
+		
+		//io = imgui.getIo();
+		
+		imguiGlfw.init(GlfwWindow.from(Application.getWindow().getNativeWindow()), true, GlfwClientApi.OpenGL);
 		
 	}
 
@@ -77,8 +80,8 @@ public class ImGuiLayer extends Layer {
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 		*/
-		
-		
+		this.imguiGL3.destroyDeviceObjects();
+		this.ctx.shutdown();
 	}
 
 	
@@ -91,22 +94,24 @@ public class ImGuiLayer extends Layer {
 	
 	@Override
 	public void onOvent(Event e) {
-		// TODO Auto-generated method stub
 		
 	}
 
+	
 	
 	@Override
 	public void onImGuiRender() {
-		/*
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);		
-		 */
 		
-		imgui.showDemoWindow(showDemo);
+		if (imgui.button("TESTE", new Vec2(100, 100))) {
+			System.out.println("OKKKKK");
+		}
+		
+	}
+	
+	
+	public void updateWindowReference() {
+		ctx = new Context(null);
+		imguiGlfw.init(GlfwWindow.from(Application.getWindow().getNativeWindow()), true, GlfwClientApi.OpenGL);
 	}
 
-	
-	private static boolean showDemo[] = {true};
-	
 }

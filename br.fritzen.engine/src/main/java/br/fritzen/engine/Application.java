@@ -66,8 +66,8 @@ public class Application extends MainLoop {
 	}
 	
 	
-	public Window getWindow() {
-		return getInstance().window;
+	public static Window getWindow() {
+		return instance.window;
 	}
 	
 	
@@ -76,9 +76,9 @@ public class Application extends MainLoop {
 		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
 		GL.createCapabilities();
 		
-		imguiLayer = new ImGuiLayer();
-		layerStack.pushOverlay(imguiLayer);
-		imguiLayer.onAttach();
+		//imguiLayer = new ImGuiLayer();
+		//layerStack.pushOverlay(imguiLayer);
+		//imguiLayer.onAttach();
 
 	}
 
@@ -102,7 +102,11 @@ public class Application extends MainLoop {
 		
 		dispatcher.dispatch(this::onFKeyWindowModeEvent, KeyPressedEvent.class);
 		
-		
+		/*
+		for (Layer layer : layerStack) {
+			layer.onOvent(e);
+		}
+		*/
 	}
 	
 	
@@ -124,6 +128,16 @@ public class Application extends MainLoop {
 		GL11.glVertex2f(  1 , -1 );
 		GL11.glEnd();
 		
+		/*
+		imguiLayer.begin();
+		
+		for (Layer layer : layerStack) {
+			layer.onImGuiRender();
+		//	System.out.println("Render IMGUI: " + layer.getName());
+		}
+		
+		imguiLayer.end();
+		*/
 		
 	}
 	
@@ -132,21 +146,15 @@ public class Application extends MainLoop {
 	protected void update(long deltatime) {
 		
 		
-		
+		/*
 		for (Layer layer : layerStack) {
 		
 			layer.onUpdate();
 		
 		}
+		*/
 		
 		
-		imguiLayer.begin();
-		
-		for (Layer layer : layerStack) {
-			layer.onImGuiRender();
-		}
-		
-		imguiLayer.end();
 		
 		
 		//the update method from window is related to render (VSYNC) or update ??
@@ -170,14 +178,20 @@ public class Application extends MainLoop {
 		if (evt.getKeyCode() == KeyEvent.KEY_F12) {
 			
 			this.window.setWindowMode(WindowMode.FULL_SCREEN);
+		//	imguiLayer.updateWindowReference();
+		//	GL.createCapabilities();
 		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F11) {
 			
 			this.window.setWindowMode(WindowMode.BORDERLESS);
+		//	imguiLayer.updateWindowReference();
+		//	GL.createCapabilities();
 		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F10) {
 		
 			this.window.setWindowMode(WindowMode.WINDOWED);
+		//	imguiLayer.updateWindowReference();
+		//	GL.createCapabilities();
 		
 		} 
 		
