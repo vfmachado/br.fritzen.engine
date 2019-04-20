@@ -28,21 +28,25 @@ public class LayerStack implements Iterable<Layer> {
 		
 	public void pushLayer(Layer layer) {
 		this.layers.add(layer);
+		layer.onAttach();
 	}
 	
 	
 	public void pushOverlay(Layer overlay) {
-		this.layers.add(0, overlay);		
+		this.layers.add(0, overlay);
+		overlay.onAttach();
 	}
 	
 	
 	public void popLayer(Layer layer) {
-		this.layers.remove(layer);		
+		this.layers.remove(layer);
+		layer.onDetach();
 	}
 	
 	
 	public void popOverlay(Layer overlay) {
-		layers.remove(overlay);		
+		layers.remove(overlay);
+		overlay.onDetach();
 	}
 
 

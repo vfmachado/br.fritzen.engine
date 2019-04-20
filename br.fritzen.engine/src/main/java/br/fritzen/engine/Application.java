@@ -76,10 +76,9 @@ public class Application extends MainLoop {
 		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
 		GL.createCapabilities();
 		
-		//imguiLayer = new ImGuiLayer();
-		//layerStack.pushOverlay(imguiLayer);
-		//imguiLayer.onAttach();
-
+		imguiLayer = new ImGuiLayer();
+		layerStack.pushOverlay(imguiLayer);
+		
 	}
 
 	
@@ -102,11 +101,11 @@ public class Application extends MainLoop {
 		
 		dispatcher.dispatch(this::onFKeyWindowModeEvent, KeyPressedEvent.class);
 		
-		/*
+		
 		for (Layer layer : layerStack) {
 			layer.onOvent(e);
 		}
-		*/
+		
 	}
 	
 	
@@ -115,11 +114,13 @@ public class Application extends MainLoop {
 		
 		
 		//Now it's tied to OpenGL
+		GL.createCapabilities();
+		
 		
 		GL11.glClearColor(0, 0.7f, 0.7f, 1.0f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 		
-		GL11.glViewport(0, 0, this.getWindow().getWidth(), this.getWindow().getHeight());
+		GL11.glViewport(0, 0, Application.getWindow().getWidth(), Application.getWindow().getHeight());
 		
 		GL11.glColor3f(1, 1, 0);
 		GL11.glBegin(GL11.GL_TRIANGLES);
@@ -128,7 +129,7 @@ public class Application extends MainLoop {
 		GL11.glVertex2f(  1 , -1 );
 		GL11.glEnd();
 		
-		/*
+		
 		imguiLayer.begin();
 		
 		for (Layer layer : layerStack) {
@@ -137,7 +138,7 @@ public class Application extends MainLoop {
 		}
 		
 		imguiLayer.end();
-		*/
+		
 		
 	}
 	
@@ -146,19 +147,19 @@ public class Application extends MainLoop {
 	protected void update(long deltatime) {
 		
 		
-		/*
+		
 		for (Layer layer : layerStack) {
 		
 			layer.onUpdate();
 		
 		}
-		*/
+		
 		
 		
 		
 		
 		//the update method from window is related to render (VSYNC) or update ??
-		window.onUpdate();
+		getWindow().onUpdate();
 		
 	}
 	
@@ -177,21 +178,21 @@ public class Application extends MainLoop {
 		
 		if (evt.getKeyCode() == KeyEvent.KEY_F12) {
 			
-			this.window.setWindowMode(WindowMode.FULL_SCREEN);
+			getWindow().setWindowMode(WindowMode.FULL_SCREEN);
 		//	imguiLayer.updateWindowReference();
-		//	GL.createCapabilities();
+			GL.createCapabilities();
 		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F11) {
 			
-			this.window.setWindowMode(WindowMode.BORDERLESS);
+			getWindow().setWindowMode(WindowMode.BORDERLESS);
 		//	imguiLayer.updateWindowReference();
-		//	GL.createCapabilities();
+			GL.createCapabilities();
 		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F10) {
 		
-			this.window.setWindowMode(WindowMode.WINDOWED);
+			getWindow().setWindowMode(WindowMode.WINDOWED);
 		//	imguiLayer.updateWindowReference();
-		//	GL.createCapabilities();
+			GL.createCapabilities();
 		
 		} 
 		

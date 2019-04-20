@@ -17,8 +17,7 @@ public class MouseScrolledEvent extends MouseEvent {
 	
 	@Override
 	public EventType getEventType() {
-		// TODO Auto-generated method stub
-		return null;
+		return EventType.MouseScrolledEvent;
 	}
 
 	

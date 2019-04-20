@@ -108,6 +108,8 @@ public class WindowsWindowImpl extends Window {
 		vsync = EngineState.VSync;
 		this.setVSync(vsync);
 		
+		GLFW.glfwShowWindow(this.handler);
+		
 	}
 	
 	
@@ -216,6 +218,7 @@ public class WindowsWindowImpl extends Window {
 		GLFW.glfwMakeContextCurrent(handler);
 		
 		this.setCallBacks(handler);
+		
 		return handler;
 		
 	}
@@ -261,6 +264,7 @@ public class WindowsWindowImpl extends Window {
 	public void setWindowMode(WindowMode mode) {
 		
 		if (this.windowMode == mode) {
+			System.out.println("Returned");
 			return;
 		}
 				
@@ -286,8 +290,8 @@ public class WindowsWindowImpl extends Window {
 		GLFW.glfwDefaultWindowHints(); 
 		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); 
 		GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
-
-		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
+		
+		//GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
 		
 		if (mode == WindowMode.WINDOWED) {
 				
@@ -313,7 +317,7 @@ public class WindowsWindowImpl extends Window {
 		
 		this.handler = this.createWindow();
 		GLFW.glfwSetWindowMonitor(this.handler, monitor, windowedParams.posx, windowedParams.posy, this.width, this.height, monitorVideoMode.refreshRate());
-				
+		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);		
 	}
 
 
