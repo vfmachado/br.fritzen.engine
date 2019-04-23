@@ -87,8 +87,6 @@ public class Application extends MainLoop {
 		// TODO Auto-generated method stub
 
 	}
-
-	
 	
 	
 	public void onEvent(Event e) {
@@ -139,7 +137,8 @@ public class Application extends MainLoop {
 		
 		imguiLayer.end();
 		
-		
+		//the update method from window is related to render (VSYNC) or update ??
+		getWindow().onUpdate();
 	}
 	
 	
@@ -154,13 +153,7 @@ public class Application extends MainLoop {
 		
 		}
 		
-		
-		
-		
-		
-		//the update method from window is related to render (VSYNC) or update ??
-		getWindow().onUpdate();
-		
+	
 	}
 	
 	
@@ -179,20 +172,17 @@ public class Application extends MainLoop {
 		if (evt.getKeyCode() == KeyEvent.KEY_F12) {
 			
 			getWindow().setWindowMode(WindowMode.FULL_SCREEN);
-		//	imguiLayer.updateWindowReference();
-			GL.createCapabilities();
+
 		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F11) {
 			
 			getWindow().setWindowMode(WindowMode.BORDERLESS);
-		//	imguiLayer.updateWindowReference();
-			GL.createCapabilities();
+
 		
 		} else if (evt.getKeyCode() == KeyEvent.KEY_F10) {
 		
 			getWindow().setWindowMode(WindowMode.WINDOWED);
-		//	imguiLayer.updateWindowReference();
-			GL.createCapabilities();
+
 		
 		} 
 		
