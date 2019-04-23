@@ -10,7 +10,7 @@ public class InputImpl implements Input {
 	@Override
 	public boolean isKeyPressed(int keycode) {
 		
-		long windowNative = Application.getInstance().getWindow().getNativeWindow();
+		long windowNative = Application.getWindow().getNativeWindow();
 		int state = GLFW.glfwGetKey(windowNative, keycode);
 		
 		if (state == GLFW.GLFW_PRESS || state == GLFW.GLFW_REPEAT)

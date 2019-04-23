@@ -45,14 +45,6 @@ public class WindowsWindowImpl extends Window {
 		
 		super(width, height, title);
 		
-		this.windowMode = null;
-		
-		windowedParams = new WindowedParams();
-		windowedParams.width = width;
-		windowedParams.height = height;
-		windowedParams.posx = 0;
-		windowedParams.posy = 20;
-		
 	}
 
 
@@ -71,6 +63,14 @@ public class WindowsWindowImpl extends Window {
 		
 	@Override
 	protected void init() {
+		
+		this.windowMode = WindowMode.WINDOWED;
+		
+		windowedParams = new WindowedParams();
+		windowedParams.width = width;
+		windowedParams.height = height;
+		windowedParams.posx = 0;
+		windowedParams.posy = 20;
 		
 		if (!GLFW.glfwInit()) {
 			
@@ -283,39 +283,36 @@ public class WindowsWindowImpl extends Window {
 		
 		this.windowMode = mode;
 		
-		//destroy the current window to recreate with correct properties
-		GLFW.glfwDestroyWindow(this.handler);
 		long monitor = 0;
 		
-		GLFW.glfwDefaultWindowHints(); 
-		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); 
-		GLFW.glfwWindowHint(GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
-		
-		//GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
+		GLFW.glfwSetWindowAttrib(this.handler, GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); 
+		GLFW.glfwSetWindowAttrib(this.handler, GLFW.GLFW_AUTO_ICONIFY, GLFW.GLFW_FALSE);
 		
 		if (mode == WindowMode.WINDOWED) {
 				
 			width = windowedParams.width;
 			height = windowedParams.height;
-				
+			
+			GLFW.glfwSetWindowAttrib(this.handler, GLFW.GLFW_FLOATING, GLFW.GLFW_FALSE);
+			GLFW.glfwSetWindowAttrib(this.handler, GLFW.GLFW_DECORATED, GLFW.GLFW_TRUE);
+			
+			
 		} else if (mode == WindowMode.BORDERLESS) {
 			
 			width = windowedParams.width;
 			height = windowedParams.height;
 		
-			GLFW.glfwWindowHint(GLFW.GLFW_FLOATING, GLFW.GLFW_TRUE);
-			GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
+			GLFW.glfwSetWindowAttrib(this.handler, GLFW.GLFW_FLOATING, GLFW.GLFW_TRUE);
+			GLFW.glfwSetWindowAttrib(this.handler, GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
 			
 		} else if (mode == WindowMode.FULL_SCREEN) {
 			
 			width = monitorVideoMode.width();
 			height = monitorVideoMode.height();
-			
 			monitor = primaryMonitor;
 			
 		}
 		
-		this.handler = this.createWindow();
 		GLFW.glfwSetWindowMonitor(this.handler, monitor, windowedParams.posx, windowedParams.posy, this.width, this.height, monitorVideoMode.refreshRate());
 		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);		
 	}
