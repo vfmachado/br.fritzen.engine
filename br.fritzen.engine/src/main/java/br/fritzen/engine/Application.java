@@ -1,6 +1,5 @@
 package br.fritzen.engine;
 
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
@@ -91,11 +90,12 @@ public class Application extends MainLoop {
 	
 	@Override
 	protected void input() {
-		// TODO Auto-generated method stub
-		if (Input.isKeyPressed(GLFW.GLFW_KEY_A)) {
+		
+		/*
+		if (Input.isKeyPressed(Input.KEY_A)) {
 			System.out.println("OK");
 		}
-		
+		*/
 		//System.out.println("Mouse at: " + Input.getMousePos());
 	}
 	
