@@ -1,10 +1,12 @@
 package br.fritzen.engine;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.MainLoop;
+import br.fritzen.engine.core.input.Input;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
@@ -71,6 +73,11 @@ public class Application extends MainLoop {
 	}
 	
 	
+	public void addLayer(Layer layer) {
+		this.layerStack.pushLayer(layer);
+	}
+	
+	
 	@Override
 	protected void init() {
 		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
@@ -85,13 +92,17 @@ public class Application extends MainLoop {
 	@Override
 	protected void input() {
 		// TODO Auto-generated method stub
-
+		if (Input.isKeyPressed(GLFW.GLFW_KEY_A)) {
+			System.out.println("OK");
+		}
+		
+		//System.out.println("Mouse at: " + Input.getMousePos());
 	}
 	
 	
 	public void onEvent(Event e) {
 		
-		EngineLog.info(e.toString());
+		//EngineLog.info(e.toString());
 		
 		dispatcher.setEvent(e);
 		

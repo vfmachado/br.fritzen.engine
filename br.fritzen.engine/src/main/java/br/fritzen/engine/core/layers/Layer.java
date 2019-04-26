@@ -17,15 +17,25 @@ public abstract class Layer {
 	}
 	
 	
-	public abstract void onAttach();
+	public void onAttach() {
+		
+	}
 	
-	public abstract void onDetach();
+	public void onDetach() {
+		
+	}
 	
-	public abstract void onUpdate();
+	public void onUpdate() {
+		
+	}
 	
-	public abstract void onOvent(Event e);
+	public void onOvent(Event e) {
+		
+	}
 	
-	public abstract void onImGuiRender();
+	public void onImGuiRender() {
+		
+	}
 	
 	
 }

@@ -110,6 +110,7 @@ public class WindowsWindowImpl extends Window {
 		
 		GLFW.glfwShowWindow(this.handler);
 		
+		WindowsInputImpl.init();
 	}
 	
 	
