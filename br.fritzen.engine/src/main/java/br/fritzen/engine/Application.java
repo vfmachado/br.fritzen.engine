@@ -129,7 +129,9 @@ public class Application extends MainLoop {
 		GL11.glClearColor(0, 0.7f, 0.7f, 1.0f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 		
-		GL11.glViewport(0, 0, Application.getWindow().getWidth(), Application.getWindow().getHeight());
+		GL11.glViewport(0, 0, getWindow().getWidth(), getWindow().getHeight());
+		
+		//System.out.println("GL Viewport: " + getWindow().getWidth() + "x" + getWindow().getHeight());
 		
 		GL11.glColor3f(1, 1, 0);
 		GL11.glBegin(GL11.GL_TRIANGLES);

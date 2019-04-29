@@ -312,10 +312,11 @@ public class WindowsWindowImpl extends Window {
 			height = monitorVideoMode.height();
 			monitor = primaryMonitor;
 			
+			GLFW.glfwSetWindowSize(this.handler, this.width, this.height);
 		}
 		
 		GLFW.glfwSetWindowMonitor(this.handler, monitor, windowedParams.posx, windowedParams.posy, this.width, this.height, monitorVideoMode.refreshRate());
-		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);		
+			
 	}
 
 
