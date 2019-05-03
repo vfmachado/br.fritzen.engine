@@ -43,7 +43,7 @@ public class ApplicationTest {
 				}
 				
 				if (e.getEventType() == EventType.MouseMovedEvent) {
-					System.out.println(Input.getMousePos());
+					//System.out.println(Input.getMousePos());
 				}
 				
 			}
