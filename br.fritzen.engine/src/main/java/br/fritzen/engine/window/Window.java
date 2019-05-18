@@ -2,6 +2,7 @@ package br.fritzen.engine.window;
 
 import br.fritzen.engine.Application;
 import br.fritzen.engine.events.Event;
+import br.fritzen.engine.renderer.GraphicsContext;
 
 /**
  * 
@@ -25,6 +26,8 @@ public abstract class Window {
 	
 	protected WindowMode windowMode;
 	
+	protected GraphicsContext context;
+	
 	protected abstract void init();
 	
 	public abstract void cleanUp();
@@ -40,6 +43,7 @@ public abstract class Window {
 	public abstract void setWindowMode(WindowMode windowMode);
 	
 	public abstract void setWindowSize(int width, int height);
+	
 	
 	public void eventCallback(Event e) {
 		

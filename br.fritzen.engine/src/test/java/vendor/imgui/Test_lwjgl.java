@@ -1,23 +1,28 @@
 package vendor.imgui;
 
-import glm_.vec2.Vec2;
-import glm_.vec2.Vec2i;
-import glm_.vec4.Vec4;
-import imgui.*;
-import imgui.impl.LwjglGlfw;
-import imgui.impl.LwjglGlfw.GlfwClientApi;
-import kotlin.Unit;
-import org.lwjgl.system.MemoryStack;
-
-import br.fritzen.engine.Application;
-import uno.glfw.GlfwWindow;
-import uno.glfw.VSync;
-import uno.glfw.windowHint.Profile;
-
-import static gln.GlnKt.*;
+import static gln.GlnKt.checkError;
+import static gln.GlnKt.glClearColor;
+import static gln.GlnKt.glViewport;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.system.MemoryUtil.NULL;
+
+import org.lwjgl.system.MemoryStack;
+
+import glm_.vec2.Vec2;
+import glm_.vec2.Vec2i;
+import glm_.vec4.Vec4;
+import imgui.Cond;
+import imgui.Context;
+import imgui.IO;
+import imgui.ImGui;
+import imgui.ImguiKt;
+import imgui.impl.LwjglGlfw;
+import imgui.impl.LwjglGlfw.GlfwClientApi;
+import kotlin.Unit;
+import uno.glfw.GlfwWindow;
+import uno.glfw.VSync;
+import uno.glfw.windowHint.Profile;
 
 public class Test_lwjgl {
 
@@ -39,12 +44,9 @@ public class Test_lwjgl {
 
     private Test_lwjgl() {
 
-    	Application app = Application.create("Teste", 800, 600);
-    	
         glfw.init("3.3", Profile.core, true);
-
-        window = GlfwWindow.from(app.getWindow().getNativeWindow());
-        //window = new GlfwWindow(1280, 720, "Dear ImGui Lwjgl OpenGL3 example", NULL, new Vec2i(Integer.MIN_VALUE), true);
+        
+        window = new GlfwWindow(1280, 720, "Dear ImGui Lwjgl OpenGL3 example", NULL, new Vec2i(Integer.MIN_VALUE), true);
         window.init(true);
 
         glfw.setSwapInterval(VSync.ON);    // Enable vsync

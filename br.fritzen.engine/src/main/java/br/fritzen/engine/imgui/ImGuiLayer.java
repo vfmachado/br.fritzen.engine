@@ -33,6 +33,7 @@ public class ImGuiLayer extends Layer {
 	
 	
 	public ImGuiLayer() {
+		
 		super("ImGuiLayer");
 		
 		window = GlfwWindow.from(Application.getWindow().getNativeWindow());
@@ -44,7 +45,7 @@ public class ImGuiLayer extends Layer {
 		io = imgui.getIo();
 		
 		io.setWantCaptureKeyboard(true);
-		System.out.println("IMGUI GLFW - Initialized");
+		
 	}
 	
 	
@@ -106,7 +107,7 @@ public class ImGuiLayer extends Layer {
 					io.getKeysDown()[ke.getKeyCode()] = false;
 			
 				} else if (e.getEventType() == EventType.KeyTypedEvent) {
-					System.out.println(0X1000);
+		
 					if (ke.getKeyCode() > 0 && ke.getKeyCode() < 0X1000) {
 						io.addInputCharacter((char)ke.getKeyCode());
 					}
@@ -121,8 +122,12 @@ public class ImGuiLayer extends Layer {
 
 	
 	float[] values = {0, 0, 0};
+	boolean [] enabled = {true};
+	
 	@Override
 	public void onImGuiRender() {
+		
+		imgui.begin("IMGUI Layer", enabled, 0);
 		
 		if (imgui.button("TESTE", new Vec2(100, 100))) {
 			System.out.println("OKKKKK");
@@ -133,6 +138,7 @@ public class ImGuiLayer extends Layer {
 			EngineLog.info("Changing slide...");
 		}
 		
+		imgui.end();
 	}
 	
 }

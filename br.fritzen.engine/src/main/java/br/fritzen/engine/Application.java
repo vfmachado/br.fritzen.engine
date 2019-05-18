@@ -1,11 +1,9 @@
 package br.fritzen.engine;
 
-import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.MainLoop;
-import br.fritzen.engine.core.input.Input;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
@@ -30,6 +28,7 @@ public class Application extends MainLoop {
 	
 	private ImGuiLayer imguiLayer;
 	
+	
 	private Application() {
 		//this("Fritzen Engine", 1280, 720);
 	}
@@ -48,9 +47,10 @@ public class Application extends MainLoop {
 		EngineLog.info("Creating applicaiton instance");
 		
 		instance = new Application(title, width, height);
-		instance.window = new WindowsWindowImpl(width, height, title);
 		
-				
+		//TODO - WindowsImpl in code =(
+		instance.window = new WindowsWindowImpl(width, height, title);
+					
 		
 		return instance;
 		
@@ -79,8 +79,6 @@ public class Application extends MainLoop {
 	
 	@Override
 	protected void init() {
-		//TODO CHECK TO REMOVE THIS... IT'S RELATED TO OPENGL STUFF
-		GL.createCapabilities();
 		
 		imguiLayer = new ImGuiLayer();
 		layerStack.pushOverlay(imguiLayer);
@@ -120,10 +118,6 @@ public class Application extends MainLoop {
 	
 	@Override
 	protected void render() {
-		
-		
-		//Now it's tied to OpenGL
-		GL.createCapabilities();
 		
 		
 		GL11.glClearColor(0, 0.7f, 0.7f, 1.0f);

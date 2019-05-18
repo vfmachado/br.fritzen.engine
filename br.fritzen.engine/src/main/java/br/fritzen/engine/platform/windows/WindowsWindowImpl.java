@@ -18,6 +18,7 @@ import br.fritzen.engine.events.mouse.MouseMovedEvent;
 import br.fritzen.engine.events.mouse.MouseScrolledEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.events.window.WindowResizeEvent;
+import br.fritzen.engine.platform.opengl.OpenGLContext;
 import br.fritzen.engine.window.Window;
 
 public class WindowsWindowImpl extends Window {
@@ -216,7 +217,10 @@ public class WindowsWindowImpl extends Window {
 			EngineLog.info("Window created with no errors. Handler: " + handler);
 		}
 		
-		GLFW.glfwMakeContextCurrent(handler);
+		
+		//GLFW.glfwMakeContextCurrent(handler);
+		this.context = new OpenGLContext(handler);
+		this.context.init();
 		
 		this.setCallBacks(handler);
 		
@@ -245,7 +249,8 @@ public class WindowsWindowImpl extends Window {
 	public void onUpdate() {
 		
 		GLFW.glfwPollEvents();
-		GLFW.glfwSwapBuffers(this.handler);
+		//GLFW.glfwSwapBuffers(this.handler);
+		this.context.swapBuffers();
 		
 	}
 	
