@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.MainLoop;
+import br.fritzen.engine.core.OSDetection;
+import br.fritzen.engine.core.OSDetection.OSType;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
@@ -48,8 +50,8 @@ public class Application extends MainLoop {
 		
 		instance = new Application(title, width, height);
 		
-		//TODO - WindowsImpl in code =(
-		instance.window = new WindowsWindowImpl(width, height, title);
+		if (OSDetection.getOS() == OSType.Windows)
+			instance.window = new WindowsWindowImpl(width, height, title);
 					
 		
 		return instance;

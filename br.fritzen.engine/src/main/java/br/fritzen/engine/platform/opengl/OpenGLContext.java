@@ -37,7 +37,7 @@ public class OpenGLContext extends GraphicsContext {
 	@Override
 	public void swapBuffers() {
 		
-		GLFW.glfwSwapBuffers(windowHandler);
+		GLFW.glfwSwapBuffers(this.windowHandler);
 		
 	}
 
