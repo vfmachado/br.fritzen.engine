@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL11;
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.renderer.GraphicsContext;
 
+
+
 public class OpenGLContext extends GraphicsContext {
 
 	
@@ -30,7 +32,8 @@ public class OpenGLContext extends GraphicsContext {
 		EngineLog.info("   Vendor: " + GL11.glGetString(GL11.GL_VENDOR));
 		EngineLog.info("   Renderer: " + GL11.glGetString(GL11.GL_RENDERER));
 		EngineLog.info("   Version:" + GL11.glGetString(GL11.GL_VERSION));
-				
+		
+		
 	}
 
 	

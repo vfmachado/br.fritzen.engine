@@ -10,12 +10,43 @@ import br.fritzen.engine.events.key.KeyTypedEvent;
 import imgui.ImGui;
 
 public class ApplicationTest {
-
+	
 	public static void main(String[] args) {
+		
+		boolean mtrue[] = {true};
 		
 		EngineLog.info("Starting app");
 		
 		Application app = Application.create("App Teste", 1280, 720);
+		
+		app.addLayer(new Layer("GUI Layer") {
+			
+			@Override
+			public void onImGuiRender() {
+				
+				//TODO - create a beauty window :P
+				ImGui imgui = ImGui.INSTANCE;
+				
+				imgui.beginMainMenuBar();
+				if ( imgui.menuItem("File", "", false, true) ) {
+					
+										
+				}
+				imgui.endMainMenuBar();
+				
+				imgui.begin("MAIN GUI", mtrue, 1);
+				imgui.beginTabBar("Settings", 0);
+				imgui.beginTabItem("Teste", mtrue, 0, 0);
+				imgui.text("GUI LAYER TEST");
+				
+				imgui.endTabItem();
+				imgui.endTabBar();
+				imgui.end();
+				
+				
+			}
+			
+		});
 		
 		app.addLayer(new Layer("Test Layer - Sandbox") {
 			
@@ -24,12 +55,14 @@ public class ApplicationTest {
 				//System.out.println("Mouse at: " + Input.getMousePos());
 			}
 			
-			boolean open[] = {true};
+			
 			@Override
 			public void onImGuiRender() {
+				
 				ImGui imgui = ImGui.INSTANCE;
-				imgui.begin("Teste", open, 0);
+				imgui.begin("App Teste", mtrue, 0);
 				imgui.text("Exemplo in App");
+				imgui.text("Small Layer created by user");
 				imgui.end();
 				
 			}

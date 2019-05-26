@@ -1,5 +1,8 @@
 package br.fritzen.engine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
@@ -14,9 +17,20 @@ import br.fritzen.engine.events.key.KeyEvent;
 import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.imgui.ImGuiLayer;
+import br.fritzen.engine.platform.opengl.IndexBufferObject;
+import br.fritzen.engine.platform.opengl.OpenGLShader;
+import br.fritzen.engine.platform.opengl.OpenGLShaderType;
+import br.fritzen.engine.platform.opengl.VertexArrayObject;
+import br.fritzen.engine.platform.opengl.VertexBufferLayout;
+import br.fritzen.engine.platform.opengl.VertexBufferObject;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
+import br.fritzen.engine.renderer.shader.Shader;
+import br.fritzen.engine.renderer.shader.ShaderUniform;
+import br.fritzen.engine.utils.EngineBuffers;
+import br.fritzen.engine.utils.Pair;
 import br.fritzen.engine.window.Window;
 import br.fritzen.engine.window.Window.WindowMode;
+import imgui.ImGui;
 
 public class Application extends MainLoop {
 
@@ -79,11 +93,46 @@ public class Application extends MainLoop {
 	}
 	
 	
+	Shader shader;
+	VertexArrayObject vao;
+	IndexBufferObject ibo;
+	
 	@Override
 	protected void init() {
 		
 		imguiLayer = new ImGuiLayer();
 		layerStack.pushOverlay(imguiLayer);
+		
+		
+		List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
+		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/vertex.shader", OpenGLShaderType.VERTEX));
+		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/fragment.shader", OpenGLShaderType.FRAGMENT));
+		this.shader = new OpenGLShader(shaders);
+		
+		float[] positions = {
+				  -0.8f, -0.8f, 0,  //0
+	               0.0f, -0.8f, 0,	//1
+	              -0.8f,  0.0f, 0,	//2
+	               0.0f,  0.0f, 0,	//3
+	               0.8f,  0.8f, 0,	//0
+	               0.0f,  0.8f, 0,	//1
+	               0.8f,  0.0f, 0,	//2
+	               0.0f,  0.0f, 0, 	//3
+	            };
+		
+		VertexBufferObject vbo = new VertexBufferObject(EngineBuffers.createFloatBuffer(positions));
+		
+		
+		this.vao = new VertexArrayObject();
+		//this.vao.addInterleavedVBO(vbo, layouts);
+			
+		this.vao.addVBO(vbo, 0, 3);
+		
+		int[] indices = { 0, 1, 2, 1, 3, 2,
+						  4, 5, 6, 5, 7, 6};
+		
+		ibo = new IndexBufferObject(EngineBuffers.createIntBuffer(indices));
+		ibo.unbind();
 		
 	}
 
@@ -128,13 +177,23 @@ public class Application extends MainLoop {
 		GL11.glViewport(0, 0, getWindow().getWidth(), getWindow().getHeight());
 		
 		//System.out.println("GL Viewport: " + getWindow().getWidth() + "x" + getWindow().getHeight());
-		
+		/*
 		GL11.glColor3f(1, 1, 0);
 		GL11.glBegin(GL11.GL_TRIANGLES);
 		GL11.glVertex2f( -1 , -1);
 		GL11.glVertex2f(  0 ,  1);
 		GL11.glVertex2f(  1 , -1 );
 		GL11.glEnd();
+		*/
+		
+		this.shader.bind();
+		this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
+		
+		this.vao.bind();
+		this.ibo.bind();
+		
+		
+		GL11.glDrawElements(GL11.GL_TRIANGLES, ibo.getCount(), GL11.GL_UNSIGNED_INT, ibo.getOffset());
 		
 		
 		imguiLayer.begin();
@@ -149,6 +208,8 @@ public class Application extends MainLoop {
 		//the update method from window is related to render (VSYNC) or update ??
 		getWindow().onUpdate();
 	}
+	
+	public boolean[] open=  {true};
 	
 	
 	@Override

@@ -7,7 +7,7 @@
   <description>Java + LWJGL + OpenGL Project for study purposes</description>
   
   <packaging>pom</packaging>
-  
+
    <profiles>
 		<profile>
 			<id>lwjgl-natives-linux</id>

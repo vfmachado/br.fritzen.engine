@@ -29,7 +29,7 @@ public class ImGuiLayer extends Layer {
 	
 	private Context ctx;
 	
-	private boolean showDemo[] = {true};
+	//private boolean showDemo[] = {true};
 	
 	
 	public ImGuiLayer() {
@@ -54,7 +54,7 @@ public class ImGuiLayer extends Layer {
 		lwjglGlfw.newFrame();
 		imgui.newFrame();		
 		
-		imgui.showDemoWindow(showDemo);
+		//imgui.showDemoWindow(showDemo);
 		
 	}
 	
@@ -121,12 +121,13 @@ public class ImGuiLayer extends Layer {
 	}
 
 	
-	float[] values = {0, 0, 0};
-	boolean [] enabled = {true};
+	//float[] values = {0, 0, 0};
+	//boolean [] enabled = {true};
 	
 	@Override
 	public void onImGuiRender() {
 		
+		/*
 		imgui.begin("IMGUI Layer", enabled, 0);
 		
 		if (imgui.button("TESTE", new Vec2(100, 100))) {
@@ -139,6 +140,7 @@ public class ImGuiLayer extends Layer {
 		}
 		
 		imgui.end();
+		*/
 	}
 	
 }
