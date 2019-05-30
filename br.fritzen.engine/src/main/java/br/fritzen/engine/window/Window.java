@@ -83,4 +83,9 @@ public abstract class Window {
 		return windowMode;
 	}
 	
+	
+	public GraphicsContext getContext() {
+		return this.context;
+	}
+	
 }

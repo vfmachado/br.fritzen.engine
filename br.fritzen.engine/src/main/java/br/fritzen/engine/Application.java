@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
+import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.core.MainLoop;
 import br.fritzen.engine.core.OSDetection;
 import br.fritzen.engine.core.OSDetection.OSType;
@@ -16,14 +17,15 @@ import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.key.KeyEvent;
 import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
+import br.fritzen.engine.imgui.GUI;
 import br.fritzen.engine.imgui.ImGuiLayer;
 import br.fritzen.engine.platform.opengl.IndexBufferObject;
 import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
 import br.fritzen.engine.platform.opengl.VertexArrayObject;
-import br.fritzen.engine.platform.opengl.VertexBufferLayout;
 import br.fritzen.engine.platform.opengl.VertexBufferObject;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
+import br.fritzen.engine.renderer.GraphicsContext;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.renderer.shader.ShaderUniform;
 import br.fritzen.engine.utils.EngineBuffers;
@@ -37,6 +39,8 @@ public class Application extends MainLoop {
 	private static Application instance = null;
 	
 	private Window window;
+	
+	private GraphicsContext graphicsContext;
 	
 	private EventDispatcher dispatcher;
 	
@@ -67,7 +71,6 @@ public class Application extends MainLoop {
 		if (OSDetection.getOS() == OSType.Windows)
 			instance.window = new WindowsWindowImpl(width, height, title);
 					
-		
 		return instance;
 		
 	}
@@ -99,6 +102,8 @@ public class Application extends MainLoop {
 	
 	@Override
 	protected void init() {
+		
+		this.graphicsContext = this.window.getContext();
 		
 		imguiLayer = new ImGuiLayer();
 		layerStack.pushOverlay(imguiLayer);
@@ -202,6 +207,13 @@ public class Application extends MainLoop {
 			layer.onImGuiRender();
 		//	System.out.println("Render IMGUI: " + layer.getName());
 		}
+		
+		ImGui imgui = ImGui.INSTANCE;
+		imgui.begin("Renderer Info", GUI.TRUE, GUI.NONE_FLAG);
+		imgui.text("Vendor: " + graphicsContext.getVendor());
+		imgui.text("Renderer: " + graphicsContext.getRenderer());
+		imgui.text("Version: " + graphicsContext.getVersion());
+		imgui.end();
 		
 		imguiLayer.end();
 		

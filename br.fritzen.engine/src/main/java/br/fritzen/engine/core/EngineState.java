@@ -17,6 +17,16 @@ import org.joml.Vector3f;
 public class EngineState {
 
 	/**
+	 * Target UPS of the engine - How much the engine updates in one second
+	 */
+	public final static int UPS = 30; 
+	
+	/**
+	 * Target FPS of the engine - Uniforms are updated just in render time.
+	 */
+	public final static int FPS = 30;
+	
+	/**
 	 * Enable/Disable FPS Log of the engine console
 	 */
 	public static boolean DEBUG_FPS = true;
@@ -45,16 +55,6 @@ public class EngineState {
 	 * Enable/Disable Shaders Warnings Log of the engine console
 	 */
 	public final static boolean DEBUG_SHADER_WARNING = false;
-	
-	/**
-	 * Target UPS of the engine - How much the engine updates in one second
-	 */
-	public final static int UPS = 100; 
-	
-	/**
-	 * Target FPS of the engine - Uniforms are updated just in render time.
-	 */
-	public final static int FPS = 120;
 	
 	/**
 	 * Number of Samples for MSAA in OpenGL

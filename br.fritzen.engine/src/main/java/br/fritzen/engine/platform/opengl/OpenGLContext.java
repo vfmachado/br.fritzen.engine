@@ -44,6 +44,24 @@ public class OpenGLContext extends GraphicsContext {
 		
 	}
 
+
+	@Override
+	public String getVendor() {
+		return GL11.glGetString(GL11.GL_VENDOR);
+	}
+
+
+	@Override
+	public String getRenderer() {
+		return GL11.glGetString(GL11.GL_RENDERER);
+	}
+
+
+	@Override
+	public String getVersion() {
+		return GL11.glGetString(GL11.GL_VERSION);
+	}
+
 	
 	
 }

@@ -8,7 +8,6 @@ import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventCategory;
 import br.fritzen.engine.events.EventType;
 import br.fritzen.engine.events.key.KeyEvent;
-import glm_.vec2.Vec2;
 import imgui.Context;
 import imgui.IO;
 import imgui.ImGui;
@@ -29,7 +28,7 @@ public class ImGuiLayer extends Layer {
 	
 	private Context ctx;
 	
-	//private boolean showDemo[] = {true};
+	private boolean showDemo[] = {true};
 	
 	
 	public ImGuiLayer() {
@@ -54,7 +53,7 @@ public class ImGuiLayer extends Layer {
 		lwjglGlfw.newFrame();
 		imgui.newFrame();		
 		
-		//imgui.showDemoWindow(showDemo);
+		imgui.showDemoWindow(showDemo);
 		
 	}
 	
@@ -121,26 +120,9 @@ public class ImGuiLayer extends Layer {
 	}
 
 	
-	//float[] values = {0, 0, 0};
-	//boolean [] enabled = {true};
-	
 	@Override
 	public void onImGuiRender() {
 		
-		/*
-		imgui.begin("IMGUI Layer", enabled, 0);
-		
-		if (imgui.button("TESTE", new Vec2(100, 100))) {
-			System.out.println("OKKKKK");
-		}
-		
-		
-		if (imgui.dragFloat3("Teste float3", values, 0.1f, 0f, 10f, "%.1f", 1f)) {
-			EngineLog.info("Changing slide...");
-		}
-		
-		imgui.end();
-		*/
 	}
 	
 }
