@@ -1,7 +1,8 @@
 package br.fritzen.engine.core;
 
 /**
- * This class contains the main gameloop of the engine. Which attempted to stay at a fix FPS and UPS given the numbers of the Engine file.
+ * This class contains the main gameloop of the engine. 
+ * Which attempted to stay at a fix FPS and UPS given the numbers of the EngineState class.
  * 
  * Must be used under the hood.
  * 

@@ -5,6 +5,8 @@ import org.joml.Vector3f;
 
 /** 
  * 
+ * Non instantiable class;
+ * 
  * This class contains constants to be used by engine /  game
  * 
  * Most part of these are final, so you must change it in code.
@@ -14,7 +16,7 @@ import org.joml.Vector3f;
  * @author fritz
  *
  */
-public class EngineState {
+public abstract class EngineState {
 
 	/**
 	 * Target UPS of the engine - How much the engine updates in one second

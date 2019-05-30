@@ -1,5 +1,8 @@
 package br.fritzen.sandbox;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -48,11 +51,19 @@ public class ApplicationTest {
 		
 		float albedoColor[] = {0.0f, 0.0f, 0.0f};
 		
+		try {
+			FileHandler fh = new FileHandler("log.info");
+			EngineLog.setOutStream(fh);
+			EngineLog.setSeverity(EngineLog.LogLevel.WARNING);
+		} catch (SecurityException | IOException e) {
+			e.printStackTrace();
+		}
+			
+		
 		EngineLog.info("Starting app");
 		
 		Application app = Application.create("App Teste", 1280, 720);
-		
-		
+			
 
 		
 		app.addLayer(new Layer("GUI Layer") {

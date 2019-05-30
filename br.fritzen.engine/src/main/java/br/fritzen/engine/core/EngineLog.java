@@ -3,12 +3,13 @@ package br.fritzen.engine.core;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * Non instaciable class
+ * Non instatiable class
  * 
  * Used to easily log info / warnings in console or File
  * 
@@ -23,6 +24,9 @@ public class EngineLog {
 	
 	private static EngineLog log = new EngineLog();
 	
+	public enum LogLevel {
+		INFO, WARNING, SEVERE;
+	}
 	
 	private class Data {
 	
@@ -71,13 +75,17 @@ public class EngineLog {
 	}
 	
 	
-	@SuppressWarnings("unused")
-	private static final void setOutStream(FileHandler fileHandler) {
+	public static final void setOutStream(FileHandler fileHandler) {
 		
 		LOG.setUseParentHandlers(false);
 		fileHandler.setFormatter(getFormatter());
 		LOG.addHandler(fileHandler);
 	
+	}
+	
+	
+	public static final void setSeverity(LogLevel level) {
+		LOG.setLevel(Level.parse(level.name()));
 	}
 	
 	
@@ -88,10 +96,11 @@ public class EngineLog {
 		
 		if (logLevel.equals("INFO"))
 			LOG.info(outlog);
-		else if (logLevel.equals("SEVERE"))
-			LOG.severe(outlog);
 		else if (logLevel.equals("WARNING"))
 			LOG.warning(outlog);
+		else if (logLevel.equals("SEVERE"))
+			LOG.severe(outlog);
+		
 	}
 	
 	
