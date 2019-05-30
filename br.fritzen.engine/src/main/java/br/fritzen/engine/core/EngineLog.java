@@ -2,10 +2,21 @@ package br.fritzen.engine.core;
 
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * Non instaciable class
+ * 
+ * Used to easily log info / warnings in console or File
+ * 
+ * To log to a file use EngineLog.setOutStream passing a valid FileHandler
+ * 
+ * @author fritz
+ *
+ */
 public class EngineLog {
 
 	private static final Logger LOG = Logger.getLogger("br.fritzen");
@@ -31,7 +42,14 @@ public class EngineLog {
 		
 		LOG.setUseParentHandlers(false);
         ConsoleHandler handler = new ConsoleHandler();
-        handler.setFormatter(new SimpleFormatter() {
+        handler.setFormatter(getFormatter());
+        LOG.addHandler(handler);
+	}
+	
+	
+	private static SimpleFormatter getFormatter() {
+		
+		SimpleFormatter formatter = new SimpleFormatter() {
             private static final String format = "[%1$tF %1$tT] [%2$-7s] %3$s %n";
 
             @Override
@@ -42,13 +60,24 @@ public class EngineLog {
                         lr.getMessage()
                 );
             }
-        });
-        LOG.addHandler(handler);
+        };
+        
+        return formatter;
 	}
 	
 	
 	private static final EngineLog getInstance() {
 		return log;
+	}
+	
+	
+	@SuppressWarnings("unused")
+	private static final void setOutStream(FileHandler fileHandler) {
+		
+		LOG.setUseParentHandlers(false);
+		fileHandler.setFormatter(getFormatter());
+		LOG.addHandler(fileHandler);
+	
 	}
 	
 	
@@ -75,6 +104,10 @@ public class EngineLog {
 	}
 
 	
+	/**
+	 * Info for any Object
+	 * @param msg
+	 */
 	public static void info(Object msg) {
 		getInstance().log(msg.toString(), "INFO");
 	}

@@ -34,6 +34,7 @@ import br.fritzen.engine.window.Window;
 import br.fritzen.engine.window.Window.WindowMode;
 import imgui.ImGui;
 
+//TODO - CREATE A MORE GENERIC Application
 public class Application extends MainLoop {
 
 	private static Application instance = null;

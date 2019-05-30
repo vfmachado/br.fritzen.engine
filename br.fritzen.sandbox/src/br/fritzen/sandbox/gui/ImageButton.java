@@ -1,4 +1,4 @@
-package br.fritzen.engine.imgui;
+package br.fritzen.sandbox.gui;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -32,9 +32,12 @@ public class ImageButton  {
 			
 			JFileChooser chooser = new JFileChooser();
 		    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-		        "JPG & GIF Images", "jpg", "gif");
+		        "JPG & GIF Images", "jpg", "gif", "tga");
 		    chooser.setFileFilter(filter);
+		    chooser.setVisible(true);
+		    chooser.setRequestFocusEnabled(true);
 		    int returnVal = chooser.showOpenDialog(null);
+		    
 		    if(returnVal == JFileChooser.APPROVE_OPTION) {
 		       String path = 
 		            chooser.getSelectedFile().getAbsolutePath();
