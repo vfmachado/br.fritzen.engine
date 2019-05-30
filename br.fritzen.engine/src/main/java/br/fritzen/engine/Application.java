@@ -157,13 +157,11 @@ public class Application extends MainLoop {
 	
 	public void onEvent(Event e) {
 		
-		//EngineLog.info(e.toString());
-		
 		dispatcher.setEvent(e);
 		
 		dispatcher.dispatch(this::onWindowCloseEvent, WindowCloseEvent.class);
 		
-		dispatcher.dispatch(this::onFKeyWindowModeEvent, KeyPressedEvent.class);
+		//dispatcher.dispatch(this::onFKeyWindowModeEvent, KeyPressedEvent.class);
 		
 		
 		for (Layer layer : layerStack) {
@@ -173,6 +171,7 @@ public class Application extends MainLoop {
 	}
 	
 	
+	//TODO - REMOVE THE CODE FROM RENDER - ANY APP IS RUNNING IT =/
 	@Override
 	protected void render() {
 		
@@ -247,9 +246,10 @@ public class Application extends MainLoop {
 		
 	}
 	
-	
+	/*
+	//BEING USED BY AN DISPATCHER
 	private boolean onFKeyWindowModeEvent(Event e) {
-	
+		
 		KeyPressedEvent evt = (KeyPressedEvent)e;
 		
 		if (evt.getKeyCode() == KeyEvent.KEY_F12) {
@@ -271,4 +271,5 @@ public class Application extends MainLoop {
 		
 		return false;
 	}
+	*/
 }

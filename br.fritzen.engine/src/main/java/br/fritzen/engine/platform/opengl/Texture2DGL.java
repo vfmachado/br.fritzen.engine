@@ -21,6 +21,10 @@ public class Texture2DGL extends Texture {
 	
 	private String filename;
 	
+	private int width;
+	
+	private int height;
+	
 	public Texture2DGL(String filename) {
 		
 		this.filename = filename;
@@ -36,15 +40,13 @@ public class Texture2DGL extends Texture {
 	
 	@Override
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.width;
 	}
 
 	
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.height;
 	}
 
 	
@@ -101,6 +103,9 @@ public class Texture2DGL extends Texture {
 			EngineLog.info("Texture loaded: " + width.get(0) + "\t" + height.get(0) + "\t" + channels.get(0));
 		}
 		
+		this.width = width.get(0);
+		this.height = height.get(0);
+		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width.get(0), height.get(0), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, imgBuffer);
 	
@@ -113,5 +118,11 @@ public class Texture2DGL extends Texture {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		STBImage.stbi_image_free(imgBuffer);
 		
+	}
+
+
+	@Override
+	public String getName() {
+		return this.filename;
 	}
 }

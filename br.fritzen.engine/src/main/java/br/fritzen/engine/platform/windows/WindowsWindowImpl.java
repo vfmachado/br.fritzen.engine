@@ -270,7 +270,6 @@ public class WindowsWindowImpl extends Window {
 	public void setWindowMode(WindowMode mode) {
 		
 		if (this.windowMode == mode) {
-			System.out.println("Returned");
 			return;
 		}
 				

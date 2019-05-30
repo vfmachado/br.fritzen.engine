@@ -2,6 +2,8 @@ package br.fritzen.engine.renderer;
 
 public abstract class Texture {
 
+	public abstract String getName();
+	
 	public abstract int getWidth();
 	
 	public abstract int getHeight();
