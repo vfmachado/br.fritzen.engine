@@ -16,6 +16,8 @@ import br.fritzen.engine.imgui.GUI;
 import br.fritzen.engine.platform.opengl.Texture2DGL;
 import br.fritzen.engine.renderer.Texture;
 import br.fritzen.sandbox.gui.ImageButton;
+import glm_.vec2.Vec2;
+import glm_.vec4.Vec4;
 import imgui.ImGui;
 import imgui.TabBarFlag;
 import imgui.TabItemFlag;
@@ -47,9 +49,7 @@ public class ApplicationTest {
 		
 		setLookAndFeel();
 		
-		boolean textureAlbedo[] = {true};
 		
-		float albedoColor[] = {0.0f, 0.0f, 0.0f};
 		
 		try {
 			FileHandler fh = new FileHandler("log.info");
@@ -69,92 +69,100 @@ public class ApplicationTest {
 		app.addLayer(new Layer("GUI Layer") {
 			
 			Texture albedoTexture = new Texture2DGL("src/dog.jpg");
+			boolean [] useTexture = {true};
+			
+			
+			float albedoColor[] = {0.0f, 0.0f, 0.0f};
+			boolean [] useColor = {true};
+			boolean [] colorPickerWindow = {true};
+			boolean colorSelecting = false;
+			
 			ImageButton albedoTextureButton = new ImageButton(albedoTexture);
+			
 			
 			
 			@Override
 			public void onImGuiRender() {
 				
 				//TODO - create a beauty window :P
-				ImGui imgui = ImGui.INSTANCE;
+				ImGui gui = ImGui.INSTANCE;
 				
-				imgui.beginMainMenuBar();
-				if ( imgui.menuItem("File", "", false, true) ) {
+				gui.beginMainMenuBar();
+				if ( gui.menuItem("File", "", false, true) ) {
 					
 										
 				}
-				imgui.endMainMenuBar();
+				gui.endMainMenuBar();
 				
 				
 				int windowFlag =  WindowFlag.NoDecoration.i;
-				imgui.begin("#SETTINGS", GUI.TRUE, 0);
+				gui.begin("#SETTINGS", GUI.TRUE, 0);
 				
-				if (imgui.beginTabBar("##TABS", TabBarFlag.None.i) ) {
+				if (gui.beginTabBar("##TABS", TabBarFlag.None.i) ) {
 				
 					int tabItemFlags = TabItemFlag.NoCloseButton.i | TabItemFlag.NoCloseWithMiddleMouseButton.i | TabItemFlag.NoPushId.i;
 					
-					if (imgui.beginTabItem("Settings", GUI.TRUE, 0,  tabItemFlags)) {
-						imgui.text("GENERAL SETTINGS GUI TEST");
-						imgui.endTabItem();
+					if (gui.beginTabItem("Settings", GUI.TRUE, 0,  tabItemFlags)) {
+						gui.text("GENERAL SETTINGS GUI TEST");
+						gui.endTabItem();
 					}
 					
-					if (imgui.beginTabItem("World", GUI.TRUE, 0, tabItemFlags)) {
-						imgui.text("WORLD SETTINGS GUI TEST");
-						imgui.endTabItem();
+					if (gui.beginTabItem("World", GUI.TRUE, 0, tabItemFlags)) {
+						gui.text("WORLD SETTINGS GUI TEST");
+						gui.endTabItem();
 					}
 					
-					if (imgui.beginTabItem("Model loader", GUI.TRUE, 0, tabItemFlags ) ) {
+					if (gui.beginTabItem("Model loader", GUI.TRUE, 0, tabItemFlags ) ) {
 						
-						imgui.text("LOADER MODEL GUI TEST");
+						gui.text("LOADER MODEL GUI TEST");
 						
-						imgui.separator();
-						imgui.text("TEXTURE Information");
+						gui.separator();
+						gui.text("TEXTURE Information");
 						
-						if (imgui.collapsingHeader("Albedo", 0)) {
-							//imgui.text("texto para o item 01");
+						if (gui.collapsingHeader("Albedo", 0)) {
+							
+							gui.text("texto para o item 01");
 							
 							albedoTextureButton.imageButton(100, 100);
 							
-							/*
-							if (imgui.imageButton(albedoTexture.getRendererId(), new Vec2(100, 100), new Vec2(1, 1), new Vec2(0, 0), 0, new Vec4(1, 1, 1, 1), new Vec4(1, 1, 1, 1)) ) {
-								
-								JFileChooser chooser = new JFileChooser();
-							    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-							        "JPG & GIF Images", "jpg", "gif");
-							    chooser.setFileFilter(filter);
-							    int returnVal = chooser.showOpenDialog(null);
-							    if(returnVal == JFileChooser.APPROVE_OPTION) {
-							       String path = 
-							            chooser.getSelectedFile().getAbsolutePath();
-
-									albedoTexture = new Texture2DGL(path);
-							    }
-								
+							if (gui.checkbox("Use", useTexture) ) {
 								
 							}
-							*/
-							imgui.checkbox("Use", textureAlbedo);
-							//imgui.
-							/*
-							if (imgui.checkbox("Color", useColor)) {
-								imgui.colorPickerOptionsPopup(albedoColor, GUI.NONE_FLAG);
-								imgui.colorPicker3("Color", albedoColor, GUI.NONE_FLAG);
+							
+							if (colorSelecting || gui.colorButton("Color", new Vec4(), GUI.NONE_FLAG, new Vec2(100, 100))) {
+								
+								
+								if (gui.begin("Color pickup", colorPickerWindow, GUI.NONE_FLAG)) {
+									gui.colorPicker3("Color", albedoColor, GUI.NONE_FLAG);
+									gui.end();
+									colorSelecting = true;
+								} else {
+									colorSelecting = false;
+								}
+								
 							}
-							 */
+							
+							
+							//gui.colorEdit3("Color", albedoColor, GUI.NONE_FLAG);							
+							if (gui.checkbox("Color", useColor)) {
+							//	imgui.colorPickerOptionsPopup(albedoColor, GUI.NONE_FLAG);
+							//	imgui.colorPicker3("Color", albedoColor, GUI.NONE_FLAG);
+							}
+							
 						}
 						
-						if (imgui.collapsingHeader("TESTE 02", 0)) {
-							imgui.text("texto diferente para 02");
+						if (gui.collapsingHeader("TESTE 02", 0)) {
+							gui.text("texto diferente para 02");
 						}
 						
 						
-						imgui.endTabItem();
+						gui.endTabItem();
 					}
 					
-					imgui.endTabBar();
+					gui.endTabBar();
 				}
 				
-				imgui.end();
+				gui.end();
 				
 				
 			}
@@ -176,9 +184,6 @@ public class ApplicationTest {
 				imgui.begin("App Teste", GUI.TRUE, 0);
 				imgui.text("Exemplo in App");
 				imgui.text("Small Layer created by user");
-				if (imgui.checkbox("TESTE", GUI.FALSE)) {
-					imgui.text("FOI MARCADO");
-				}
 				imgui.end();	
 				
 			}
