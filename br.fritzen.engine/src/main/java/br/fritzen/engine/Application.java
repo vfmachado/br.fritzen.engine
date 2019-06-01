@@ -6,7 +6,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
-import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.core.MainLoop;
 import br.fritzen.engine.core.OSDetection;
 import br.fritzen.engine.core.OSDetection.OSType;
@@ -14,9 +13,8 @@ import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
-import br.fritzen.engine.events.key.KeyEvent;
-import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
+import br.fritzen.engine.gameobject.GameObject;
 import br.fritzen.engine.imgui.GUI;
 import br.fritzen.engine.imgui.ImGuiLayer;
 import br.fritzen.engine.platform.opengl.IndexBufferObject;
@@ -27,11 +25,9 @@ import br.fritzen.engine.platform.opengl.VertexBufferObject;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.renderer.GraphicsContext;
 import br.fritzen.engine.renderer.shader.Shader;
-import br.fritzen.engine.renderer.shader.ShaderUniform;
 import br.fritzen.engine.utils.EngineBuffers;
 import br.fritzen.engine.utils.Pair;
 import br.fritzen.engine.window.Window;
-import br.fritzen.engine.window.Window.WindowMode;
 import imgui.ImGui;
 
 //TODO - CREATE A MORE GENERIC Application
@@ -49,6 +45,7 @@ public class Application extends MainLoop {
 	
 	private ImGuiLayer imguiLayer;
 	
+	public List<GameObject> scene = new ArrayList<GameObject>();
 	
 	private Application() {
 		//this("Fritzen Engine", 1280, 720);
@@ -115,6 +112,7 @@ public class Application extends MainLoop {
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/fragment.shader", OpenGLShaderType.FRAGMENT));
 		this.shader = new OpenGLShader(shaders);
 		
+		/*
 		float[] positions = {
 				  -0.8f, -0.8f, 0,  //0
 	               0.0f, -0.8f, 0,	//1
@@ -139,6 +137,7 @@ public class Application extends MainLoop {
 		
 		ibo = new IndexBufferObject(EngineBuffers.createIntBuffer(indices));
 		ibo.unbind();
+		*/
 		
 	}
 
@@ -191,14 +190,19 @@ public class Application extends MainLoop {
 		GL11.glEnd();
 		*/
 		
-		this.shader.bind();
-		this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
+		//this.shader.bind();
+		//this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
 		
-		this.vao.bind();
-		this.ibo.bind();
+		//this.vao.bind();
+		//this.ibo.bind();
 		
 		
-		GL11.glDrawElements(GL11.GL_TRIANGLES, ibo.getCount(), GL11.GL_UNSIGNED_INT, ibo.getOffset());
+		//GL11.glDrawElements(GL11.GL_TRIANGLES, ibo.getCount(), GL11.GL_UNSIGNED_INT, ibo.getOffset());
+		
+		//scene draw
+		for (GameObject go :  scene) {
+			go.draw();
+		}
 		
 		
 		imguiLayer.begin();
@@ -227,7 +231,9 @@ public class Application extends MainLoop {
 	@Override
 	protected void update(long deltatime) {
 		
-		
+		for (GameObject go :  scene) {
+			go.updateUniforms(this.shader);
+		}
 		
 		for (Layer layer : layerStack) {
 		

@@ -74,7 +74,8 @@ public class ApplicationTest {
 			
 			float albedoColor[] = {0.0f, 0.0f, 0.0f};
 			boolean [] useColor = {true};
-			boolean [] colorPickerWindow = {true};
+			boolean isUseColor = false;
+			boolean [] colorPickerWindow = {false};
 			boolean colorSelecting = false;
 			
 			ImageButton albedoTextureButton = new ImageButton(albedoTexture);
@@ -129,26 +130,24 @@ public class ApplicationTest {
 								
 							}
 							
-							if (colorSelecting || gui.colorButton("Color", new Vec4(), GUI.NONE_FLAG, new Vec2(100, 100))) {
+							if (gui.colorButton("Color", new Vec4(), GUI.NONE_FLAG, new Vec2(100, 100)) || colorPickerWindow[0]) {
 								
+								colorPickerWindow[0] = true;
 								
 								if (gui.begin("Color pickup", colorPickerWindow, GUI.NONE_FLAG)) {
 									gui.colorPicker3("Color", albedoColor, GUI.NONE_FLAG);
 									gui.end();
-									colorSelecting = true;
-								} else {
-									colorSelecting = false;
 								}
-								
 							}
 							
-							
+							/*
 							//gui.colorEdit3("Color", albedoColor, GUI.NONE_FLAG);							
 							if (gui.checkbox("Color", useColor)) {
+								isUseColor = !isUseColor;
 							//	imgui.colorPickerOptionsPopup(albedoColor, GUI.NONE_FLAG);
 							//	imgui.colorPicker3("Color", albedoColor, GUI.NONE_FLAG);
 							}
-							
+							*/
 						}
 						
 						if (gui.collapsingHeader("TESTE 02", 0)) {

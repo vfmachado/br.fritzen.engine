@@ -5,6 +5,7 @@ public enum EventCategory {
 	Window,
 	App,
 	Mouse,
-	Keyboard;
+	Keyboard,
+	Gamepad;
 	
 }
