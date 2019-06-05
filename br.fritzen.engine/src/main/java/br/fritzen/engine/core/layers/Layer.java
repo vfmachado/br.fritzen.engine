@@ -37,5 +37,9 @@ public abstract class Layer {
 		
 	}
 	
+	public void onRender() {
+		
+	}
+	
 	
 }

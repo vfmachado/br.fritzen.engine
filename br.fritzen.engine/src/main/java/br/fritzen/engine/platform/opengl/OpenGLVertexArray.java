@@ -6,21 +6,24 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-public class VertexArrayObject {
+import br.fritzen.engine.renderer.Buffer;
+import br.fritzen.engine.renderer.Buffer.IndexBuffer;
+import br.fritzen.engine.renderer.Buffer.VertexBuffer;
 
-	private int vao;
+
+public class OpenGLVertexArray implements Buffer.VertexArray {
+
+	private int va;
+		
+	private IndexBuffer ib;
 	
-	private int drawMode;
-	
-	
-	public VertexArrayObject() {
-		this.vao = GL30.glGenVertexArrays();		
-		this.drawMode = GL11.GL_TRIANGLES;
+	public OpenGLVertexArray() {
+		this.va = GL30.glGenVertexArrays();		
 	}
 	
 	
 	public void bind() {
-		GL30.glBindVertexArray(this.vao);
+		GL30.glBindVertexArray(this.va);
 	}
 	
 	
@@ -29,7 +32,7 @@ public class VertexArrayObject {
 	}
 	
 	
-	public void addInterleavedVBO(VertexBufferObject vbo, List<VertexBufferLayout> layouts) {
+	public void addInterleavedVBO(OpenGLVertexBuffer vbo, List<VertexBufferLayout> layouts) {
 		
 		this.bind();
 		vbo.bind();
@@ -50,20 +53,22 @@ public class VertexArrayObject {
 	}
 	
 	
-	public void addVBO(VertexBufferObject vbo, int attribArray, int size ) {
+	@Override
+	public void addVB(VertexBuffer vb, int attribArray, int size ) {
 		
 		this.bind();
-		vbo.bind();
+		vb.bind();
 		GL20.glEnableVertexAttribArray(attribArray);
 		GL20.glVertexAttribPointer(attribArray, size, GL11.GL_FLOAT, false, 0, 0);
 		
 	}
 	
-	
-	public void addVBO(VertexBufferObject vbo, int attribArray, VertexBufferLayout layout ) {
+
+	@Override
+	public void addVB(VertexBuffer vb, int attribArray, VertexBufferLayout layout ) {
 		
 		this.bind();
-		vbo.bind();
+		vb.bind();
 		GL20.glEnableVertexAttribArray(attribArray);
 		GL20.glVertexAttribPointer(attribArray, layout.getSize(), layout.getType(), layout.isNormalized(), 0, 0);
 		
@@ -95,15 +100,18 @@ public class VertexArrayObject {
 		return 4;
 	}
 
-
-	public int getDrawMode() {
-		return drawMode;
-	}
-
-
-	public void setDrawMode(int drawMode) {
-		this.drawMode = drawMode;
+	
+	public void setIB(IndexBuffer ib) {
+		
+		this.ib = ib;
+		
+		this.bind();
+		this.ib.bind();
+		
 	}
 	
-
+	
+	public IndexBuffer getIB() {
+		return this.ib;
+	}
 }

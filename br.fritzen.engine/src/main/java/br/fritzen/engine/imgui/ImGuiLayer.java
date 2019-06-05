@@ -28,8 +28,6 @@ public class ImGuiLayer extends Layer {
 	
 	private Context ctx;
 	
-	private boolean showDemo[] = {true};
-	
 	
 	public ImGuiLayer() {
 		
@@ -49,11 +47,12 @@ public class ImGuiLayer extends Layer {
 	
 	
 	public void begin() {
+	
+		//reseting 'constant'
+		GUI.TRUE[0] = true;
 		
 		lwjglGlfw.newFrame();
 		imgui.newFrame();		
-		
-		imgui.showDemoWindow(showDemo);
 		
 	}
 	

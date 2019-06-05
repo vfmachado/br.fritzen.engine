@@ -3,9 +3,9 @@ package br.fritzen.engine.premodels;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.gameobject.GameObject;
-import br.fritzen.engine.platform.opengl.IndexBufferObject;
-import br.fritzen.engine.platform.opengl.VertexArrayObject;
-import br.fritzen.engine.platform.opengl.VertexBufferObject;
+import br.fritzen.engine.platform.opengl.OpenGLIndexBuffer;
+import br.fritzen.engine.platform.opengl.OpenGLVertexArray;
+import br.fritzen.engine.platform.opengl.OpenGLVertexBuffer;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.renderer.shader.ShaderUniform;
 import br.fritzen.engine.utils.EngineBuffers;
@@ -15,17 +15,16 @@ import br.fritzen.engine.utils.EngineBuffers;
  * @author fritz
  *
  */
-public class Triangle extends GameObject {
+public class Triangle {
 
 	private float[] vertices;
 	
-	private float[] color;
+	private float[] color = {0, 0, 0};
 	
 	private int[] indices = { 0, 1, 2};
 	
-	Shader shader;
-	VertexArrayObject vao;
-	IndexBufferObject ibo;
+	OpenGLVertexArray vao;
+	OpenGLIndexBuffer ibo;
 	
 	/**
 	 * An array with 3 x 3 float represeting the vertices of the triangle
@@ -42,7 +41,6 @@ public class Triangle extends GameObject {
 	 */
 	public void setColor(float[] color) {
 		this.color = color;
-		process();
 	}
 	
 	
@@ -53,22 +51,26 @@ public class Triangle extends GameObject {
 	
 	private void process() {
 		
-		VertexBufferObject vbo = new VertexBufferObject(EngineBuffers.createFloatBuffer(this.vertices));
-		this.vao = new VertexArrayObject();
-		this.vao.addVBO(vbo, 0, 3);
-		ibo = new IndexBufferObject(EngineBuffers.createIntBuffer(indices));
+		OpenGLVertexBuffer vbo = new OpenGLVertexBuffer(EngineBuffers.createFloatBuffer(this.vertices), this.vertices.length * 4);
+		//this.vao = new OpenGLVertexArrayObject();
+		this.vao = new OpenGLVertexArray();
+		this.vao.addVB(vbo, 0, 3);
+		ibo = new OpenGLIndexBuffer(EngineBuffers.createIntBuffer(indices), indices.length);
 		ibo.unbind();
 		
 	}
 	
 	
 	public void updateUniforms(Shader shader) {
-		this.shader.updateUniform(ShaderUniform.color, color[0], color[1], color[2]);
+		shader.updateUniform(ShaderUniform.color, color[0], color[1], color[2]);
 	}
 	
 	
-	public void draw() {
+	public void draw(Shader shader) {
 	
+		shader.bind();
+		this.updateUniforms(shader);
+		
 		this.vao.bind();
 		this.ibo.bind();
 		

@@ -13,6 +13,5 @@ public abstract class GUI {
 	
 	public static final int NONE_FLAG = 0;
 	
-		
 	
 }

@@ -1,0 +1,117 @@
+[2019-06-05 10:32:49] [INFORMA합ES] File: ApplicationTest.java:53	Method: main	Msg: Starting app 
+[2019-06-05 10:32:49] [INFORMA합ES] File: Application.java:68	Method: create	Msg: Creating applicaiton instance 
+[2019-06-05 10:32:50] [INFORMA합ES] File: WindowsWindowImpl.java:82	Method: init	Msg: GLFW initialized! 
+[2019-06-05 10:32:50] [INFORMA합ES] File: WindowsWindowImpl.java:93	Method: init	Msg: Video Mode details: 1366x768 - 60Hz (RxGxB) 8x8x8   
+[2019-06-05 10:32:50] [INFORMA합ES] File: WindowsWindowImpl.java:104	Method: init	Msg: Creating window App Teste (1280, 720) 
+[2019-06-05 10:32:50] [INFORMA합ES] File: WindowsWindowImpl.java:217	Method: createWindow	Msg: Window created with no errors. Handler: 20236816 
+[2019-06-05 10:32:50] [INFORMA합ES] File: OpenGLContext.java:31	Method: init	Msg: OpenGL Info 
+[2019-06-05 10:32:50] [INFORMA합ES] File: OpenGLContext.java:32	Method: init	Msg:    Vendor: Intel 
+[2019-06-05 10:32:50] [INFORMA합ES] File: OpenGLContext.java:33	Method: init	Msg:    Renderer: Intel(R) HD Graphics 4400 
+[2019-06-05 10:32:50] [INFORMA합ES] File: OpenGLContext.java:34	Method: init	Msg:    Version:4.3.0 - Build 20.19.15.4531 
+[2019-06-05 10:32:51] [INFORMA합ES] File: Texture2DGL.java:103	Method: loadTexture	Msg: Texture loaded: 225	225	3 
+[2019-06-05 10:32:52] [INFORMA합ES] File: MainLoop.java:29	Method: run	Msg: Initializing systems 
+[2019-06-05 10:32:52] [INFORMA합ES] File: EngineFiles.java:38	Method: loadTextFile	Msg: O arquivo shaders/simple/vertex.shader foi lido em 8ms 
+[2019-06-05 10:32:52] [INFORMA합ES] File: EngineFiles.java:38	Method: loadTextFile	Msg: O arquivo shaders/simple/fragment.shader foi lido em 3ms 
+[2019-06-05 10:32:53] [INFORMA합ES] File: MainLoop.java:47	Method: run	Msg: Application main loop 
+[2019-06-05 10:32:54] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 29	FPS: 14 
+[2019-06-05 10:32:55] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 28 
+[2019-06-05 10:32:56] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 26 
+[2019-06-05 10:32:57] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 28 
+[2019-06-05 10:32:58] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 35	FPS: 30 
+[2019-06-05 10:32:59] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 32	FPS: 27 
+[2019-06-05 10:33:00] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:01] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:02] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:03] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 22 
+[2019-06-05 10:33:04] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:05] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 25	FPS: 25 
+[2019-06-05 10:33:06] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 35	FPS: 30 
+[2019-06-05 10:33:07] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:08] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:09] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:10] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:11] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:12] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 29 
+[2019-06-05 10:33:13] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:14] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:15] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:16] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:17] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:18] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:19] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:20] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:21] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:22] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:23] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:24] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:25] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 24 
+[2019-06-05 10:33:26] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:27] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:28] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:29] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:30] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:31] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:32] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:33] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:34] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:35] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 29 
+[2019-06-05 10:33:36] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:37] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 28 
+[2019-06-05 10:33:38] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:39] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:40] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 27 
+[2019-06-05 10:33:41] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:42] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 29 
+[2019-06-05 10:33:43] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 29 
+[2019-06-05 10:33:44] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 28 
+[2019-06-05 10:33:45] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:46] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:47] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 28 
+[2019-06-05 10:33:48] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:49] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:50] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:51] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:52] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:53] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 29	FPS: 30 
+[2019-06-05 10:33:54] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:33:55] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:56] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:57] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:33:59] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 16	FPS: 17 
+[2019-06-05 10:34:00] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 53	FPS: 24 
+[2019-06-05 10:34:01] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:34:02] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:03] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:04] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:05] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:06] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:07] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:08] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:09] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:10] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:11] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:12] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:13] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:14] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:15] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:16] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:17] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 31	FPS: 30 
+[2019-06-05 10:34:18] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:19] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:20] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:21] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:22] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:23] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:24] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:25] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:26] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:27] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:28] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:29] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:30] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:31] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:32] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:33] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:34] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:35] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 
+[2019-06-05 10:34:36] [INFORMA합ES] File: MainLoop.java:85	Method: run	Msg: UPS: 30	FPS: 30 

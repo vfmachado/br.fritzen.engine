@@ -12,7 +12,8 @@ public class VertexBufferLayout {
 	
 		
 	public VertexBufferLayout(int size) {
-		this(size, GL11.GL_FLOAT);
+		//this(size, GL11.GL_FLOAT);
+		this(size, 4);
 	}
 	
 	

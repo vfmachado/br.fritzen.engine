@@ -1,12 +1,19 @@
 package br.fritzen.engine.premodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.fritzen.engine.Application;
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventType;
 import br.fritzen.engine.events.key.KeyTypedEvent;
+import br.fritzen.engine.platform.opengl.OpenGLShader;
+import br.fritzen.engine.platform.opengl.OpenGLShaderType;
 import br.fritzen.engine.premodels.Triangle;
+import br.fritzen.engine.renderer.shader.Shader;
+import br.fritzen.engine.utils.Pair;
 
 /**
  * FOR NOW... THIS DON'T MAKE ANY SENSE T_T
@@ -24,17 +31,31 @@ public class TriangleTest {
 		Layer myLayer = new Layer("Test Layer - Sandbox") {
 
 			float[] positions = {
-					  -0.8f, -0.8f, 0,  //0
-		               0.0f, -0.8f, 0,	//1
-		              -0.8f,  0.0f, 0	//2
+					  -1.0f, -1.0f, 0,  //0
+		               0.0f,  1.0f, 0,	//1
+		               1.0f, -1.0f, 0	//2
 			};
 			
 			Triangle triangle = new Triangle(positions);
+			float[] color = {1, 0, 0};
+			Shader shader;
+			
+			@Override
+			public void onAttach() {
+				
+				List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
+				shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/vertex.shader", OpenGLShaderType.VERTEX));
+				shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/fragment.shader", OpenGLShaderType.FRAGMENT));
+				this.shader = new OpenGLShader(shaders);
+				
+			}
 			
 			
 			@Override
 			public void onUpdate() {
 				// System.out.println("Mouse at: " + Input.getMousePos());
+				this.triangle.setColor(color);
+				//this.triangle.updateUniforms(shader);
 			}
 			
 			@Override
@@ -56,6 +77,11 @@ public class TriangleTest {
 
 			}
 
+			@Override
+			public void onRender() {
+				this.triangle.draw(shader);
+			}
+			
 		};
 
 		app.addLayer(myLayer);

@@ -26,35 +26,25 @@ import imgui.WindowFlag;
 public class ApplicationTest {
 	
 	public static void setLookAndFeel() {
+		
 		try {
-        // Set System L&F
-	        UIManager.setLookAndFeel(
+            UIManager.setLookAndFeel(
 	            UIManager.getSystemLookAndFeelClassName());
 	    } 
-	    catch (UnsupportedLookAndFeelException e) {
-	       // handle exception
+	    catch (Exception e) {
+	    
 	    }
-	    catch (ClassNotFoundException e) {
-	       // handle exception
-	    }
-	    catch (InstantiationException e) {
-	       // handle exception
-	    }
-	    catch (IllegalAccessException e) {
-	       // handle exception
-	    }
+		
 	}
 	
 	public static void main(String[] args) {
 		
 		setLookAndFeel();
 		
-		
-		
 		try {
 			FileHandler fh = new FileHandler("log.info");
 			EngineLog.setOutStream(fh);
-			EngineLog.setSeverity(EngineLog.LogLevel.WARNING);
+			//EngineLog.setSeverity(EngineLog.LogLevel.WARNING);
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -71,7 +61,6 @@ public class ApplicationTest {
 			Texture albedoTexture = new Texture2DGL("src/dog.jpg");
 			boolean [] useTexture = {true};
 			
-			
 			float albedoColor[] = {0.0f, 0.0f, 0.0f};
 			boolean [] useColor = {true};
 			boolean isUseColor = false;
@@ -79,8 +68,6 @@ public class ApplicationTest {
 			boolean colorSelecting = false;
 			
 			ImageButton albedoTextureButton = new ImageButton(albedoTexture);
-			
-			
 			
 			@Override
 			public void onImGuiRender() {

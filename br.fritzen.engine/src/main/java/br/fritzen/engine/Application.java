@@ -17,14 +17,17 @@ import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.gameobject.GameObject;
 import br.fritzen.engine.imgui.GUI;
 import br.fritzen.engine.imgui.ImGuiLayer;
-import br.fritzen.engine.platform.opengl.IndexBufferObject;
 import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
-import br.fritzen.engine.platform.opengl.VertexArrayObject;
-import br.fritzen.engine.platform.opengl.VertexBufferObject;
+import br.fritzen.engine.platform.opengl.OpenGLVertexArray;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
+import br.fritzen.engine.renderer.Buffer.IndexBuffer;
+import br.fritzen.engine.renderer.Buffer.VertexArray;
+import br.fritzen.engine.renderer.Buffer.VertexBuffer;
 import br.fritzen.engine.renderer.GraphicsContext;
+import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.renderer.shader.Shader;
+import br.fritzen.engine.renderer.shader.ShaderUniform;
 import br.fritzen.engine.utils.EngineBuffers;
 import br.fritzen.engine.utils.Pair;
 import br.fritzen.engine.window.Window;
@@ -95,8 +98,8 @@ public class Application extends MainLoop {
 	
 	
 	Shader shader;
-	VertexArrayObject vao;
-	IndexBufferObject ibo;
+	VertexArray vao;
+	IndexBuffer ibo;
 	
 	@Override
 	protected void init() {
@@ -112,7 +115,7 @@ public class Application extends MainLoop {
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/fragment.shader", OpenGLShaderType.FRAGMENT));
 		this.shader = new OpenGLShader(shaders);
 		
-		/*
+		
 		float[] positions = {
 				  -0.8f, -0.8f, 0,  //0
 	               0.0f, -0.8f, 0,	//1
@@ -124,20 +127,24 @@ public class Application extends MainLoop {
 	               0.0f,  0.0f, 0, 	//3
 	            };
 		
-		VertexBufferObject vbo = new VertexBufferObject(EngineBuffers.createFloatBuffer(positions));
+		//VertexBufferObject vbo = new VertexBufferObject(EngineBuffers.createFloatBuffer(positions));
+		VertexBuffer vbo = VertexBuffer.create(EngineBuffers.createFloatBuffer(positions), positions.length * 4);
 		
 		
-		this.vao = new VertexArrayObject();
+		this.vao = VertexArray.create();
+		//this.vao = new OpenGLVertexArray();
 		//this.vao.addInterleavedVBO(vbo, layouts);
 			
-		this.vao.addVBO(vbo, 0, 3);
+		this.vao.addVB(vbo, 0, 3);
 		
 		int[] indices = { 0, 1, 2, 1, 3, 2,
 						  4, 5, 6, 5, 7, 6};
 		
-		ibo = new IndexBufferObject(EngineBuffers.createIntBuffer(indices));
-		ibo.unbind();
-		*/
+		ibo = IndexBuffer.create(EngineBuffers.createIntBuffer(indices), indices.length);
+		this.vao.setIB(ibo);
+		//ibo.unbind();
+		
+		Renderer.get().clearColor(0, 1.0f, 1.0f, 1.0f);
 		
 	}
 
@@ -174,34 +181,38 @@ public class Application extends MainLoop {
 	@Override
 	protected void render() {
 		
-		
+		/*
 		GL11.glClearColor(0, 0.7f, 0.7f, 1.0f);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 		
 		GL11.glViewport(0, 0, getWindow().getWidth(), getWindow().getHeight());
 		
-		//System.out.println("GL Viewport: " + getWindow().getWidth() + "x" + getWindow().getHeight());
-		/*
-		GL11.glColor3f(1, 1, 0);
-		GL11.glBegin(GL11.GL_TRIANGLES);
-		GL11.glVertex2f( -1 , -1);
-		GL11.glVertex2f(  0 ,  1);
-		GL11.glVertex2f(  1 , -1 );
-		GL11.glEnd();
-		*/
 		
-		//this.shader.bind();
-		//this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
+		this.shader.bind();
+		this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
 		
-		//this.vao.bind();
-		//this.ibo.bind();
+		this.vao.bind();
+		this.ibo.bind();
 		
-		
-		//GL11.glDrawElements(GL11.GL_TRIANGLES, ibo.getCount(), GL11.GL_UNSIGNED_INT, ibo.getOffset());
+		GL11.glDrawElements(GL11.GL_TRIANGLES, ibo.getCount(), GL11.GL_UNSIGNED_INT, ibo.getOffset());
 		
 		//scene draw
 		for (GameObject go :  scene) {
 			go.draw();
+		}
+		*/
+		
+		Renderer renderer = Renderer.get();
+		renderer.clear();
+		/*
+		this.shader.bind();
+		this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
+		
+		renderer.draw(this.vao, shader);
+		*/
+		
+		for (Layer layer : layerStack) {
+			layer.onRender();
 		}
 		
 		
@@ -209,7 +220,6 @@ public class Application extends MainLoop {
 		
 		for (Layer layer : layerStack) {
 			layer.onImGuiRender();
-		//	System.out.println("Render IMGUI: " + layer.getName());
 		}
 		
 		ImGui imgui = ImGui.INSTANCE;

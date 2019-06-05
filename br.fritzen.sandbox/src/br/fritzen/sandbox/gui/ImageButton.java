@@ -14,11 +14,19 @@ public class ImageButton  {
 	Texture texture;
 	ImGui gui =  ImGui.INSTANCE;
 	
-	public ImageButton() {
+	JFileChooser chooser = new JFileChooser();
+    
+    
 	
+	public ImageButton() {
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        "JPG & GIF Images", "jpg", "gif", "tga");
+		    chooser.setFileFilter(filter);
+		    chooser.setVisible(false);
 	}
 	
 	public ImageButton(Texture texture) {
+		this();
 		this.texture = texture;
 	}
 	
@@ -29,14 +37,10 @@ public class ImageButton  {
 	public void imageButton(int sizeX, int sizeY) {
 	
 		if ( gui.imageButton(texture.getRendererId(), new Vec2(sizeX, sizeY), new Vec2(1, 1), new Vec2(0, 0), 0, new Vec4(1, 1, 1, 1), new Vec4(1, 1, 1, 1)) ) {
-			
-			JFileChooser chooser = new JFileChooser();
-		    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-		        "JPG & GIF Images", "jpg", "gif", "tga");
-		    chooser.setFileFilter(filter);
-		    chooser.setVisible(true);
-		    chooser.setRequestFocusEnabled(true);
-		    int returnVal = chooser.showOpenDialog(null);
+
+			chooser.setVisible(true);
+
+			int returnVal = chooser.showOpenDialog(null);
 		    
 		    if(returnVal == JFileChooser.APPROVE_OPTION) {
 		       String path = 
