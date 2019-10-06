@@ -16,7 +16,7 @@ import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.utils.Pair;
 
 /**
- * FOR NOW... THIS DON'T MAKE ANY SENSE T_T
+ * 
  * @author fritz
  *
  */

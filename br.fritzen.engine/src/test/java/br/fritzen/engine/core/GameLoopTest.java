@@ -1,6 +1,6 @@
 package br.fritzen.engine.core;
 
-public class GameLoopTest  extends MainLoop {
+public class GameLoopTest  extends MainLoopFixedFPS {
 
 	@Override
 	protected void init() {

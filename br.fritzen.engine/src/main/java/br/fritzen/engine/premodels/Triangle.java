@@ -37,7 +37,7 @@ public class Triangle {
 	
 	/**
 	 * Color of the triangle
-	 * @param color 3 float array representing RGB color
+	 * @param color 3 float array representing RGB color. Default value is black
 	 */
 	public void setColor(float[] color) {
 		this.color = color;
@@ -77,10 +77,6 @@ public class Triangle {
 		
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, ibo.getCount(), GL11.GL_UNSIGNED_INT, ibo.getOffset());
-		//bind vao
-		//update color
-		//draw
-		
-		
+				
 	}
 }

@@ -140,7 +140,7 @@
 		<dependency>
 		    <groupId>com.github.kotlin-graphics</groupId>
 		    <artifactId>imgui</artifactId>
-		    <version>v1.68.01-00</version>
+		    <version>1.69-build-00</version>
 		    <scope>provided</scope>
 		</dependency>
 		

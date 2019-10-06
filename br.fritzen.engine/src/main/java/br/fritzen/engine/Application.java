@@ -6,7 +6,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.core.EngineLog;
-import br.fritzen.engine.core.MainLoop;
+import br.fritzen.engine.core.MainLoopUnlimited;
 import br.fritzen.engine.core.OSDetection;
 import br.fritzen.engine.core.OSDetection.OSType;
 import br.fritzen.engine.core.layers.Layer;
@@ -19,7 +19,6 @@ import br.fritzen.engine.imgui.GUI;
 import br.fritzen.engine.imgui.ImGuiLayer;
 import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
-import br.fritzen.engine.platform.opengl.OpenGLVertexArray;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.renderer.Buffer.IndexBuffer;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
@@ -34,7 +33,7 @@ import br.fritzen.engine.window.Window;
 import imgui.ImGui;
 
 //TODO - CREATE A MORE GENERIC Application
-public class Application extends MainLoop {
+public class Application extends MainLoopUnlimited {
 
 	private static Application instance = null;
 	
@@ -50,10 +49,7 @@ public class Application extends MainLoop {
 	
 	public List<GameObject> scene = new ArrayList<GameObject>();
 	
-	private Application() {
-		//this("Fritzen Engine", 1280, 720);
-	}
-	
+		
 	
 	private Application(String title, int width, int height) {
 
@@ -100,6 +96,7 @@ public class Application extends MainLoop {
 	Shader shader;
 	VertexArray vao;
 	IndexBuffer ibo;
+	String systemExpecs;
 	
 	@Override
 	protected void init() {
@@ -146,6 +143,10 @@ public class Application extends MainLoop {
 		
 		Renderer.get().clearColor(0, 1.0f, 1.0f, 1.0f);
 		
+		
+		systemExpecs = "Vendor: " + graphicsContext.getVendor()
+		 + "\nRenderer: " + graphicsContext.getRenderer()
+		 + "\nVersion: " + graphicsContext.getVersion();
 	}
 
 	
@@ -204,12 +205,13 @@ public class Application extends MainLoop {
 		
 		Renderer renderer = Renderer.get();
 		renderer.clear();
-		/*
+		
+		
 		this.shader.bind();
 		this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
 		
 		renderer.draw(this.vao, shader);
-		*/
+		
 		
 		for (Layer layer : layerStack) {
 			layer.onRender();
@@ -218,15 +220,24 @@ public class Application extends MainLoop {
 		
 		imguiLayer.begin();
 		
+		/*
 		for (Layer layer : layerStack) {
 			layer.onImGuiRender();
 		}
+		*/
 		
 		ImGui imgui = ImGui.INSTANCE;
+
 		imgui.begin("Renderer Info", GUI.TRUE, GUI.NONE_FLAG);
+		/*
 		imgui.text("Vendor: " + graphicsContext.getVendor());
 		imgui.text("Renderer: " + graphicsContext.getRenderer());
 		imgui.text("Version: " + graphicsContext.getVersion());
+
+		imgui.text("FPS: " + 1000f/loopTime + "\t" + loopTime + " ms" );
+		imgui.text("Median Values:");
+		*/
+		imgui.text("FPS: " + 1000f/median + "\t" + median + " ms" );
 		imgui.end();
 		
 		imguiLayer.end();
@@ -235,11 +246,26 @@ public class Application extends MainLoop {
 		getWindow().onUpdate();
 	}
 	
-	public boolean[] open=  {true};
+	private float loopTime;
 	
+	float count = 0, medianSum, median;
 	
 	@Override
-	protected void update(long deltatime) {
+	protected void update(float deltatime) {
+		
+		//EngineLog.info("Deltatime (ms): " + deltatime);
+		this.loopTime = deltatime;
+		
+		if (count >= 1000) {
+			
+			median = medianSum/1000;
+			count = 0;
+			medianSum = 0;
+			
+		}
+		
+		count++;
+		medianSum += deltatime;
 		
 		for (GameObject go :  scene) {
 			go.updateUniforms(this.shader);
@@ -262,8 +288,9 @@ public class Application extends MainLoop {
 		
 	}
 	
+	
 	/*
-	//BEING USED BY AN DISPATCHER
+	//BEING USED BY DISPATCHER
 	private boolean onFKeyWindowModeEvent(Event e) {
 		
 		KeyPressedEvent evt = (KeyPressedEvent)e;

@@ -26,16 +26,17 @@ public class EngineFiles {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		StringBuilder sb = new StringBuilder();
 		String line;
-		
+		int lines = 0;
 		while ((line = reader.readLine()) != null) {
 			sb.append(line).append("\n");
+			lines++;
 		}
 		
 		reader.close();
 		time = System.currentTimeMillis() - time;
 		
 		if (EngineState.DEBUG_FILE_UTILS) { 
-			EngineLog.info("O arquivo " + filename + " foi lido em " + time + "ms");
+			EngineLog.info("The file " + filename + " was loaded in " + time + "ms. Total of #" + lines + " lines.");
 		}
 		
 		return sb.toString();
