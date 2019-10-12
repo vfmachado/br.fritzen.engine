@@ -9,6 +9,7 @@ public enum ShaderUniform {
 	//MVP
 	view("u_View"),
 	projection("u_Projection"),
+	viewProjection("u_ViewProjection"),
 	model("u_Model"),
 	
 	//Materials

@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.Renderer;
-import br.fritzen.engine.renderer.shader.Shader;
 
 public class OpenGLRenderer extends Renderer {
 	
@@ -22,12 +21,9 @@ public class OpenGLRenderer extends Renderer {
 	}
 
 	@Override
-	public void draw(VertexArray va, Shader shader) {
+	public void drawIndexed(VertexArray vertexArray) {
 		
-		shader.bind();
-		va.bind();
-				
-		GL11.glDrawElements(GL11.GL_TRIANGLES, va.getIB().getCount(), GL11.GL_UNSIGNED_INT, va.getIB().getOffset());
+		GL11.glDrawElements(GL11.GL_TRIANGLES, vertexArray.getIB().getCount(), GL11.GL_UNSIGNED_INT, vertexArray.getIB().getOffset());
 		
 		
 	}

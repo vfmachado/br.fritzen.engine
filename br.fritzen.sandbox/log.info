@@ -1,15 +1,15 @@
-[2019-10-06 18:38:05] [INFORMA합ES] File: ApplicationTest.java:53	Method: main	Msg: Starting app 
-[2019-10-06 18:38:05] [INFORMA합ES] File: Application.java:64	Method: create	Msg: Creating applicaiton instance 
-[2019-10-06 18:38:05] [INFORMA합ES] File: WindowsWindowImpl.java:82	Method: init	Msg: GLFW initialized! 
-[2019-10-06 18:38:05] [INFORMA합ES] File: WindowsWindowImpl.java:93	Method: init	Msg: Video Mode details: 1920x1080 - 60Hz (RxGxB) 8x8x8   
-[2019-10-06 18:38:05] [INFORMA합ES] File: WindowsWindowImpl.java:104	Method: init	Msg: Creating window App Teste (1280, 720) 
-[2019-10-06 18:38:06] [INFORMA합ES] File: WindowsWindowImpl.java:217	Method: createWindow	Msg: Window created with no errors. Handler: 18893760 
-[2019-10-06 18:38:06] [INFORMA합ES] File: OpenGLContext.java:31	Method: init	Msg: OpenGL Info 
-[2019-10-06 18:38:06] [INFORMA합ES] File: OpenGLContext.java:32	Method: init	Msg:    Vendor: NVIDIA Corporation 
-[2019-10-06 18:38:06] [INFORMA합ES] File: OpenGLContext.java:33	Method: init	Msg:    Renderer: GeForce GTX 960/PCIe/SSE2 
-[2019-10-06 18:38:06] [INFORMA합ES] File: OpenGLContext.java:34	Method: init	Msg:    Version:4.6.0 NVIDIA 436.02 
-[2019-10-06 18:38:06] [INFORMA합ES] File: Texture2DGL.java:103	Method: loadTexture	Msg: Texture loaded: 225	225	3 
-[2019-10-06 18:38:07] [INFORMA합ES] File: MainLoopUnlimited.java:9	Method: run	Msg: Initializing systems 
-[2019-10-06 18:38:07] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/simple/vertex.shader was loaded in 0ms. Total of #14 lines. 
-[2019-10-06 18:38:07] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/simple/fragment.shader was loaded in 1ms. Total of #27 lines. 
-[2019-10-06 18:38:07] [INFORMA합ES] File: MainLoopUnlimited.java:22	Method: run	Msg: Application main loop 
+[2019-10-12 01:40:17] [INFORMA합ES] File: ApplicationTest.java:53	Method: main	Msg: Starting app 
+[2019-10-12 01:40:20] [INFORMA합ES] File: Application.java:64	Method: create	Msg: Creating applicaiton instance 
+[2019-10-12 01:40:21] [INFORMA합ES] File: WindowsWindowImpl.java:82	Method: init	Msg: GLFW initialized! 
+[2019-10-12 01:40:21] [INFORMA합ES] File: WindowsWindowImpl.java:93	Method: init	Msg: Video Mode details: 1366x768 - 60Hz (RxGxB) 8x8x8   
+[2019-10-12 01:40:21] [INFORMA합ES] File: WindowsWindowImpl.java:104	Method: init	Msg: Creating window App Teste (1280, 720) 
+[2019-10-12 01:40:21] [INFORMA합ES] File: WindowsWindowImpl.java:217	Method: createWindow	Msg: Window created with no errors. Handler: 10570720 
+[2019-10-12 01:40:22] [INFORMA합ES] File: OpenGLContext.java:31	Method: init	Msg: OpenGL Info 
+[2019-10-12 01:40:22] [INFORMA합ES] File: OpenGLContext.java:32	Method: init	Msg:    Vendor: Intel 
+[2019-10-12 01:40:22] [INFORMA합ES] File: OpenGLContext.java:33	Method: init	Msg:    Renderer: Intel(R) HD Graphics 4400 
+[2019-10-12 01:40:22] [INFORMA합ES] File: OpenGLContext.java:34	Method: init	Msg:    Version:4.3.0 - Build 20.19.15.4531 
+[2019-10-12 01:40:22] [INFORMA합ES] File: Texture2DGL.java:112	Method: loadTexture	Msg: Texture loaded: 225	225	3 
+[2019-10-12 01:40:23] [INFORMA합ES] File: MainLoopUnlimited.java:9	Method: run	Msg: Initializing systems 
+[2019-10-12 01:40:23] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/simple/vertex.shader was loaded in 1ms. Total of #14 lines. 
+[2019-10-12 01:40:24] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/simple/fragment.shader was loaded in 1ms. Total of #27 lines. 
+[2019-10-12 01:40:24] [INFORMA합ES] File: MainLoopUnlimited.java:22	Method: run	Msg: Application main loop 

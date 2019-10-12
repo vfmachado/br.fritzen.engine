@@ -20,4 +20,6 @@ public abstract class Texture {
 
 	public abstract int getPlatformFormat(TextureFormat format);
 	
+	public abstract void cleanup();
+	
 }

@@ -9,7 +9,7 @@ public class Pong2D {
 
 		EngineLog.info("Starting app");
 		
-		Application app = Application.create("App Teste", 1280, 720);
+		Application app = Application.create("Pong Test", 1280, 720);
 
 		app.addLayer(new GameLayer());
 		
