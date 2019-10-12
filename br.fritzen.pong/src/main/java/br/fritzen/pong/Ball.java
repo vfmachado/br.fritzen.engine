@@ -26,7 +26,7 @@ public class Ball {
 	public Ball() {
 	
 		List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
-		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/vertex.shader", OpenGLShaderType.VERTEX));
+		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/vertex-mvp.shader", OpenGLShaderType.VERTEX));
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/fragment.shader", OpenGLShaderType.FRAGMENT));
 		this.shader = new OpenGLShader(shaders);
 		
@@ -60,7 +60,7 @@ public class Ball {
 	public void draw() {
 		this.shader.bind();
 		this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
-		Renderer.get().submit(shader, this.vao, this.transform);
+		Renderer.submit(this.shader, this.vao, this.transform);
 	}
 	
 }

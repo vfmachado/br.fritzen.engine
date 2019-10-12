@@ -20,7 +20,7 @@ public abstract class Renderer {
 	
 	private static Renderer instance;
 
-	private static SceneData sceneData;
+	private static SceneData sceneData = new SceneData();
 		
 	
 	public static Renderer get() {
@@ -60,11 +60,13 @@ public abstract class Renderer {
 	
 	public static void submit(Shader shader, VertexArray vertexArray, Matrix4f transform) {
 		
-		shader.bind();
+		//shader.bind();
 		shader.updateUniform(ShaderUniform.viewProjection, sceneData.viewProjectionMatrix);
 		shader.updateUniform(ShaderUniform.model, transform);
 		
 		vertexArray.bind();
+		
+		Renderer.get().drawIndexed(vertexArray);
 		
 	}
 	

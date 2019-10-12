@@ -158,7 +158,7 @@ public class ApplicationTest {
 		app.addLayer(new Layer("Test Layer - Sandbox") {
 			
 			@Override
-			public void onUpdate() {
+			public void onUpdate(float deltatime) {
 				//System.out.println("Mouse at: " + Input.getMousePos());
 			}
 			

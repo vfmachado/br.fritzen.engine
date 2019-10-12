@@ -25,7 +25,7 @@ public abstract class Layer {
 		
 	}
 	
-	public void onUpdate() {
+	public void onUpdate(float deltatime) {
 		
 	}
 	

@@ -106,7 +106,7 @@ public class Application extends MainLoopUnlimited {
 		imguiLayer = new ImGuiLayer();
 		layerStack.pushOverlay(imguiLayer);
 		
-		
+		/*
 		List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/vertex.shader", OpenGLShaderType.VERTEX));
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/simple/fragment.shader", OpenGLShaderType.FRAGMENT));
@@ -140,7 +140,7 @@ public class Application extends MainLoopUnlimited {
 		ibo = IndexBuffer.create(EngineBuffers.createIntBuffer(indices), indices.length);
 		this.vao.setIB(ibo);
 		//ibo.unbind();
-		
+		*/
 		Renderer.get().clearColor(0, 1.0f, 1.0f, 1.0f);
 		
 		
@@ -274,7 +274,7 @@ public class Application extends MainLoopUnlimited {
 		
 		for (Layer layer : layerStack) {
 		
-			layer.onUpdate();
+			layer.onUpdate(deltatime);
 		
 		}
 		

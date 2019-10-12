@@ -21,6 +21,7 @@ public abstract class Camera {
 		this.viewProjection = new Matrix4f();
 		this.position = new Vector3f();
 		
+		System.out.println("Camera init");
 	}
 	
 	

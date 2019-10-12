@@ -52,7 +52,7 @@ public class TriangleTest {
 			
 			
 			@Override
-			public void onUpdate() {
+			public void onUpdate(float deltatime) {
 				// System.out.println("Mouse at: " + Input.getMousePos());
 				this.triangle.setColor(color);
 				//this.triangle.updateUniforms(shader);

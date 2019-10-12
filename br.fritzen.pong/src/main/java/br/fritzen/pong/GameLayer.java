@@ -17,20 +17,24 @@ public class GameLayer extends Layer {
 		
 		super("MainLayer");
 		
-		mainCamera = new OrthographicCamera();
+		mainCamera = new OrthographicCamera(-2, 2, -1, 1);
 		ball = new Ball();
 		
 	}
 
 	
 	@Override
-	public void onUpdate() {
+	public void onUpdate(float deltatime) {
+		
+		//this.mainCamera.addRotation(deltatime * 0.05f);
+		
 		//System.out.println("Mouse at: " + Input.getMousePos());
 	}
 	
 	
 	@Override
 	public void onRender() {
+	
 		//System.out.println("Mouse at: " + Input.getMousePos());
 	
 		Renderer.BeginScene(mainCamera);
@@ -46,7 +50,7 @@ public class GameLayer extends Layer {
 	public void onOvent(Event e) {
 		
 		if (e.getEventType() == EventType.MouseMovedEvent) {
-			System.out.println(Input.getMousePos());
+		//	System.out.println(Input.getMousePos());
 		}
 		
 	}
