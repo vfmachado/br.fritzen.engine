@@ -206,25 +206,25 @@ public class Application extends MainLoopUnlimited {
 		Renderer renderer = Renderer.get();
 		renderer.clear();
 		
-		
+		/*
 		this.shader.bind();
 		this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
 		
 		renderer.draw(this.vao, shader);
-		
+		*/
 		
 		for (Layer layer : layerStack) {
 			layer.onRender();
 		}
 		
-		
+		/*
 		imguiLayer.begin();
 		
-		/*
+		
 		for (Layer layer : layerStack) {
 			layer.onImGuiRender();
 		}
-		*/
+		
 		
 		ImGui imgui = ImGui.INSTANCE;
 
@@ -236,12 +236,12 @@ public class Application extends MainLoopUnlimited {
 
 		imgui.text("FPS: " + 1000f/loopTime + "\t" + loopTime + " ms" );
 		imgui.text("Median Values:");
-		*/
+		
 		imgui.text("FPS: " + 1000f/median + "\t" + median + " ms" );
 		imgui.end();
 		
 		imguiLayer.end();
-		
+		*/
 		//the update method from window is related to render (VSYNC) or update ??
 		getWindow().onUpdate();
 	}
@@ -254,8 +254,8 @@ public class Application extends MainLoopUnlimited {
 	protected void update(float deltatime) {
 		
 		//EngineLog.info("Deltatime (ms): " + deltatime);
-		this.loopTime = deltatime;
 		
+		/*
 		if (count >= 1000) {
 			
 			median = medianSum/1000;
@@ -266,6 +266,7 @@ public class Application extends MainLoopUnlimited {
 		
 		count++;
 		medianSum += deltatime;
+		*/
 		
 		for (GameObject go :  scene) {
 			go.updateUniforms(this.shader);
