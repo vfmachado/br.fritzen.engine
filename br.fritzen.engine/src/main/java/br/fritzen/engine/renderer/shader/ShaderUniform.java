@@ -12,6 +12,9 @@ public enum ShaderUniform {
 	viewProjection("u_ViewProjection"),
 	model("u_Model"),
 	
+	//simpletexture
+	texture("u_Texture"),
+	
 	//Materials
 	material_DiffuseTexture("u_Material.diffuseTexture"),
 	material_HasDiffuseTexture("u_Material.hasDiffuseTexture"),

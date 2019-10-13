@@ -16,13 +16,11 @@ public class OpenGLVertexBuffer implements Buffer.VertexBuffer {
 	
 		this.vbo = GL15.glGenBuffers();
 		
-		
-		
 		if (this.vbo == 0) {
 			EngineLog.warning("Problem creating OpenGL VBO");
 		}
 		
-		bind();bind();
+		bind();
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_STATIC_DRAW);
 		
 	}

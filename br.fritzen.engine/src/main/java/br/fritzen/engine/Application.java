@@ -141,7 +141,7 @@ public class Application extends MainLoopUnlimited {
 		this.vao.setIB(ibo);
 		//ibo.unbind();
 		*/
-		Renderer.get().clearColor(0, 1.0f, 1.0f, 1.0f);
+		//Renderer.get().clearColor(0, 0, 0, 1.0f);
 		
 		
 		systemExpecs = "Vendor: " + graphicsContext.getVendor()

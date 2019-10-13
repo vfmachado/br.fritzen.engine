@@ -1,5 +1,6 @@
 package br.fritzen.engine.platform.opengl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -15,6 +16,7 @@ import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.renderer.Texture;
 import br.fritzen.engine.renderer.TextureFormat;
+import br.fritzen.engine.utils.EngineFiles;
 
 public class Texture2DGL extends Texture {
 
@@ -106,10 +108,13 @@ public class Texture2DGL extends Texture {
 		IntBuffer channels_b = BufferUtils.createIntBuffer(1);
 		
 		STBImage.stbi_set_flip_vertically_on_load(true);
-		ByteBuffer imgBuffer = STBImage.stbi_load(filename, width, height, channels_b, STBImage.STBI_rgb_alpha);
+		
+		File file = new File(EngineFiles.class.getClassLoader().getResource(filename).getFile());
+				
+		ByteBuffer imgBuffer = STBImage.stbi_load(file.getAbsolutePath(), width, height, channels_b, STBImage.STBI_rgb_alpha);
 				
 		if (EngineState.DEBUG_TEXTURE) {
-			EngineLog.info("Texture loaded: " + width.get(0) + "\t" + height.get(0) + "\t" + channels_b.get(0));
+			EngineLog.info("Texture loaded: \n\tFile: " + file.getAbsolutePath() + "\n\tWidth: " + width.get(0) + "\n\tHeight: " + height.get(0) + "\n\tChannels: " + channels_b.get(0));
 		}
 		
 		this.width = width.get(0);

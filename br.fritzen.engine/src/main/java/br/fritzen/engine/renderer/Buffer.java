@@ -2,6 +2,7 @@ package br.fritzen.engine.renderer;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.List;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.platform.opengl.OpenGLIndexBuffer;
@@ -40,6 +41,8 @@ public interface VertexArray {
 		public void addVB(VertexBuffer vb, int attribArray, int size);
 		
 		public void addVB(VertexBuffer vb, int attribArray, VertexBufferLayout layout);
+		
+		public void addInterleavedVBO(VertexBuffer vb, List<VertexBufferLayout> layouts);
 		
 		public void setIB(IndexBuffer ib);
 		

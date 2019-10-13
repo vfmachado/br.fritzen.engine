@@ -17,9 +17,10 @@ public class GameLayer extends Layer {
 		
 		super("MainLayer");
 		
-		mainCamera = new OrthographicCamera(-2, 2, -1, 1);
+		mainCamera = new OrthographicCamera(-1.7778f, 1.7778f, -1, 1);
 		ball = new Ball();
 		
+		Renderer.get().clearColor(0,  0,  0,  1);
 	}
 
 	

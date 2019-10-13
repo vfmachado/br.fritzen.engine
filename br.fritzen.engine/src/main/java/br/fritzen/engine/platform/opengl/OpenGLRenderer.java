@@ -24,8 +24,7 @@ public class OpenGLRenderer extends Renderer {
 	public void drawIndexed(VertexArray vertexArray) {
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, vertexArray.getIB().getCount(), GL11.GL_UNSIGNED_INT, vertexArray.getIB().getOffset());
-		
-		
+				
 	}
 
 	

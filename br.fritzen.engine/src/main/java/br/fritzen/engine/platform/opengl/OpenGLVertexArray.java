@@ -32,7 +32,8 @@ public class OpenGLVertexArray implements Buffer.VertexArray {
 	}
 	
 	
-	public void addInterleavedVBO(OpenGLVertexBuffer vbo, List<VertexBufferLayout> layouts) {
+	@Override
+	public void addInterleavedVBO(VertexBuffer vbo, List<VertexBufferLayout> layouts) {
 		
 		this.bind();
 		vbo.bind();
