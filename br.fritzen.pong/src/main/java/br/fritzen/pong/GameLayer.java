@@ -27,6 +27,8 @@ public class GameLayer extends Layer {
 	@Override
 	public void onUpdate(float deltatime) {
 		
+		ball.update(deltatime);
+		
 		//this.mainCamera.addRotation(deltatime * 0.05f);
 		
 		//System.out.println("Mouse at: " + Input.getMousePos());

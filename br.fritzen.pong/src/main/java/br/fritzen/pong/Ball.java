@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
@@ -21,12 +22,19 @@ import br.fritzen.engine.utils.Pair;
 
 public class Ball {
 
-	Shader shader;
-	VertexArray vao;
-	IndexBuffer ibo;
-	Matrix4f transform;
+	private Shader shader;
 	
-	Texture texture;
+	private VertexArray vao;
+	private IndexBuffer ibo;
+	
+	private Matrix4f transform;
+	
+	private Texture texture;
+	
+	private Vector3f position;
+	private Vector3f direction;
+	
+	private float speed = 0.005f;
 	
 	public Ball() {
 	
@@ -69,8 +77,49 @@ public class Ball {
 		
 		texture = new Texture2DGL("textures/ball.png");
 		
+		position = new Vector3f();
+		direction = new Vector3f(0.5f, 0.3f, 0);
+		
 	}
 	
+	Vector3f tmpDir = new Vector3f();
+	public void update(float deltatime) {
+		//System.out.println(deltatime);
+	
+		if (position.x <= -1.777f || position.x > 1.777f) {
+			direction.mul(-1, 1, 1);
+			if (position.x < 0f) {
+				position.x = -1.777f;
+			} else {
+				position.x = 1.777f;
+			}
+			//position.add(direction.mul(deltatime/100f, tmpDir));
+			//System.out.println("Inverter X");
+		}
+		
+		if (position.y <= -1f || position.y >= 1f) {
+			
+			direction.mul(1, -1, 1);
+			if (position.y < 0f) {
+				position.y = -1f;
+			} else {
+				position.y = 1f;
+			}
+			//position.add(direction.mul(deltatime/100f, tmpDir));
+			//System.out.println("Inverter Y");
+		}
+			
+		position.add(direction.mul(deltatime * speed, tmpDir));
+		//System.out.println(position);
+		
+		transform.identity().translate(position);
+		
+		
+		
+		//System.out.println(position);
+		
+		
+	}
 	
 	public void draw() {
 		
