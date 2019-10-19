@@ -106,7 +106,7 @@ public class WindowsWindowImpl extends Window {
 		
 		this.setWindowMode(WindowMode.WINDOWED);
 		
-		vsync = EngineState.VSync;
+		vsync = EngineState.VSYNC;
 		this.setVSync(vsync);
 		
 		GLFW.glfwShowWindow(this.handler);

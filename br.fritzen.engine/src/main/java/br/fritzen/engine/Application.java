@@ -255,10 +255,11 @@ public class Application extends MainLoopUnlimited {
 		
 		//EngineLog.info("Deltatime (ms): " + deltatime);
 		
-		/*
-		if (count >= 1000) {
-			
-			median = medianSum/1000;
+		
+		if (count >= 60) {
+		
+			System.out.println("FPS: " + 1000f/median + "\t" + median + " ms" );
+			median = medianSum/60;
 			count = 0;
 			medianSum = 0;
 			
@@ -266,7 +267,7 @@ public class Application extends MainLoopUnlimited {
 		
 		count++;
 		medianSum += deltatime;
-		*/
+		
 		
 		for (GameObject go :  scene) {
 			go.updateUniforms(this.shader);
