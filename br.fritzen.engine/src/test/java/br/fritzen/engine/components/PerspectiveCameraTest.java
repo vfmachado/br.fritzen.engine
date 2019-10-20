@@ -95,14 +95,14 @@ public class PerspectiveCameraTest {
 		@Override
 		public void onRender() {
 			
-			Renderer.BeginScene(this.camera);
+			Renderer.beginScene(this.camera);
 		
 			this.shader.bind();
 						
 			
 			Renderer.submit(shader, this.vao, this.transform);
 			
-			Renderer.EndScene();
+			Renderer.endScene();
 		}
 		
 		@Override

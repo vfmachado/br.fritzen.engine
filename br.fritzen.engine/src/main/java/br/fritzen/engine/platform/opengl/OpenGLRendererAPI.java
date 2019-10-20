@@ -2,14 +2,14 @@ package br.fritzen.engine.platform.opengl;
 
 import org.lwjgl.opengl.GL11;
 
-import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.Application;
-import br.fritzen.engine.renderer.Renderer;
+import br.fritzen.engine.renderer.Buffer.VertexArray;
+import br.fritzen.engine.renderer.RendererAPI;
 
-public class OpenGLRenderer extends Renderer {
+public class OpenGLRendererAPI extends RendererAPI {
 	
 	@Override
-	public void updateViewPort() {
+	public void setViewPort() {
 	
 		GL11.glViewport(0, 0, Application.getWindow().getWidth(), Application.getWindow().getHeight());
 		

@@ -3,37 +3,23 @@ package br.fritzen.engine.renderer;
 import org.joml.Matrix4f;
 
 import br.fritzen.engine.components.Camera;
-import br.fritzen.engine.platform.opengl.OpenGLRenderer;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.renderer.shader.ShaderUniform;
 
 public abstract class Renderer {
 
-	public enum API {
-		NONE, OPENGL, VULKAN;
-	}
 	
-	//TODO - change in runtime
-	public static API SELECTED_API = API.OPENGL; 
-
-	
-	private static Renderer instance;
-
 	private static SceneData sceneData = new SceneData();
 		
 	
-	public static Renderer get() {
-		
-		if (instance == null) {
-			instance = new OpenGLRenderer();
-		}
-		
-		return instance; 
+	
+	
+	private static void init() {
+		RenderCommand.init();
 	}
 	
-	
-	public static void BeginScene(Camera camera) {
+	public static void beginScene(Camera camera) {
 	
 		sceneData.viewMatrix = camera.getViewMatrix();
 		sceneData.projectionMatrix = camera.getProjectionMatrix();
@@ -44,7 +30,7 @@ public abstract class Renderer {
 	
 	
 	
-	public static void EndScene() {
+	public static void endScene() {
 	
 	
 	}
@@ -67,12 +53,10 @@ public abstract class Renderer {
 		
 		vertexArray.bind();
 		
-		Renderer.get().drawIndexed(vertexArray);
+		RendererAPI.get().drawIndexed(vertexArray);
 		
 	}
 	
-	
-	public abstract void clear();
 	
 	public abstract void clearColor(float r, float g, float b, float a);
 	

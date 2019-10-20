@@ -40,13 +40,13 @@ public class GameLayer extends Layer {
 	
 		//System.out.println("Mouse at: " + Input.getMousePos());
 	
-		Renderer.BeginScene(mainCamera);
+		Renderer.beginScene(mainCamera);
 
 		
 		ball.draw();
 		
 		
-		Renderer.EndScene();
+		Renderer.endScene();
 	}
 	
 	@Override

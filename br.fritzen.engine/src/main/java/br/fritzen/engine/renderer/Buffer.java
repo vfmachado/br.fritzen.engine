@@ -17,10 +17,12 @@ public interface VertexArray {
 		
 		public static VertexArray create() {
 			
-			switch (Renderer.SELECTED_API) {
+			switch (RendererAPI.SELECTED_API) {
+			
 			case NONE:
 				EngineLog.severe("None API selected");
 				break;
+			
 			case OPENGL:
 				return new OpenGLVertexArray();
 				
@@ -54,10 +56,12 @@ public interface VertexArray {
 		
 		public static VertexBuffer create(FloatBuffer data, int size) {
 			
-			switch (Renderer.SELECTED_API) {
+			switch (RendererAPI.SELECTED_API) {
+			
 			case NONE:
 				EngineLog.severe("None API selected");
 				break;
+			
 			case OPENGL:
 				return new OpenGLVertexBuffer(data, size);
 				
@@ -82,10 +86,12 @@ public interface VertexArray {
 		
 		public static IndexBuffer create(IntBuffer indices, int count) {
 
-			switch (Renderer.SELECTED_API) {
+			switch (RendererAPI.SELECTED_API) {
+			
 			case NONE:
 				EngineLog.severe("None API selected");
 				break;
+			
 			case OPENGL:
 				return new OpenGLIndexBuffer(indices, count);
 				

@@ -75,13 +75,13 @@ public class OrthographicCameraTest {
 		@Override
 		public void onRender() {
 			
-			Renderer.BeginScene(this.camera.getCamera());
+			Renderer.beginScene(this.camera.getCamera());
 		
 			this.shader.bind();
 						
 			Renderer.submit(shader, this.vao, this.identity);
 			
-			Renderer.EndScene();
+			Renderer.endScene();
 		}
 		
 		@Override
