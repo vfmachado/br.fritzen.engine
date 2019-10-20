@@ -27,6 +27,14 @@ public class OrthographicCamera extends Camera {
 	}
 	
 	
+	public void setProjection(float left, float right, float bottom, float top) {
+		
+		this.projection.ortho(left, right, bottom, top, -1.0f, 1.0f);
+		recalculateViewProjection();
+		
+	}
+	
+	
 	@Override
 	public void recalculateViewProjection() {
 		

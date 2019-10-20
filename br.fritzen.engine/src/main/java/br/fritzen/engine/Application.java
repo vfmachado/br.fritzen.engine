@@ -47,7 +47,7 @@ public class Application extends MainLoopUnlimited {
 	
 	private ImGuiLayer imguiLayer;
 	
-	public List<GameObject> scene = new ArrayList<GameObject>();
+	//public List<GameObject> scene = new ArrayList<GameObject>();
 	
 		
 	
@@ -268,11 +268,11 @@ public class Application extends MainLoopUnlimited {
 		count++;
 		medianSum += deltatime;
 		
-		
+		/*
 		for (GameObject go :  scene) {
 			go.updateUniforms(this.shader);
 		}
-		
+		*/
 		for (Layer layer : layerStack) {
 		
 			layer.onUpdate(deltatime);

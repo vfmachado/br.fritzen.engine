@@ -58,7 +58,7 @@ public class ApplicationTest {
 		
 		app.addLayer(new Layer("GUI Layer") {
 			
-			Texture albedoTexture = new Texture2DGL("src/dog.jpg");
+			Texture albedoTexture = new Texture2DGL("dog.jpg");
 			boolean [] useTexture = {true};
 			
 			float albedoColor[] = {0.0f, 0.0f, 0.0f};
