@@ -29,6 +29,7 @@ public class OrthographicCamera extends Camera {
 	
 	public void setProjection(float left, float right, float bottom, float top) {
 		
+		this.projection.identity();
 		this.projection.ortho(left, right, bottom, top, -1.0f, 1.0f);
 		recalculateViewProjection();
 		
@@ -37,7 +38,7 @@ public class OrthographicCamera extends Camera {
 	
 	@Override
 	public void recalculateViewProjection() {
-		
+
 		tmpTransform.identity();
 		tmpTransform.translate(this.position).rotate((float)Math.toRadians(this.rotation), 0, 0, 1);
 		tmpTransform.invert();

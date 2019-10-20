@@ -38,6 +38,7 @@ public abstract class Renderer {
 		sceneData.viewMatrix = camera.getViewMatrix();
 		sceneData.projectionMatrix = camera.getProjectionMatrix();
 		sceneData.viewProjectionMatrix = camera.getViewProjectionMatrix();
+
 		
 	}
 	
@@ -76,5 +77,7 @@ public abstract class Renderer {
 	public abstract void clearColor(float r, float g, float b, float a);
 	
 	public abstract void drawIndexed(VertexArray vertexArray);
+	
+	public abstract void updateViewPort();
 	
 }

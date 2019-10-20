@@ -257,9 +257,10 @@ public class Application extends MainLoopUnlimited {
 		
 		
 		if (count >= 60) {
-		
-			System.out.println("FPS: " + 1000f/median + "\t" + median + " ms" );
+			
 			median = medianSum/60;
+			
+			System.out.println("FPS: " + 1f/median + "\t" + median*1000 + " ms" );
 			count = 0;
 			medianSum = 0;
 			

@@ -25,7 +25,7 @@ public abstract class MainLoopUnlimited extends MainLoop {
 			
 			beforeTime =  System.nanoTime();
 			
-			this.update((float)deltaTime / 1_000_000);
+			this.update((float)deltaTime / 1_000_000_000);
 			this.input();
 			this.render();
 			

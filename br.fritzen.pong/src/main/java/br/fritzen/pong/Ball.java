@@ -34,7 +34,7 @@ public class Ball {
 	private Vector3f position;
 	private Vector3f direction;
 	
-	private float speed = 0.005f;
+	private float speed = 10f;
 	
 	public Ball() {
 	

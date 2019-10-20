@@ -23,7 +23,7 @@ public class OrthographicCameraController {
 
 	private float cameraRotation = 0.0f;
 
-	private float cameraTranslationSpeed = 1.0f, m_CameraRotationSpeed = 180.0f;
+	private float cameraTranslationSpeed = 0.1f, cameraRotationSpeed = 180f;
 
 	
 	public OrthographicCameraController(float aspectRatio) {
@@ -53,6 +53,7 @@ public class OrthographicCameraController {
 			cameraPosition.x -= (float) Math.cos(Math.toRadians(cameraRotation)) * cameraTranslationSpeed * deltatime;
 			cameraPosition.y -= (float) Math.sin(Math.toRadians(cameraRotation)) * cameraTranslationSpeed * deltatime;
 		
+			
 		} else if (Input.isKeyPressed(KeyEvent.KEY_D)) {
 		
 			cameraPosition.x += (float) Math.cos(Math.toRadians(cameraRotation)) * cameraTranslationSpeed * deltatime;
@@ -65,7 +66,7 @@ public class OrthographicCameraController {
 			cameraPosition.x += (float) - Math.sin(Math.toRadians(cameraRotation)) * cameraTranslationSpeed * deltatime;
 			cameraPosition.y += (float) Math.cos(Math.toRadians(cameraRotation)) * cameraTranslationSpeed * deltatime;
 		
-		} else if (Input.isKeyPressed(KeyEvent.KEY_A)) {
+		} else if (Input.isKeyPressed(KeyEvent.KEY_S)) {
 		
 			cameraPosition.x -= (float) - Math.sin(Math.toRadians(cameraRotation)) * cameraTranslationSpeed * deltatime;
 			cameraPosition.y -= (float) Math.cos(Math.toRadians(cameraRotation)) * cameraTranslationSpeed * deltatime;
@@ -75,9 +76,9 @@ public class OrthographicCameraController {
 		if (this.rotation)
 		{
 			if (Input.isKeyPressed(KeyEvent.KEY_Q))
-				cameraRotation += m_CameraRotationSpeed * deltatime;
+				cameraRotation += cameraRotationSpeed * deltatime;
 			if (Input.isKeyPressed(KeyEvent.KEY_E))
-				cameraRotation -= m_CameraRotationSpeed * deltatime;
+				cameraRotation -= cameraRotationSpeed * deltatime;
 
 			if (cameraRotation > 180.0f)
 				cameraRotation -= 360.0f;
@@ -91,7 +92,6 @@ public class OrthographicCameraController {
 
 		cameraTranslationSpeed = zoomLevel;
 
-		
 	}
 	
 	
@@ -108,6 +108,8 @@ public class OrthographicCameraController {
 	private boolean onMouseScrolledEvent(Event e) {
 		
 		MouseScrolledEvent evt = (MouseScrolledEvent) e;
+		
+		System.out.println(evt.getYOffset());
 		
 		zoomLevel -= evt.getYOffset() * 0.25f;
 		zoomLevel = Math.max(zoomLevel, 0.25f);

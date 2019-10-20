@@ -41,7 +41,7 @@ public class OrthographicCameraTest {
 			
 			
 			
-			camera = new OrthographicCameraController(1280f/720f);
+			camera = new OrthographicCameraController(1280f/720f, true);
 			
 			float[] positions = {
 					  -0.25f, -0.25f, 0,  //0

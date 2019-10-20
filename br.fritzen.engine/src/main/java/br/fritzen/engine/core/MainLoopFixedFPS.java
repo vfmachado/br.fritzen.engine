@@ -95,7 +95,7 @@ private final static long SECOND_IN_NANOS = 1_000_000_000L;
 	/**
 	 * The update method of application, it will be executed according to Engine.UPS in a second.
 	 * 
-	 * @param deltatime how much time passed between the updates in MILLISECONDS
+	 * @param deltatime how much time passed between the updates in SECONDS
 	 */
 	protected abstract void update(long deltatime);
 	
