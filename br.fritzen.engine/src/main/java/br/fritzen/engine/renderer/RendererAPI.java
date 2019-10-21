@@ -37,7 +37,7 @@ public abstract class RendererAPI {
 	
 	public abstract void init();
 	
-	public abstract void setViewPort();
+	public abstract void setViewPort(int width, int height);
 	
 	public abstract void clear();
 

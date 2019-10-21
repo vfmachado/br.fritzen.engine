@@ -8,10 +8,18 @@ import br.fritzen.engine.renderer.RendererAPI;
 
 public class OpenGLRendererAPI extends RendererAPI {
 	
+
 	@Override
-	public void setViewPort() {
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
 	
-		GL11.glViewport(0, 0, Application.getWindow().getWidth(), Application.getWindow().getHeight());
+	
+	@Override
+	public void setViewPort(int width, int height) {
+	
+		GL11.glViewport(0, 0, width, height);
 		
 	}
 	
@@ -34,6 +42,8 @@ public class OpenGLRendererAPI extends RendererAPI {
 		GL11.glDrawElements(GL11.GL_TRIANGLES, vertexArray.getIB().getCount(), GL11.GL_UNSIGNED_INT, vertexArray.getIB().getOffset());
 				
 	}
+
+
 
 	
 	

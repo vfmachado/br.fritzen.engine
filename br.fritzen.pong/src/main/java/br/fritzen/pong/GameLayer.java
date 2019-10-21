@@ -1,10 +1,10 @@
 package br.fritzen.pong;
 
 import br.fritzen.engine.components.OrthographicCamera;
-import br.fritzen.engine.core.input.Input;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventType;
+import br.fritzen.engine.renderer.RenderCommand;
 import br.fritzen.engine.renderer.Renderer;
 
 public class GameLayer extends Layer {
@@ -20,9 +20,15 @@ public class GameLayer extends Layer {
 		mainCamera = new OrthographicCamera(-1.7778f, 1.7778f, -1, 1);
 		ball = new Ball();
 		
-		Renderer.get().clearColor(0,  0,  0,  1);
+		RenderCommand.clearColor(0,  0,  0,  1);
 	}
 
+	
+	@Override
+	public void onAttach() {
+		// TODO Auto-generated method stub
+		super.onAttach();
+	}
 	
 	@Override
 	public void onUpdate(float deltatime) {

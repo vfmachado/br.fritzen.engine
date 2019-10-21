@@ -1,10 +1,5 @@
 package br.fritzen.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.MainLoopUnlimited;
 import br.fritzen.engine.core.OSDetection;
@@ -14,23 +9,15 @@ import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.window.WindowCloseEvent;
-import br.fritzen.engine.gameobject.GameObject;
-import br.fritzen.engine.imgui.GUI;
 import br.fritzen.engine.imgui.ImGuiLayer;
-import br.fritzen.engine.platform.opengl.OpenGLShader;
-import br.fritzen.engine.platform.opengl.OpenGLShaderType;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.renderer.Buffer.IndexBuffer;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
-import br.fritzen.engine.renderer.Buffer.VertexBuffer;
 import br.fritzen.engine.renderer.GraphicsContext;
+import br.fritzen.engine.renderer.RenderCommand;
 import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.renderer.shader.Shader;
-import br.fritzen.engine.renderer.shader.ShaderUniform;
-import br.fritzen.engine.utils.EngineBuffers;
-import br.fritzen.engine.utils.Pair;
 import br.fritzen.engine.window.Window;
-import imgui.ImGui;
 
 //TODO - CREATE A MORE GENERIC Application
 public class Application extends MainLoopUnlimited {
@@ -67,7 +54,10 @@ public class Application extends MainLoopUnlimited {
 		
 		if (OSDetection.getOS() == OSType.Windows)
 			instance.window = new WindowsWindowImpl(width, height, title);
-					
+
+		//TODO ... MAYBE INIT ISN'T A GOOD IDEA HERE!
+		Renderer.init();
+		
 		return instance;
 		
 	}
@@ -100,6 +90,8 @@ public class Application extends MainLoopUnlimited {
 	
 	@Override
 	protected void init() {
+		
+		
 		
 		this.graphicsContext = this.window.getContext();
 		
@@ -203,8 +195,9 @@ public class Application extends MainLoopUnlimited {
 		}
 		*/
 		
-		Renderer renderer = Renderer.get();
-		renderer.clear();
+		RenderCommand.setViewPort(window.getWidth(), window.getHeight());
+		
+		RenderCommand.clear();
 		
 		/*
 		this.shader.bind();

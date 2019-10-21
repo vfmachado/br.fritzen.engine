@@ -19,7 +19,6 @@ import br.fritzen.engine.events.mouse.MouseScrolledEvent;
 import br.fritzen.engine.events.window.WindowCloseEvent;
 import br.fritzen.engine.events.window.WindowResizeEvent;
 import br.fritzen.engine.platform.opengl.OpenGLContext;
-import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.window.Window;
 
 public class WindowsWindowImpl extends Window {
@@ -332,7 +331,6 @@ public class WindowsWindowImpl extends Window {
 		this.height = height;
 		
 		//TODO unknown if here is the best place
-		Renderer.get().updateViewPort();
 		
 		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);
 			

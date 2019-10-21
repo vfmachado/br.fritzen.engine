@@ -12,10 +12,9 @@ public abstract class Renderer {
 	
 	private static SceneData sceneData = new SceneData();
 		
+		
 	
-	
-	
-	private static void init() {
+	public  static void init() {
 		RenderCommand.init();
 	}
 	
@@ -57,11 +56,6 @@ public abstract class Renderer {
 		
 	}
 	
-	
-	public abstract void clearColor(float r, float g, float b, float a);
-	
-	public abstract void drawIndexed(VertexArray vertexArray);
-	
-	public abstract void updateViewPort();
+
 	
 }
