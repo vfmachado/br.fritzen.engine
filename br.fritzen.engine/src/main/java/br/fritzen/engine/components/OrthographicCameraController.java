@@ -109,8 +109,6 @@ public class OrthographicCameraController {
 		
 		MouseScrolledEvent evt = (MouseScrolledEvent) e;
 		
-		System.out.println(evt.getYOffset());
-		
 		zoomLevel -= evt.getYOffset() * 0.25f;
 		zoomLevel = Math.max(zoomLevel, 0.25f);
 		camera.setProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
