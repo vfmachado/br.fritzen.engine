@@ -128,7 +128,7 @@ public class Ball {
 		//this.shader.updateUniform(ShaderUniform.color, 1.0f, 0.2f, 0.2f);
 		
 		this.texture.bind();
-		this.shader.updateUniform(ShaderUniform.texture, 0);
+		this.shader.setInt(ShaderUniform.texture, 0);
 		
 		
 		Renderer.submit(this.shader, this.vao, this.transform);

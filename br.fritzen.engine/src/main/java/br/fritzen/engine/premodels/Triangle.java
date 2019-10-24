@@ -62,7 +62,7 @@ public class Triangle {
 	
 	
 	public void updateUniforms(Shader shader) {
-		shader.updateUniform(ShaderUniform.color, color[0], color[1], color[2]);
+		shader.setFloat3(ShaderUniform.color, color[0], color[1], color[2]);
 	}
 	
 	

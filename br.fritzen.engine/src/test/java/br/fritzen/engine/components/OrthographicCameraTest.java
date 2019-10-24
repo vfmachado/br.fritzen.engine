@@ -77,8 +77,6 @@ public class OrthographicCameraTest {
 			
 			Renderer.beginScene(this.camera.getCamera());
 		
-			this.shader.bind();
-						
 			Renderer.submit(shader, this.vao, this.identity);
 			
 			Renderer.endScene();

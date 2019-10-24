@@ -7,7 +7,7 @@ import br.fritzen.engine.components.OrthographicCameraController;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.renderer.RenderCommand;
-import br.fritzen.engine.renderer.Renderer;
+import br.fritzen.engine.renderer.Renderer2D;
 
 
 public class MainLayer extends Layer {
@@ -16,7 +16,8 @@ public class MainLayer extends Layer {
 	
 	private Vector2f quadPosition = new Vector2f(0.0f, 0.0f);
 	private Vector2f quadSize = new Vector2f(0.5f, 0.5f);
-	private Vector4f quadColor = new Vector4f(1, 0, 1, 1);
+	private Vector4f quadColor = new Vector4f(0.8f, 0.2f, 0.3f, 1);
+	
 	
 	public MainLayer() {
 		
@@ -41,11 +42,11 @@ public class MainLayer extends Layer {
 		
 		RenderCommand.clear();
 		
-		Renderer.beginScene(cameraController.getCamera());
+		Renderer2D.beginScene(cameraController.getCamera());
 
-		Renderer.drawQuad(quadPosition, quadSize, quadColor);
+		Renderer2D.drawQuad(quadPosition, quadSize, quadColor);
 		
-		Renderer.endScene();
+		Renderer2D.endScene();
 	}
 	
 	

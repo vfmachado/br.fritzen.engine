@@ -1,4 +1,4 @@
-package br.fritzen.engine.renderer.shader;
+package br.fritzen.engine.renderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import br.fritzen.engine.platform.opengl.OpenGLShaderType;
 import br.fritzen.engine.renderer.Buffer.IndexBuffer;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.Buffer.VertexBuffer;
+import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.utils.EngineBuffers;
 import br.fritzen.engine.utils.Pair;
 	
@@ -17,16 +18,16 @@ import br.fritzen.engine.utils.Pair;
  * @author fritz
  *
  */
-public class QuadModel {
+public class Renderer2DStorage {
 
 	private Shader shader;
 	
 	private VertexArray vao;
 	
-	private static QuadModel instance = null;
+	//private static Renderer2DStorage instance = null;
 	
 	
-	private QuadModel() {
+	public Renderer2DStorage() {
 		
 		List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/quad-vertex.shader", OpenGLShaderType.VERTEX));
@@ -55,24 +56,25 @@ public class QuadModel {
 		
 	}
 	
-
-	private static QuadModel get() {
+	/*
+	private static Renderer2DStorage get() {
 		
 		if (instance == null) {
-			instance = new QuadModel();
+			instance = new Renderer2DStorage();
 		}
 		
 		return instance;
 	}
+	*/
 	
 	
-	public static VertexArray getVAO() {
-		return get().vao;
+	public VertexArray getVAO() {
+		return this.vao;
 	}
 	
 	
-	public static Shader getShader() {
-		return get().shader;
+	public Shader getShader() {
+		return this.shader;
 	}
 
 }

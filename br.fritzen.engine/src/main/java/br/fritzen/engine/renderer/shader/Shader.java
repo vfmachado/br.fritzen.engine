@@ -10,16 +10,17 @@ public abstract class Shader {
 	
 	public abstract void unbind();
 	
-	public abstract void updateUniform(ShaderUniform uniform, float x, float y, float z);
 	
-	public abstract void updateUniform(ShaderUniform uniform, int value);
+	public abstract void setInt(ShaderUniform uniform, int value);
 	
-	public abstract void updateUniform(ShaderUniform uniform, Matrix4f mat);
-	
-	public abstract void updateUniform(ShaderUniform uniform, Vector4f vec);
-	
-	public abstract void updateUniform(ShaderUniform uniform, Vector3f vec);
-	
-	public abstract void updateUniform(ShaderUniform uniform, float value);
+	public abstract void setFloat(ShaderUniform uniform, float value);
 
+	public abstract void setFloat3(ShaderUniform uniform, float x, float y, float z);
+	
+	public abstract void setFloat3(ShaderUniform uniform, Vector3f vec);
+	
+	public abstract void setFloat4(ShaderUniform uniform, Vector4f vec);
+	
+	public abstract void setMat4(ShaderUniform uniform, Matrix4f mat);
+	
 }

@@ -97,9 +97,6 @@ public class PerspectiveCameraTest {
 			
 			Renderer.beginScene(this.camera);
 		
-			this.shader.bind();
-						
-			
 			Renderer.submit(shader, this.vao, this.transform);
 			
 			Renderer.endScene();

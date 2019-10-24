@@ -108,33 +108,33 @@ public class OpenGLShader extends Shader {
 	}
 	
 	
-	public void updateUniform(ShaderUniform uniform, float x, float y, float z) {
+	public void setFloat3(ShaderUniform uniform, float x, float y, float z) {
 		GL20.glUniform3f(getUniformLocation(uniform.getText()), x, y, z);	
 	}
 	
 	
-	public void updateUniform(ShaderUniform uniform, int value) {
+	public void setInt(ShaderUniform uniform, int value) {
 		GL20.glUniform1i(getUniformLocation(uniform.getText()), value);	
 	}
 
 	
 	private FloatBuffer tmpBuffer = BufferUtils.createFloatBuffer(16);
-	public void updateUniform(ShaderUniform uniform, Matrix4f mat) {
+	public void setMat4(ShaderUniform uniform, Matrix4f mat) {
 		GL20.glUniformMatrix4fv(getUniformLocation(uniform.getText()), false, mat.get(tmpBuffer));	
 	}
 
 
-	public void updateUniform(ShaderUniform uniform, Vector4f vec) {
+	public void setFloat4(ShaderUniform uniform, Vector4f vec) {
 		GL20.glUniform4f(getUniformLocation(uniform.getText()), vec.x, vec.y, vec.z, vec.w);	
 	}
 
 
-	public void updateUniform(ShaderUniform uniform, Vector3f vec) {
+	public void setFloat3(ShaderUniform uniform, Vector3f vec) {
 		GL20.glUniform3f(getUniformLocation(uniform.getText()), vec.x, vec.y, vec.z);
 	}
 	
 	
-	public void updateUniform(ShaderUniform uniform, float value) {
+	public void setFloat(ShaderUniform uniform, float value) {
 		GL20.glUniform1f(getUniformLocation(uniform.getText()), value);
 	}
 	

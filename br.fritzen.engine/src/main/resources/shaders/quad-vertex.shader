@@ -12,7 +12,7 @@ uniform vec4 color;
 
 void main() {
 
-	gl_Position = u_Model * u_ViewProjection * vec4(position, 1.0);
+	gl_Position = u_ViewProjection * u_Model * vec4(position, 1.0);
 	
 	flatColor = color;
 	
