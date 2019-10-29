@@ -1,19 +1,19 @@
-[2019-10-24 11:12:18] [INFORMA합ES] File: ApplicationTest.java:53	Method: main	Msg: Starting app 
-[2019-10-24 11:12:18] [INFORMA합ES] File: Application.java:51	Method: create	Msg: Creating applicaiton instance 
-[2019-10-24 11:12:18] [INFORMA합ES] File: WindowsWindowImpl.java:82	Method: init	Msg: GLFW initialized! 
-[2019-10-24 11:12:18] [INFORMA합ES] File: WindowsWindowImpl.java:93	Method: init	Msg: Video Mode details: 1920x1080 - 60Hz (RxGxB) 8x8x8   
-[2019-10-24 11:12:18] [INFORMA합ES] File: WindowsWindowImpl.java:104	Method: init	Msg: Creating window App Teste (1280, 720) 
-[2019-10-24 11:12:18] [INFORMA합ES] File: WindowsWindowImpl.java:217	Method: createWindow	Msg: Window created with no errors. Handler: 19090480 
-[2019-10-24 11:12:19] [INFORMA합ES] File: OpenGLContext.java:31	Method: init	Msg: OpenGL Info 
-[2019-10-24 11:12:19] [INFORMA합ES] File: OpenGLContext.java:32	Method: init	Msg:    Vendor: NVIDIA Corporation 
-[2019-10-24 11:12:19] [INFORMA합ES] File: OpenGLContext.java:33	Method: init	Msg:    Renderer: GeForce GTX 960/PCIe/SSE2 
-[2019-10-24 11:12:19] [INFORMA합ES] File: OpenGLContext.java:34	Method: init	Msg:    Version:4.6.0 NVIDIA 436.02 
-[2019-10-24 11:12:19] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/quad-vertex.shader was loaded in 0ms. Total of #19 lines. 
-[2019-10-24 11:12:19] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/quad-fragment.shader was loaded in 1ms. Total of #11 lines. 
-[2019-10-24 11:12:19] [INFORMA합ES] File: Texture2DGL.java:117	Method: loadTexture	Msg: Texture loaded: 
+[2019-10-25 23:52:05] [INFORMA합ES] File: ApplicationTest.java:53	Method: main	Msg: Starting app 
+[2019-10-25 23:52:05] [INFORMA합ES] File: Application.java:51	Method: create	Msg: Creating applicaiton instance 
+[2019-10-25 23:52:05] [INFORMA합ES] File: WindowsWindowImpl.java:82	Method: init	Msg: GLFW initialized! 
+[2019-10-25 23:52:05] [INFORMA합ES] File: WindowsWindowImpl.java:93	Method: init	Msg: Video Mode details: 1920x1080 - 60Hz (RxGxB) 8x8x8   
+[2019-10-25 23:52:05] [INFORMA합ES] File: WindowsWindowImpl.java:104	Method: init	Msg: Creating window App Teste (1280, 720) 
+[2019-10-25 23:52:06] [INFORMA합ES] File: WindowsWindowImpl.java:217	Method: createWindow	Msg: Window created with no errors. Handler: 553679520 
+[2019-10-25 23:52:06] [INFORMA합ES] File: OpenGLContext.java:31	Method: init	Msg: OpenGL Info 
+[2019-10-25 23:52:06] [INFORMA합ES] File: OpenGLContext.java:32	Method: init	Msg:    Vendor: NVIDIA Corporation 
+[2019-10-25 23:52:06] [INFORMA합ES] File: OpenGLContext.java:33	Method: init	Msg:    Renderer: GeForce GTX 960/PCIe/SSE2 
+[2019-10-25 23:52:06] [INFORMA합ES] File: OpenGLContext.java:34	Method: init	Msg:    Version:4.6.0 NVIDIA 436.02 
+[2019-10-25 23:52:06] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/quad-vertex.shader was loaded in 1ms. Total of #19 lines. 
+[2019-10-25 23:52:06] [INFORMA합ES] File: EngineFiles.java:39	Method: loadTextFile	Msg: The file shaders/quad-fragment.shader was loaded in 0ms. Total of #11 lines. 
+[2019-10-25 23:52:06] [INFORMA합ES] File: Texture2DGL.java:117	Method: loadTexture	Msg: Texture loaded: 
 	File: C:\devcg\br.fritzen.sandbox\target\classes\dog.jpg
 	Width: 225
 	Height: 225
 	Channels: 3 
-[2019-10-24 11:12:20] [INFORMA합ES] File: MainLoopUnlimited.java:9	Method: run	Msg: Initializing systems 
-[2019-10-24 11:12:20] [INFORMA합ES] File: MainLoopUnlimited.java:22	Method: run	Msg: Application main loop 
+[2019-10-25 23:52:08] [INFORMA합ES] File: MainLoopUnlimited.java:9	Method: run	Msg: Initializing systems 
+[2019-10-25 23:52:08] [INFORMA합ES] File: MainLoopUnlimited.java:22	Method: run	Msg: Application main loop 

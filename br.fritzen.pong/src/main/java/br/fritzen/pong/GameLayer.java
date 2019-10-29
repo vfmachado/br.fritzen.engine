@@ -6,19 +6,24 @@ import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventType;
 import br.fritzen.engine.renderer.RenderCommand;
 import br.fritzen.engine.renderer.Renderer;
+import br.fritzen.engine.renderer.Renderer2D;
 
 public class GameLayer extends Layer {
 
+	private OrthographicCamera mainCamera;
+	
 	private Ball ball;
 	
-	private OrthographicCamera mainCamera;
+	private Player player;
+		
 	
 	public GameLayer() {
 		
 		super("MainLayer");
 		
-		mainCamera = new OrthographicCamera(-1.7778f, 1.7778f, -1, 1);
-		ball = new Ball();
+		this.mainCamera = new OrthographicCamera(0, 100, 0, 100);
+		this.ball = new Ball();
+		this.player = new Player(0, 40, 3, 20);
 		
 		RenderCommand.clearColor(0,  0,  0,  1);
 	}
@@ -34,7 +39,7 @@ public class GameLayer extends Layer {
 	public void onUpdate(float deltatime) {
 		
 		ball.update(deltatime);
-		
+		player.update(deltatime);
 		//this.mainCamera.addRotation(deltatime * 0.05f);
 		
 		//System.out.println("Mouse at: " + Input.getMousePos());
@@ -47,12 +52,15 @@ public class GameLayer extends Layer {
 		//System.out.println("Mouse at: " + Input.getMousePos());
 	
 		Renderer.beginScene(mainCamera);
-
 		
-		ball.draw();
+		this.ball.draw();
 		
 		
 		Renderer.endScene();
+		
+		
+		Renderer2D.beginScene(mainCamera);
+		this.player.draw();
 	}
 	
 	@Override

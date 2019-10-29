@@ -34,7 +34,7 @@ public class Ball {
 	private Vector3f position;
 	private Vector3f direction;
 	
-	private float speed = 10f;
+	private float speed = 100f;
 	
 	public Ball() {
 	
@@ -86,24 +86,24 @@ public class Ball {
 	public void update(float deltatime) {
 		//System.out.println(deltatime);
 	
-		if (position.x <= -1.777f || position.x > 1.777f) {
+		if (position.x <= 0f || position.x > 100f) {
 			direction.mul(-1, 1, 1);
 			if (position.x < 0f) {
-				position.x = -1.777f;
+				position.x = 0f;
 			} else {
-				position.x = 1.777f;
+				position.x = 100f;
 			}
 			//position.add(direction.mul(deltatime/100f, tmpDir));
 			//System.out.println("Inverter X");
 		}
 		
-		if (position.y <= -1f || position.y >= 1f) {
+		if (position.y <= 0f || position.y >= 100f) {
 			
 			direction.mul(1, -1, 1);
 			if (position.y < 0f) {
-				position.y = -1f;
+				position.y = 0f;
 			} else {
-				position.y = 1f;
+				position.y = 100f;
 			}
 			//position.add(direction.mul(deltatime/100f, tmpDir));
 			//System.out.println("Inverter Y");
@@ -112,7 +112,7 @@ public class Ball {
 		position.add(direction.mul(deltatime * speed, tmpDir));
 		//System.out.println(position);
 		
-		transform.identity().translate(position);
+		transform.identity().translate(position).scale(10, 10*1.777f,  1);
 		
 		
 		
