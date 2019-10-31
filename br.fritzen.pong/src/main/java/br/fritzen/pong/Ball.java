@@ -8,7 +8,7 @@ import org.joml.Vector3f;
 
 import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
-import br.fritzen.engine.platform.opengl.Texture2DGL;
+import br.fritzen.engine.platform.opengl.OpenGLTexture2D;
 import br.fritzen.engine.platform.opengl.VertexBufferLayout;
 import br.fritzen.engine.renderer.Buffer.IndexBuffer;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
@@ -75,7 +75,7 @@ public class Ball {
 		this.vao.setIB(ibo);
 		//ibo.unbind();
 		
-		texture = new Texture2DGL("textures/ball.png");
+		texture = new OpenGLTexture2D("textures/ball.png");
 		
 		position = new Vector3f();
 		direction = new Vector3f(0.5f, 0.3f, 0);

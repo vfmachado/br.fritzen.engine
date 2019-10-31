@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
+import br.fritzen.engine.platform.opengl.VertexBufferLayout;
 import br.fritzen.engine.renderer.Buffer.IndexBuffer;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.Buffer.VertexBuffer;
@@ -35,10 +36,10 @@ public class Renderer2DStorage {
 		this.shader = new OpenGLShader(shaders);
 	
 		float[] positions = {
-				   0.0f, 0.0f, 0,  //0
-	               1.0f, 0.0f, 0,	//1
-	               0.0f,  1.0f, 0,	//2
-	               1.0f,  1.0f, 0	//3
+				   0.0f, 0.0f, 0, 0, 0, //0
+	               1.0f, 0.0f, 0, 1, 0,	//1
+	               0.0f, 1.0f, 0, 0, 1,	//2
+	               1.0f, 1.0f, 0, 1, 1	//3
 	            };
 		
 		
@@ -47,7 +48,10 @@ public class Renderer2DStorage {
 		
 		VertexBuffer vbo = VertexBuffer.create(EngineBuffers.createFloatBuffer(positions), positions.length * 4);
 		
-		this.vao.addVB(vbo, 0, 3);
+		List<VertexBufferLayout> layouts = new ArrayList<VertexBufferLayout>();
+		layouts.add(new VertexBufferLayout(3));
+		layouts.add(new VertexBufferLayout(2));
+		this.vao.addInterleavedVBO(vbo, layouts);
 				
 		int[] indices = { 0, 1, 2, 1, 3, 2};
 		

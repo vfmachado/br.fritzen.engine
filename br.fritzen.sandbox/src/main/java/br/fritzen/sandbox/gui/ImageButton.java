@@ -3,7 +3,7 @@ package br.fritzen.sandbox.gui;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import br.fritzen.engine.platform.opengl.Texture2DGL;
+import br.fritzen.engine.platform.opengl.OpenGLTexture2D;
 import br.fritzen.engine.renderer.Texture;
 import glm_.vec2.Vec2;
 import glm_.vec4.Vec4;
@@ -46,7 +46,7 @@ public class ImageButton  {
 		       String path = 
 		            chooser.getSelectedFile().getAbsolutePath();
 
-		       texture = new Texture2DGL(path);
+		       texture = new OpenGLTexture2D(path);
 		    }
 			
 		}

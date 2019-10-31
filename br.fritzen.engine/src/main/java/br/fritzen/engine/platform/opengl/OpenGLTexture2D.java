@@ -14,11 +14,11 @@ import org.lwjgl.stb.STBImage;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.EngineState;
-import br.fritzen.engine.renderer.Texture;
+import br.fritzen.engine.renderer.Texture2D;
 import br.fritzen.engine.renderer.TextureFormat;
 import br.fritzen.engine.utils.EngineFiles;
 
-public class Texture2DGL extends Texture {
+public class OpenGLTexture2D extends Texture2D {
 
 	private int id;
 	
@@ -29,7 +29,7 @@ public class Texture2DGL extends Texture {
 	private int height;
 	
 	
-	public Texture2DGL(String filename) {
+	public OpenGLTexture2D(String filename) {
 		
 		this.filename = filename;
 		this.id = GL11.glGenTextures();
@@ -138,8 +138,8 @@ public class Texture2DGL extends Texture {
 		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
 		
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_REPEAT);
 		
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);

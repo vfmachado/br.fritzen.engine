@@ -10,7 +10,11 @@ public class OpenGLRendererAPI extends RendererAPI {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
 	}
 	

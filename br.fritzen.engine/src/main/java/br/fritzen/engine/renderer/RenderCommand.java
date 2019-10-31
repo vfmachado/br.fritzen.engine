@@ -12,6 +12,8 @@ public class RenderCommand {
 		
 		API = RendererAPI.get();
 		
+		API.init();
+		
 	}
 	
 	

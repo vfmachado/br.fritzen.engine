@@ -2,18 +2,18 @@
 #version 330
 
 layout(location = 0) in vec3 position;
+layout(location = 1) in vec2 texCoord;
 
-out vec4 flatColor;
+out vec2 v_texCoord;
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Model;
 
-uniform vec4 color;
 
 void main() {
 
 	gl_Position = u_ViewProjection * u_Model * vec4(position, 1.0);
 	
-	flatColor = color;
+	v_texCoord = texCoord;
 	
 }

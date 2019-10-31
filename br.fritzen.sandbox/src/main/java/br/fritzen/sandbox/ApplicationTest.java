@@ -13,7 +13,7 @@ import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventType;
 import br.fritzen.engine.events.key.KeyTypedEvent;
 import br.fritzen.engine.imgui.GUI;
-import br.fritzen.engine.platform.opengl.Texture2DGL;
+import br.fritzen.engine.platform.opengl.OpenGLTexture2D;
 import br.fritzen.engine.renderer.Texture;
 import br.fritzen.sandbox.gui.ImageButton;
 import glm_.vec2.Vec2;
@@ -58,7 +58,7 @@ public class ApplicationTest {
 		
 		app.addLayer(new Layer("GUI Layer") {
 			
-			Texture albedoTexture = new Texture2DGL("dog.jpg");
+			Texture albedoTexture = new OpenGLTexture2D("dog.jpg");
 			boolean [] useTexture = {true};
 			
 			float albedoColor[] = {0.0f, 0.0f, 0.0f};

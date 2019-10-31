@@ -5,6 +5,10 @@ public enum ShaderUniform {
 	//SimpleShaderValues
 	position("position"),
 	color("color"),
+	hasTexture("hasTexture"),
+	hasColor("hasColor"),
+	textureRepeats("textureRepeats"),
+	
 	
 	//MVP
 	view("u_View"),

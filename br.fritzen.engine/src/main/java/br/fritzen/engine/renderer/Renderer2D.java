@@ -59,9 +59,11 @@ public abstract class Renderer2D {
 	
 	public static void drawQuad(Vector3f pos, Vector2f size, Vector4f color) {
 		
-		tmpTransform.identity().translate(pos.x, pos.y, 0).scale(size.x, size.y, 1);
+		tmpTransform.identity().translate(pos.x, pos.y, pos.z).scale(size.x, size.y, 1);
 		
 		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
+		
+		sData.getShader().setInt(ShaderUniform.hasTexture, 0);
 		
 		sData.getShader().setFloat4(ShaderUniform.color, color);
 		
@@ -70,7 +72,63 @@ public abstract class Renderer2D {
 	}
 	
 	
+	public static void drawQuad(Vector2f pos, Vector2f size, Texture2D texture) {
+		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, texture);		
+		
+	}
+	
+	
+	public static void drawQuad(Vector3f pos, Vector2f size, Texture2D texture) {
+
+		tmpTransform.identity().translate(pos.x, pos.y, pos.z).scale(size.x, size.y, 1);
+		
+		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
+		
+		sData.getShader().setInt(ShaderUniform.hasTexture, 1);
+		
+		sData.getShader().setInt(ShaderUniform.hasColor, 0);
+		
+		texture.bind();
+		
+		sData.getShader().setInt(ShaderUniform.texture, 0);
+		
+		RendererAPI.get().drawIndexed(sData.getVAO());
+	}
+	
+	
+	
+	public static void drawQuad(Vector2f pos, Vector2f size, Texture2D texture, Vector4f color) {
+		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, texture, color);		
+	}
+	
+	
+	public static void drawQuad(Vector3f pos, Vector2f size, Texture2D texture, Vector4f color) {
+
+		tmpTransform.identity().translate(pos.x, pos.y, pos.z).scale(size.x, size.y, 1);
+		
+		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
+		
+		sData.getShader().setInt(ShaderUniform.hasColor, 1);
+		
+		sData.getShader().setFloat4(ShaderUniform.color, color);
+		
+		sData.getShader().setInt(ShaderUniform.hasTexture, 1);
+		
+		texture.bind();
+		
+		sData.getShader().setInt(ShaderUniform.texture, 0);
+		
+		RendererAPI.get().drawIndexed(sData.getVAO());
+	}
+	
+	
+	public static void setTextureRepeats(int repeats) {
+		sData.getShader().setInt(ShaderUniform.textureRepeats, repeats);
+	}
+	
+	
 	private static Matrix4f tmpTransform = new Matrix4f();
 	private static Vector3f tmpVec3 = new Vector3f();
+
 	
 }

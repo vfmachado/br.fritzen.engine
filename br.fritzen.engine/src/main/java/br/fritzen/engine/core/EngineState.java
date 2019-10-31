@@ -56,7 +56,7 @@ public abstract class EngineState {
 	/**
 	 * Enable/Disable Shaders Warnings Log of the engine console
 	 */
-	public final static boolean DEBUG_SHADER_WARNING = true;
+	public final static boolean DEBUG_SHADER_WARNING = false;
 	
 	/**
 	 * Number of Samples for MSAA in OpenGL
