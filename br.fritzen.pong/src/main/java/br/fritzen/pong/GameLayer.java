@@ -22,8 +22,8 @@ public class GameLayer extends Layer {
 		super("MainLayer");
 		
 		this.mainCamera = new OrthographicCamera(0, 100, 0, 100);
-		this.ball = new Ball();
-		this.player = new Player(0, 40, 3, 20);
+		this.ball = new Ball(40, 40, 10/1.77f, 10);
+		this.player = new Player(0, 40, 2, 20);
 		
 		RenderCommand.clearColor(0,  0,  0,  1);
 	}
@@ -51,16 +51,17 @@ public class GameLayer extends Layer {
 	
 		//System.out.println("Mouse at: " + Input.getMousePos());
 	
-		Renderer.beginScene(mainCamera);
+		Renderer2D.beginScene(mainCamera);
 		
 		this.ball.draw();
 		
-		
-		Renderer.endScene();
-		
-		
-		Renderer2D.beginScene(mainCamera);
 		this.player.draw();
+		
+		Renderer2D.endScene();
+		
+		
+		//Renderer2D.beginScene(mainCamera);
+		
 	}
 	
 	@Override

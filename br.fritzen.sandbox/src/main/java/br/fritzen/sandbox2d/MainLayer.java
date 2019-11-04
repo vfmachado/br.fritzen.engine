@@ -60,7 +60,6 @@ public class MainLayer extends Layer {
 		
 		Renderer2D.setTextureRepeats(textureRepeats);
 		Renderer2D.drawQuad(backgroundPosition, backgroundSize, backgroundTexture);
-		
 		Renderer2D.setTextureRepeats(1);
 		
 		
