@@ -15,7 +15,7 @@ public class OrthographicCameraController {
 
 	private float aspectRatio;
 
-	private float zoomLevel = 1.0f;
+	private float zoomLevel = 10.0f;
 
 	private boolean rotation;
 
