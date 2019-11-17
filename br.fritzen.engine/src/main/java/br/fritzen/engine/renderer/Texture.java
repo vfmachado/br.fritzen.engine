@@ -1,5 +1,7 @@
 package br.fritzen.engine.renderer;
 
+import java.nio.ByteBuffer;
+
 public abstract class Texture {
 
 	public abstract String getName();
@@ -9,6 +11,8 @@ public abstract class Texture {
 	public abstract int getHeight();
 	
 	public abstract TextureFormat getFormat();
+	
+	public abstract void setData(ByteBuffer data, int size);
 	
 	public abstract void bind();
 	

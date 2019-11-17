@@ -26,4 +26,27 @@ public abstract class Texture2D extends Texture {
 		return null;
 	}
 	
+	
+	public static Texture2D create(int width, int height) {
+		
+		switch (RendererAPI.SELECTED_API) {
+		
+		case NONE:
+			EngineLog.severe("None API selected");
+			break;
+		
+		case OPENGL:
+			return new OpenGLTexture2D(width, height);
+			
+		case VULKAN:
+			EngineLog.severe("Not supported yet");
+			break;
+		}
+		
+		EngineLog.severe("Invalid Renderer API.");
+		System.exit(1);
+		return null;
+		
+	}
+	
 }

@@ -19,6 +19,8 @@ public abstract class Shader {
 	
 	public abstract void setFloat3(ShaderUniform uniform, Vector3f vec);
 	
+	public abstract void setFloat4(ShaderUniform uniform, float x, float y, float z, float w);
+	
 	public abstract void setFloat4(ShaderUniform uniform, Vector4f vec);
 	
 	public abstract void setMat4(ShaderUniform uniform, Matrix4f mat);

@@ -108,10 +108,6 @@ public class OpenGLShader extends Shader {
 	}
 	
 	
-	public void setFloat3(ShaderUniform uniform, float x, float y, float z) {
-		GL20.glUniform3f(getUniformLocation(uniform.getText()), x, y, z);	
-	}
-	
 	
 	public void setInt(ShaderUniform uniform, int value) {
 		GL20.glUniform1i(getUniformLocation(uniform.getText()), value);	
@@ -123,15 +119,27 @@ public class OpenGLShader extends Shader {
 		GL20.glUniformMatrix4fv(getUniformLocation(uniform.getText()), false, mat.get(tmpBuffer));	
 	}
 
-
+	
+	public void setFloat3(ShaderUniform uniform, float x, float y, float z) {
+		GL20.glUniform3f(getUniformLocation(uniform.getText()), x, y, z);	
+	}
+	
+	
+	public void setFloat3(ShaderUniform uniform, Vector3f vec) {
+			GL20.glUniform3f(getUniformLocation(uniform.getText()), vec.x, vec.y, vec.z);
+	}
+	
+	
+	public void setFloat4(ShaderUniform uniform, float x, float y, float z, float w) {
+		GL20.glUniform4f(getUniformLocation(uniform.getText()), x, y, z, w);
+	}
+	
 	public void setFloat4(ShaderUniform uniform, Vector4f vec) {
 		GL20.glUniform4f(getUniformLocation(uniform.getText()), vec.x, vec.y, vec.z, vec.w);	
 	}
 
 
-	public void setFloat3(ShaderUniform uniform, Vector3f vec) {
-		GL20.glUniform3f(getUniformLocation(uniform.getText()), vec.x, vec.y, vec.z);
-	}
+	
 	
 	
 	public void setFloat(ShaderUniform uniform, float value) {

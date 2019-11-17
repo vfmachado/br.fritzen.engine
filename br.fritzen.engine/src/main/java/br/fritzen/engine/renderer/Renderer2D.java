@@ -1,9 +1,14 @@
 package br.fritzen.engine.renderer;
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.BufferUtils;
 
 import br.fritzen.engine.components.Camera;
 import br.fritzen.engine.renderer.shader.ShaderUniform;
@@ -23,7 +28,20 @@ public abstract class Renderer2D {
 		
 	private static Renderer2DStorage sData = new Renderer2DStorage();
 	
+	private static Texture2D blankTexture = Texture2D.create(1, 1);
+	
 	public  static void init() {
+		
+		ByteBuffer textureData = BufferUtils.createByteBuffer(16);
+		
+		textureData.put((byte) 255);
+		textureData.put((byte) 255);
+		textureData.put((byte) 255);
+		textureData.put((byte) 255);
+		
+		textureData.flip();
+		
+		blankTexture.setData(textureData, 1);
 		
 	}
 	
@@ -58,12 +76,14 @@ public abstract class Renderer2D {
 	
 	
 	public static void drawQuad(Vector3f pos, Vector2f size, Vector4f color) {
-		
+				
 		tmpTransform.identity().translate(pos.x, pos.y, pos.z).scale(size.x, size.y, 1);
 		
 		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
 		
-		sData.getShader().setInt(ShaderUniform.hasTexture, 0);
+		blankTexture.bind();
+		
+		sData.getShader().setInt(ShaderUniform.texture, 0);
 		
 		sData.getShader().setFloat4(ShaderUniform.color, color);
 		
@@ -73,8 +93,8 @@ public abstract class Renderer2D {
 	
 	
 	public static void drawQuad(Vector2f pos, Vector2f size, Texture2D texture) {
-		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, texture);		
 		
+		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, texture);		
 	}
 	
 	
@@ -84,9 +104,7 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
 		
-		sData.getShader().setInt(ShaderUniform.hasTexture, 1);
-		
-		sData.getShader().setInt(ShaderUniform.hasColor, 0);
+		sData.getShader().setFloat4(ShaderUniform.color, 1, 1, 1, 1);
 		
 		texture.bind();
 		
@@ -108,11 +126,7 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
 		
-		sData.getShader().setInt(ShaderUniform.hasColor, 1);
-		
 		sData.getShader().setFloat4(ShaderUniform.color, color);
-		
-		sData.getShader().setInt(ShaderUniform.hasTexture, 1);
 		
 		texture.bind();
 		

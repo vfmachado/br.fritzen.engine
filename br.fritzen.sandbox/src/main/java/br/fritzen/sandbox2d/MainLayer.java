@@ -55,13 +55,11 @@ public class MainLayer extends Layer {
 		
 		Renderer2D.beginScene(cameraController.getCamera());
 
-		
-		Renderer2D.drawQuad(quadPosition, quadSize, quadColor);
-		
 		Renderer2D.setTextureRepeats(textureRepeats);
 		Renderer2D.drawQuad(backgroundPosition, backgroundSize, backgroundTexture);
 		Renderer2D.setTextureRepeats(1);
 		
+		Renderer2D.drawQuad(quadPosition, quadSize, quadColor);
 		
 		Renderer2D.endScene();
 		

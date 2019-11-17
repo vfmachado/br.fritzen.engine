@@ -28,6 +28,9 @@ public class OpenGLTexture2D extends Texture2D {
 	
 	private int height;
 	
+	private int internalFormat;
+	
+	private int dataFormat;
 	
 	public OpenGLTexture2D(String filename) {
 		
@@ -42,6 +45,28 @@ public class OpenGLTexture2D extends Texture2D {
 	}
 	
 	
+	public OpenGLTexture2D(int width, int height) {
+		
+		this.width = width;
+		this.height = height;
+		
+		this.internalFormat = GL11.GL_RGBA8;
+		this.dataFormat = GL11.GL_RGBA;
+				
+		this.id = GL11.glGenTextures();
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
+		
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+		
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_REPEAT);
+		
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		
+	}
+
+
 	@Override
 	public void cleanup() {
 		GL11.glDeleteTextures(this.id);
@@ -101,6 +126,18 @@ public class OpenGLTexture2D extends Texture2D {
 	}
 
 	
+	@Override
+	public void setData(ByteBuffer data, int size) {
+		
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
+		
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, this.internalFormat, this.width, this.height, 0, this.dataFormat, GL11.GL_UNSIGNED_BYTE, data);
+		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+	}
+	
+	
 	private void loadTexture(String filename) throws IOException {
 		
 		IntBuffer width = BufferUtils.createIntBuffer(1);
@@ -122,7 +159,9 @@ public class OpenGLTexture2D extends Texture2D {
 		
 		int channels = channels_b.get(0);
 		
-		int internalFormat = 0, dataFormat = 0;
+		this.internalFormat = 0;
+		this.dataFormat = 0;
+		
 		if (channels == 4) {
 			
 			internalFormat = GL11.GL_RGBA8;
@@ -138,12 +177,12 @@ public class OpenGLTexture2D extends Texture2D {
 		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
 		
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_REPEAT);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_REPEAT);
 		
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-	
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, internalFormat, this.width, this.height, 0, dataFormat, GL11.GL_UNSIGNED_BYTE, imgBuffer);
 		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 		
