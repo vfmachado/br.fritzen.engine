@@ -1,5 +1,7 @@
 package br.fritzen.sandbox2d;
 
+import java.util.Random;
+
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -20,6 +22,8 @@ public class MainLayer extends Layer {
 
 	private OrthographicCameraController cameraController;
 	
+	private Vector2f vec2 = new Vector2f();
+	
 	private Vector2f quadPosition = new Vector2f(0, 8.75f);
 	private Vector2f quadSize = new Vector2f(1.25f, 1.25f);
 	private Vector4f quadColor = new Vector4f(0.8f, 0.2f, 0.3f, 1);
@@ -33,6 +37,10 @@ public class MainLayer extends Layer {
 	private int textureRepeats = 2;
 	
 	private GameController controller;
+	
+	private int[][] mat = new int[16][8];
+	
+	private Random r = new Random();
 	
 	public MainLayer() {
 		
@@ -54,10 +62,12 @@ public class MainLayer extends Layer {
 
 		time += deltatime;
 
-		if (time >= 0.1f) {
+		if (time >= 0.005f) {
+			
+			updateMatrix();
 			
 			time = 0;
-			
+			/*
 			//VERTICAL
 			if (controller.getLastDirection() == Direction.DOWN) {
 				quadPosition.y -= 1.25f;
@@ -84,6 +94,7 @@ public class MainLayer extends Layer {
 			} else if (quadPosition.x >= 10) {
 				quadPosition.x = -10f;
 			}
+			*/
 		}
 		
 	}
@@ -101,7 +112,20 @@ public class MainLayer extends Layer {
 		Renderer2D.drawQuad(backgroundPosition, backgroundSize, backgroundTexture, grayColor);
 		Renderer2D.setTextureRepeats(1);
 		
-		Renderer2D.drawQuad(quadPosition, quadSize, quadColor);
+		//Renderer2D.drawQuad(quadPosition, quadSize, quadColor);
+		
+		for (int i = 0; i < 16; i++) {
+			
+			for (int j = 0; j < 8; j++) {
+		
+				if (mat[i][j] == 1) {
+					vec2.set(1.25f * j - 5f, 10 -1.25f - 1.25f * i);
+					
+					Renderer2D.drawQuad(vec2, quadSize, quadColor);
+				}
+			}
+		}
+		
 		
 		Renderer2D.endScene();
 		
@@ -126,5 +150,38 @@ public class MainLayer extends Layer {
 		
 	}
 	
+	
+	int full = 0;
+	
+	private void updateMatrix() {
+	
+		boolean down = false;
+		
+		for (int i = 15; i > 0; i--) {
+			
+			for (int j = 0; j < 8; j++) {
+				
+				if (mat[i][j] == 0 && mat[i-1][j] == 1) {
+					mat[i][j] = 1;
+					mat[i-1][j] = 0;
+					down = true;
+					
+					
+				}
+			}
+		}
+		
+		if (!down) {
+			mat[0][r.nextInt(8)] = 1;
+			full++;
+			
+		}
+		
+		if (full == 16 * 8) {
+			mat = new int[16][8];
+			full = 0;
+		}
+	
+	}
 
 }
