@@ -24,9 +24,11 @@ public class MainLayer extends Layer {
 	
 	private Vector2f vec2 = new Vector2f();
 	
-	private Vector2f quadPosition = new Vector2f(0, 8.75f);
+	//private Vector2f quadPosition = new Vector2f(0, 8.75f);
 	private Vector2f quadSize = new Vector2f(1.25f, 1.25f);
 	private Vector4f quadColor = new Vector4f(0.8f, 0.2f, 0.3f, 1);
+	
+	private Texture2D blockTexture = Texture2D.create("block.png");
 	
 	private Vector3f backgroundPosition = new Vector3f(-10.0f, -10.0f, -0.5f);
 	private Vector2f backgroundSize = new Vector2f(20f, 20f);
@@ -62,7 +64,7 @@ public class MainLayer extends Layer {
 
 		time += deltatime;
 
-		if (time >= 0.005f) {
+		if (time > 0.5f) {
 			
 			updateMatrix();
 			
@@ -81,20 +83,21 @@ public class MainLayer extends Layer {
 				quadPosition.y = -10f;
 			}
 			
-			
+			*/
 			//HORIZONTAL
 			if (controller.getLastDirection() == Direction.LEFT) {
-				quadPosition.x -= 1.25f;
+				piece.currentX--;
 			} else if (controller.getLastDirection() == Direction.RIGHT) {
-				quadPosition.x += 1.25f;
+				piece.currentY++;
 			}
  			
-			if (quadPosition.x < -10) {
-				quadPosition.x = 8.75f;
-			} else if (quadPosition.x >= 10) {
-				quadPosition.x = -10f;
+			
+			if (piece.currentX < -10) {
+				piece.currentX = -10;
+			} else if (piece.currentX >= 10) {
+				piece.currentX = 10;
 			}
-			*/
+			
 		}
 		
 	}
@@ -121,7 +124,7 @@ public class MainLayer extends Layer {
 				if (mat[i][j] == 1) {
 					vec2.set(1.25f * j - 5f, 10 -1.25f - 1.25f * i);
 					
-					Renderer2D.drawQuad(vec2, quadSize, quadColor);
+					Renderer2D.drawQuad(vec2, quadSize, blockTexture, quadColor);
 				}
 			}
 		}
@@ -153,9 +156,35 @@ public class MainLayer extends Layer {
 	
 	int full = 0;
 	
+	Piece piece = new Piece(-1, 2);
+	
 	private void updateMatrix() {
 	
-		boolean down = false;
+		removeCompleteLines();
+		
+		
+		//boolean down = false;
+		
+		boolean canDown = true;
+		int[][] pieceState = piece.getState();
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+			
+				
+			}
+		}
+		
+		//move piece
+		
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				try {
+					mat[piece.currentX + i][piece.currentY + j] = pieceState[i][j];
+				} catch (ArrayIndexOutOfBoundsException e) {}
+			}
+		}
+		
+		
 		
 		for (int i = 15; i > 0; i--) {
 			
@@ -164,18 +193,20 @@ public class MainLayer extends Layer {
 				if (mat[i][j] == 0 && mat[i-1][j] == 1) {
 					mat[i][j] = 1;
 					mat[i-1][j] = 0;
-					down = true;
+					//down = true;
 					
 					
 				}
 			}
 		}
 		
+		/*
 		if (!down) {
 			mat[0][r.nextInt(8)] = 1;
 			full++;
 			
 		}
+		*/
 		
 		if (full == 16 * 8) {
 			mat = new int[16][8];
@@ -184,4 +215,24 @@ public class MainLayer extends Layer {
 	
 	}
 
+	
+	private void removeCompleteLines() {
+		
+		boolean complete = true;
+		for (int i = 0; i < 8; i++) {
+			
+			if (mat[15][i] == 0) {
+				complete = false;
+			}
+		}
+		
+		if (complete) {
+			for (int i = 0; i < 8; i++) {
+				
+				mat[15][i] = 0;
+			}
+		}
+
+
+	}
 }

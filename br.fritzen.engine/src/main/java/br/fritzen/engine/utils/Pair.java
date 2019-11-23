@@ -1,37 +1,20 @@
 package br.fritzen.engine.utils;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class Pair<T, Q> {
 
+	@Getter
+	@Setter
 	private T key;
 	
+	@Getter
+	@Setter
 	private Q value;
-	
-	
-	public Pair(T key, Q value) {
-		this.key = key;
-		this.value = value;
-	}
-
-
-	public T getKey() {
-		return key;
-	}
-
-
-	public void setKey(T key) {
-		this.key = key;
-	}
-
-
-	public Q getValue() {
-		return value;
-	}
-
-
-	public void setValue(Q value) {
-		this.value = value;
-	}
-	
 	
 	
 }

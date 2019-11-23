@@ -7,9 +7,9 @@ public class KeyPressedEvent extends KeyEvent {
 	protected int repeatCount;
 	
 	
-	public KeyPressedEvent(int keycode, int repeatCount) {
+	public KeyPressedEvent(int keyCode, int repeatCount) {
 	
-		this.keycode = keycode;
+		this.keyCode = keyCode;
 		this.repeatCount = repeatCount;
 		
 	}

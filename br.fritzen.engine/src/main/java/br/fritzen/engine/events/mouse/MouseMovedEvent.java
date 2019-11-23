@@ -1,19 +1,19 @@
 package br.fritzen.engine.events.mouse;
 
 import br.fritzen.engine.events.EventType;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class MouseMovedEvent extends MouseEvent {
 
+	@Getter
 	private float posX;
 	
+	@Getter
 	private float posY;
-	
-	
-	public MouseMovedEvent(float x, float y) {
-		this.posX = x;
-		this.posY = y;
-		
-	}
 	
 
 	@Override
@@ -21,15 +21,5 @@ public class MouseMovedEvent extends MouseEvent {
 		return EventType.MouseMovedEvent;
 	}
 
-	
-	public float getPosX() {
-		return posX;
-	}
-
-	
-	public float getPosY() {
-		return posY;
-	}
-	
 
 }

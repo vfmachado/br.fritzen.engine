@@ -21,7 +21,7 @@ public abstract class EngineState {
 	/**
 	 * Target UPS of the engine - How much the engine updates in one second
 	 */
-	public final static int UPS = 100; 
+	public final static int UPS = 200; 
 	
 	/**
 	 * Target FPS of the engine - Uniforms are updated just in render time.

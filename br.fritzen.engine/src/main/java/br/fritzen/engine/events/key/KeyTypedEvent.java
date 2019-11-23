@@ -5,8 +5,8 @@ import br.fritzen.engine.events.EventType;
 public class KeyTypedEvent extends KeyEvent {
 
 	
-	public KeyTypedEvent(int keycode) {
-		this.keycode = keycode;
+	public KeyTypedEvent(int keyCode) {
+		this.keyCode = keyCode;
 	}
 	
 	

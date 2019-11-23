@@ -3,20 +3,20 @@ package br.fritzen.engine.events.window;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventCategory;
 import br.fritzen.engine.events.EventType;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class WindowResizeEvent extends Event {
 
+	@Getter
 	private int width;
 	
+	@Getter
 	private int height;
 	
-	
-	public WindowResizeEvent(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
-	
-	
+
 	@Override
 	public EventType getEventType() {
 		return EventType.WindowResizeEvent;
@@ -29,16 +29,6 @@ public class WindowResizeEvent extends Event {
 	}
 
 
-	public int getWidth() {
-		return width;
-	}
-
-
-	public int getHeight() {
-		return height;
-	}
-
-	
 	@Override
 	public String toString() {
 		return String.format("%s : (%d, %d)", this.getName(), this.width, this.height);

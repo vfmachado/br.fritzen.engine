@@ -42,7 +42,7 @@ private final static long SECOND_IN_NANOS = 1_000_000_000L;
 				
 				long initialTime = System.nanoTime();
 				
-				this.update(deltaTime/1_000_000);
+				this.update((float)deltaTime / 1_000_000_000);
 				this.input();
 				currentUPS++;
 				
@@ -97,7 +97,7 @@ private final static long SECOND_IN_NANOS = 1_000_000_000L;
 	 * 
 	 * @param deltatime how much time passed between the updates in SECONDS
 	 */
-	protected abstract void update(long deltatime);
+	protected abstract void update(float deltatime);
 	
 	
 	protected abstract void render();

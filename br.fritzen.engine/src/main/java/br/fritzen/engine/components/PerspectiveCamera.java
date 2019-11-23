@@ -4,9 +4,11 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 import br.fritzen.engine.Application;
+import lombok.Getter;
 
 public class PerspectiveCamera extends Camera {
 
+	@Getter
 	private Quaternionf rotation;
 	
 	private Matrix4f tmpTransform;
@@ -54,21 +56,10 @@ public class PerspectiveCamera extends Camera {
 	}
 
 	
-	public Quaternionf getRotation() {
-		return rotation;
-	}
-
-
 	public void setRotation(Quaternionf rotation) {
 		this.rotation = rotation;
 		recalculateViewProjection();
 	}
 
-	/*
-	public void addRotation(Quaternionf amount) {
-		this.rotation += amount;
-		recalculateViewProjection();
-	}
-	*/
 	
 }

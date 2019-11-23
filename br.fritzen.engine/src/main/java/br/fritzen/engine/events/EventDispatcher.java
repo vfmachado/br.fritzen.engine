@@ -1,7 +1,10 @@
 package br.fritzen.engine.events;
 
+import lombok.Setter;
+
 public class EventDispatcher {
 
+	@Setter
 	private Event event;
 	
 	
@@ -14,11 +17,6 @@ public class EventDispatcher {
 		this.event = e;
 	}
 
-	
-	public void setEvent(Event event) {
-		this.event = event;
-	}
-		
 	
 	@SuppressWarnings("rawtypes")
 	public void dispatch(Dispatcher disp, Class type) {

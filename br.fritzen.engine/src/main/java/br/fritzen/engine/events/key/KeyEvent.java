@@ -2,10 +2,12 @@ package br.fritzen.engine.events.key;
 
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventCategory;
+import lombok.Getter;
 
 public abstract class KeyEvent extends Event {
 
-	protected int keycode;
+	@Getter
+	protected int keyCode;
 	
 	
 	@Override
@@ -14,14 +16,9 @@ public abstract class KeyEvent extends Event {
 	}
 
 	
-	public int getKeyCode() {
-		return this.keycode;
-	}
-	
-	
 	@Override
 	public String getName() {
-		return getEventType().toString() + ": " + (char)this.keycode;
+		return getEventType().toString() + ": " + (char)this.keyCode;
 	}
 	
 	

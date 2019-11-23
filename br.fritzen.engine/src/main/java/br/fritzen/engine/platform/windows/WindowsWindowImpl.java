@@ -330,8 +330,6 @@ public class WindowsWindowImpl extends Window {
 		this.width = width;
 		this.height = height;
 		
-		//TODO unknown if here is the best place
-		
 		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);
 			
 	}

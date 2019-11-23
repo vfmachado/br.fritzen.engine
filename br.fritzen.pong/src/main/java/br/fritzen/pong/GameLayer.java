@@ -5,7 +5,6 @@ import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventType;
 import br.fritzen.engine.renderer.RenderCommand;
-import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.renderer.Renderer2D;
 
 public class GameLayer extends Layer {

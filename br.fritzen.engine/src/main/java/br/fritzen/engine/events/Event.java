@@ -1,7 +1,12 @@
 package br.fritzen.engine.events;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public abstract class Event {
 
+	@Getter
+	@Setter
 	private boolean handled = false;
 	
 	public abstract EventType getEventType();
@@ -18,14 +23,5 @@ public abstract class Event {
 	public String toString() {
 		return this.getName();
 	}
-	
-	public void setHandled(boolean handled) {
-		this.handled = handled;;
-	}
-	
-	public boolean isHandled() {
-		return this.handled;
-	}
-	
 	
 }

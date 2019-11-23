@@ -33,6 +33,7 @@ public class WindowModeTest {
 			
 			@Override
 			public void onOvent(Event e) {
+				
 				if (e.getEventType() == EventType.KeyPressedEvent) {
 					
 					KeyPressedEvent evt = (KeyPressedEvent)e;
@@ -53,6 +54,10 @@ public class WindowModeTest {
 
 					
 					} 
+				}
+				
+				if (e.getEventType() == EventType.WindowResizeEvent) {
+					System.out.println("Windows Resized");
 				}
 			}
 			

@@ -2,7 +2,6 @@ package br.fritzen.pong;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import br.fritzen.engine.renderer.Renderer2D;
 import br.fritzen.engine.renderer.Texture2D;
@@ -15,8 +14,6 @@ public class Ball {
 	
 	private Vector2f size;
 	
-	private Vector4f color;
-	
 	private Texture2D texture; 
 	
 	private float speed;
@@ -27,7 +24,6 @@ public class Ball {
 		this.position = new Vector3f(x, y, 0);
 		direction = new Vector3f(0.5f, 0.3f, 0);
 		this.size = new Vector2f(sx, sy);
-		this.color = new Vector4f(0.2f, 0.3f, 0.8f, 1.0f);
 		this.texture = Texture2D.create("textures/ball.png");
 		this.speed = 100f;
 	}

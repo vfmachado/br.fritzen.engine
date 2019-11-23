@@ -3,6 +3,7 @@ package br.fritzen.engine.window;
 import br.fritzen.engine.Application;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.renderer.GraphicsContext;
+import lombok.Getter;
 
 /**
  * 
@@ -18,14 +19,19 @@ public abstract class Window {
 		BORDERLESS;
 	};
 	
+	@Getter
 	protected int width;
 	
+	@Getter
 	protected int height;
 	
+	@Getter
 	protected String title;
 	
+	@Getter
 	protected WindowMode windowMode;
 	
+	@Getter
 	protected GraphicsContext context;
 	
 	protected abstract void init();
@@ -63,29 +69,5 @@ public abstract class Window {
 		
 	}
 
-	
-	public int getWidth() {
-		return this.width;
-	}
-	
-	
-	public int getHeight() {
-		return this.height;
-	}
-	
-	
-	public String getTitle() {
-		return this.title;
-	}
-	
-	
-	public WindowMode getCurrentWindowMode() {
-		return windowMode;
-	}
-	
-	
-	public GraphicsContext getContext() {
-		return this.context;
-	}
-	
+
 }

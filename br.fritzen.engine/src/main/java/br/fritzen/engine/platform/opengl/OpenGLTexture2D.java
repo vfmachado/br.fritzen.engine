@@ -17,6 +17,7 @@ import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.renderer.Texture2D;
 import br.fritzen.engine.renderer.TextureFormat;
 import br.fritzen.engine.utils.EngineFiles;
+import lombok.Getter;
 
 public class OpenGLTexture2D extends Texture2D {
 
@@ -24,8 +25,10 @@ public class OpenGLTexture2D extends Texture2D {
 	
 	private String filename;
 	
+	@Getter
 	private int width;
 	
+	@Getter
 	private int height;
 	
 	private int internalFormat;
@@ -72,18 +75,6 @@ public class OpenGLTexture2D extends Texture2D {
 		GL11.glDeleteTextures(this.id);
 	}
 	
-	
-	@Override
-	public int getWidth() {
-		return this.width;
-	}
-
-	
-	@Override
-	public int getHeight() {
-		return this.height;
-	}
-
 	
 	@Override
 	public TextureFormat getFormat() {

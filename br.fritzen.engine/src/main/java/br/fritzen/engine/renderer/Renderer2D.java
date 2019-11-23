@@ -1,8 +1,6 @@
 package br.fritzen.engine.renderer;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
@@ -30,7 +28,7 @@ public abstract class Renderer2D {
 	
 	private static Texture2D blankTexture = Texture2D.create(1, 1);
 	
-	public  static void init() {
+	public static void init() {
 		
 		ByteBuffer textureData = BufferUtils.createByteBuffer(16);
 		
@@ -50,9 +48,9 @@ public abstract class Renderer2D {
 	
 		sData.getShader().bind();
 		
-		sceneData.viewMatrix = camera.getViewMatrix();
-		sceneData.projectionMatrix = camera.getProjectionMatrix();
-		sceneData.viewProjectionMatrix = camera.getViewProjectionMatrix();
+		sceneData.viewMatrix = camera.getView();
+		sceneData.projectionMatrix = camera.getProjection();
+		sceneData.viewProjectionMatrix = camera.getViewProjection();
 
 		sData.getShader().setMat4(ShaderUniform.viewProjection, sceneData.viewProjectionMatrix);
 		sData.getShader().setMat4(ShaderUniform.view, sceneData.viewMatrix);

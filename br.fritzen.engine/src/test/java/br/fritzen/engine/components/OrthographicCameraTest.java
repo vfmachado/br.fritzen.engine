@@ -20,7 +20,7 @@ import br.fritzen.engine.utils.Pair;
 
 public class OrthographicCameraTest {
 
-	public static class MainLayer extends Layer {
+	public static class OrthographicCameraTestLayer extends Layer {
 
 		private OrthographicCameraController camera;
 		
@@ -31,7 +31,7 @@ public class OrthographicCameraTest {
 		private Shader shader;
 		
 		
-		public MainLayer() {
+		public OrthographicCameraTestLayer() {
 			super("MAIN LAYER");
 			
 			List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
@@ -95,7 +95,7 @@ public class OrthographicCameraTest {
 
 		Application app = Application.create("Camera Test", 1280, 720);
 		
-		app.addLayer(new MainLayer());
+		app.addLayer(new OrthographicCameraTestLayer());
 		
 		app.run();
 		

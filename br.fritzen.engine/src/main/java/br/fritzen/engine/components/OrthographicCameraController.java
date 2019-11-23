@@ -8,9 +8,11 @@ import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.key.KeyEvent;
 import br.fritzen.engine.events.mouse.MouseScrolledEvent;
 import br.fritzen.engine.events.window.WindowResizeEvent;
+import lombok.Getter;
 
 public class OrthographicCameraController {
 
+	@Getter
 	private OrthographicCamera camera;
 
 	private float aspectRatio;
@@ -41,11 +43,6 @@ public class OrthographicCameraController {
 	}
 
 	
-	public OrthographicCamera getCamera() {
-		return camera;
-	}
-
-
 	public void onUpdate(float deltatime) {
 		
 		if (Input.isKeyPressed(KeyEvent.KEY_A)) {
@@ -95,7 +92,10 @@ public class OrthographicCameraController {
 	}
 	
 	
+	//	===============================	EVENT DISPATCHER =================================
+	
 	private EventDispatcher dispatcher = new EventDispatcher();
+	
 	
 	public void onEvent(Event e) {
 

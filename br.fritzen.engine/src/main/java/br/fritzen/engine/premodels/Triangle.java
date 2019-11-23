@@ -2,7 +2,6 @@ package br.fritzen.engine.premodels;
 
 import org.lwjgl.opengl.GL11;
 
-import br.fritzen.engine.gameobject.GameObject;
 import br.fritzen.engine.platform.opengl.OpenGLIndexBuffer;
 import br.fritzen.engine.platform.opengl.OpenGLVertexArray;
 import br.fritzen.engine.platform.opengl.OpenGLVertexBuffer;

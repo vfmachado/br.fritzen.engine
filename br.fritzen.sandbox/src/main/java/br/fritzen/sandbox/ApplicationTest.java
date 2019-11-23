@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import br.fritzen.engine.Application;
 import br.fritzen.engine.core.EngineLog;
@@ -21,7 +20,6 @@ import glm_.vec4.Vec4;
 import imgui.ImGui;
 import imgui.TabBarFlag;
 import imgui.TabItemFlag;
-import imgui.WindowFlag;
 
 public class ApplicationTest {
 	
@@ -62,10 +60,10 @@ public class ApplicationTest {
 			boolean [] useTexture = {true};
 			
 			float albedoColor[] = {0.0f, 0.0f, 0.0f};
-			boolean [] useColor = {true};
-			boolean isUseColor = false;
+			//boolean [] useColor = {true};
+			//boolean isUseColor = false;
 			boolean [] colorPickerWindow = {false};
-			boolean colorSelecting = false;
+			//boolean colorSelecting = false;
 			
 			ImageButton albedoTextureButton = new ImageButton(albedoTexture);
 			
@@ -83,7 +81,7 @@ public class ApplicationTest {
 				gui.endMainMenuBar();
 				
 				
-				int windowFlag =  WindowFlag.NoDecoration.i;
+				//int windowFlag =  WindowFlag.NoDecoration.i;
 				gui.begin("#SETTINGS", GUI.TRUE, 0);
 				
 				if (gui.beginTabBar("##TABS", TabBarFlag.None.i) ) {

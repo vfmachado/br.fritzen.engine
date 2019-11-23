@@ -23,9 +23,9 @@ public abstract class Renderer {
 	
 	public static void beginScene(Camera camera) {
 	
-		sceneData.viewMatrix = camera.getViewMatrix();
-		sceneData.projectionMatrix = camera.getProjectionMatrix();
-		sceneData.viewProjectionMatrix = camera.getViewProjectionMatrix();
+		sceneData.viewMatrix = camera.getView();
+		sceneData.projectionMatrix = camera.getProjection();
+		sceneData.viewProjectionMatrix = camera.getViewProjection();
 		
 	}
 	

@@ -2,8 +2,11 @@ package br.fritzen.engine.components;
 
 import org.joml.Matrix4f;
 
+import lombok.Getter;
+
 public class OrthographicCamera extends Camera {
 
+	@Getter
 	private float rotation;
 	
 	private Matrix4f tmpTransform;
@@ -50,11 +53,6 @@ public class OrthographicCamera extends Camera {
 	}
 
 	
-	public float getRotation() {
-		return rotation;
-	}
-
-
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
 		recalculateViewProjection();

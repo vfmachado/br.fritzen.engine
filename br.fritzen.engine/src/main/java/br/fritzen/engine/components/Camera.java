@@ -3,14 +3,20 @@ package br.fritzen.engine.components;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import lombok.Getter;
+
 public abstract class Camera {
 
+	@Getter
 	protected Vector3f position;
 	
+	@Getter
 	protected Matrix4f view;
 	
+	@Getter
 	protected Matrix4f projection;
 	
+	@Getter
 	protected Matrix4f viewProjection;
 	
 	
@@ -25,11 +31,6 @@ public abstract class Camera {
 	}
 	
 	
-	public Vector3f getPosition() {
-		return position;
-	}
-
-
 	public void setPosition(Vector3f position) {
 		this.position = position;
 		this.recalculateViewProjection();
@@ -48,21 +49,6 @@ public abstract class Camera {
 	}
 
 
-	public Matrix4f getViewMatrix() {
-		return view;
-	}
-	
-	
-	public Matrix4f getProjectionMatrix() {
-		return projection;
-	}
-	
-	
-	public Matrix4f getViewProjectionMatrix() {
-		return viewProjection;
-	}
-	
-	
 	public abstract void recalculateViewProjection();
 	
 }

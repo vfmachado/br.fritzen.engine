@@ -1,18 +1,18 @@
 package br.fritzen.engine.events.mouse;
 
 import br.fritzen.engine.events.EventType;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class MouseScrolledEvent extends MouseEvent {
 
+	@Getter
 	private float xOffset;
 	
+	@Getter
 	private float yOffset;
-	
-	
-	public MouseScrolledEvent(float xOffset, float yOffset) {
-		this.xOffset = xOffset;
-		this.yOffset = yOffset;
-	}
 	
 	
 	@Override
@@ -20,13 +20,4 @@ public class MouseScrolledEvent extends MouseEvent {
 		return EventType.MouseScrolledEvent;
 	}
 
-	
-	public float getXOffset() {
-		return this.xOffset;
-	}
-	
-	
-	public float getYOffset() {
-		return this.yOffset;
-	}
 }

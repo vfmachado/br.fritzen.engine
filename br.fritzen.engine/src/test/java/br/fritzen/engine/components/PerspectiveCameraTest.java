@@ -21,7 +21,7 @@ import br.fritzen.engine.utils.Pair;
 
 public class PerspectiveCameraTest {
 
-	public static class MainLayer extends Layer {
+	public static class PerspectiveCameraTestLayer extends Layer {
 
 		private PerspectiveCamera camera;
 		
@@ -32,7 +32,7 @@ public class PerspectiveCameraTest {
 		private Shader shader;
 		
 		
-		public MainLayer() {
+		public PerspectiveCameraTestLayer() {
 			super("MAIN LAYER");
 			
 			List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
@@ -77,13 +77,7 @@ public class PerspectiveCameraTest {
 			
 		//	camera.onUpdate(deltatime);
 			
-			if (angle >= 90) {
-				dir = -1;
-			} else if (angle <= 0) {
-				dir = 1;
-			}
-
-			angle += dir * (float) Math.toRadians(5 * deltatime);
+			angle += dir * (float) Math.toRadians(20 * deltatime);
 			
 			
 			transform.identity();
@@ -115,7 +109,7 @@ public class PerspectiveCameraTest {
 
 		Application app = Application.create("Camera Test", 1280, 720);
 		
-		app.addLayer(new MainLayer());
+		app.addLayer(new PerspectiveCameraTestLayer());
 		
 		app.run();
 		

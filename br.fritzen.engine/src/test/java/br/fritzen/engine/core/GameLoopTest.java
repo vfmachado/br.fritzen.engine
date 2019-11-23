@@ -11,7 +11,7 @@ public class GameLoopTest  extends MainLoopFixedFPS {
 	}
 
 	@Override
-	protected void update(long deltatime) {
+	protected void update(float deltatime) {
 	}
 
 	@Override

@@ -21,6 +21,7 @@ public class LayerStack implements Iterable<Layer> {
 		return this.layers.listIterator();
 	}
 	
+	
 	public ListIterator<Layer> end() {
 		return this.layers.listIterator(layers.size());
 	}

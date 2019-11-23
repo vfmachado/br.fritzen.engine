@@ -10,8 +10,15 @@ uniform int textureRepeats = 1;
 
 uniform sampler2D u_texture;
 
+
 void main() {
 
-	fragColor = texture(u_texture, v_texCoord * textureRepeats) * color;
+	vec4 textureColor = texture(u_texture, v_texCoord * textureRepeats);
 	
+	if (textureColor.w < 0.3)
+		discard;
+
+	
+	fragColor = textureColor * color;
+
 }
