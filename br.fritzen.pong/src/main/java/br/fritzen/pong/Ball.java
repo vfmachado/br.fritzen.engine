@@ -8,11 +8,11 @@ import br.fritzen.engine.renderer.Texture2D;
 
 public class Ball {
 
-	private Vector3f position;
+	public Vector3f position;
 	
-	private Vector3f direction;
+	public Vector3f direction;
 	
-	private Vector2f size;
+	public Vector2f size;
 	
 	private Texture2D texture; 
 	
@@ -22,7 +22,7 @@ public class Ball {
 	public Ball(float x, float y, float sx, float sy) {
 	
 		this.position = new Vector3f(x, y, 0);
-		direction = new Vector3f(0.5f, 0.3f, 0);
+		direction = new Vector3f(0.533f, 0.3f, 0);
 		this.size = new Vector2f(sx, sy);
 		this.texture = Texture2D.create("textures/ball.png");
 		this.speed = 100f;
@@ -39,12 +39,12 @@ public class Ball {
 	private Vector3f tmpDir = new Vector3f();
 	public void update(float deltatime) {
 		
-		if (position.x <= 0f || position.x > 100f) {
+		if (position.x <= 0f || position.x > 177) {
 			direction.mul(-1, 1, 1);
 			if (position.x < 0f) {
 				position.x = 0f;
 			} else {
-				position.x = 100f;
+				position.x = 177f;
 			}
 			//position.add(direction.mul(deltatime/100f, tmpDir));
 			//System.out.println("Inverter X");

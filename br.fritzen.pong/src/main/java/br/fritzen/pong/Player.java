@@ -8,9 +8,9 @@ import br.fritzen.engine.renderer.Renderer2D;
 
 public class Player {
 
-	private Vector2f position;
+	public Vector2f position;
 	
-	private Vector2f size;
+	public Vector2f size;
 	
 	private Vector4f color;
 	
