@@ -1,9 +1,0 @@
-#folders
-.metadata/
-.recommenders/
-.settings/
-target/
-bin/
-
-#files
-*.lck

@@ -83,7 +83,6 @@ public class MainLayer extends Layer {
 				quadPosition.y = -10f;
 			}
 			
-			*/
 			//HORIZONTAL
 			if (controller.getLastDirection() == Direction.LEFT) {
 				piece.currentX--;
@@ -97,6 +96,7 @@ public class MainLayer extends Layer {
 			} else if (piece.currentX >= 10) {
 				piece.currentX = 10;
 			}
+			*/
 			
 		}
 		
@@ -156,7 +156,7 @@ public class MainLayer extends Layer {
 	
 	int full = 0;
 	
-	Piece piece = new Piece(-1, 2);
+	//Piece piece = new Piece(-1, 2);
 	
 	private void updateMatrix() {
 	
@@ -164,7 +164,7 @@ public class MainLayer extends Layer {
 		
 		
 		//boolean down = false;
-		
+		/*
 		boolean canDown = true;
 		int[][] pieceState = piece.getState();
 		for (int i = 0; i < 4; i++) {
