@@ -23,7 +23,7 @@ public class BoardLayer extends Layer {
 	}
 	
 	private Vector2f blockSize = new Vector2f(30, 30);
-	private Vector3f tmpPos = new Vector3f();
+	private Vector3f tempPos = new Vector3f();
 	private Vector4f emptyColor = new Vector4f(0.8f, 0.8f, 0.8f, 1);
 	private Vector4f fixedColor = new Vector4f(0.2f, 0.4f, 0.8f, 1);
 	private Vector4f pieceColor = new Vector4f(0.2f, 0.8f, 0.3f, 1);
@@ -127,32 +127,32 @@ public class BoardLayer extends Layer {
 		
 		int[][] B = board.getBoard();
 		
-		tmpPos.z = 0.0f;
+		tempPos.z = 0.0f;
 		for (int i = 0; i < B.length; i++) {
 			for (int j = 0; j < B[i].length; j++) {
 				
-				tmpPos.x = j * 30;
-				tmpPos.y = i * 30;
+				tempPos.x = j * 30;
+				tempPos.y = i * 30;
 				
 				if (B[i][j] == 0) {
-					Renderer2D.drawQuad(tmpPos, blockSize, blockTexture, emptyColor);
+					Renderer2D.drawQuad(tempPos, blockSize, blockTexture, emptyColor);
 				}
 				else {
-					Renderer2D.drawQuad(tmpPos, blockSize, blockTexture, fixedColor);
+					Renderer2D.drawQuad(tempPos, blockSize, blockTexture, fixedColor);
 				}
 			}
 		}
 		
 		//current piece
 		int[][] P = piece.getState();
-		tmpPos.z = 0.1f;
+		tempPos.z = 0.1f;
 		for (int i = 0; i < P.length; i++) {
 			for (int j = 0; j < P[i].length; j++) {
-				tmpPos.x = (j+piece.getCurrentX()) * 30;
-				tmpPos.y = (i+piece.getCurrentY()) * 30;
+				tempPos.x = (j+piece.getCurrentX()) * 30;
+				tempPos.y = (i+piece.getCurrentY()) * 30;
 				
 				if (P[i][j] == 1) {
-					Renderer2D.drawQuad(tmpPos, blockSize, blockTexture, pieceColor);
+					Renderer2D.drawQuad(tempPos, blockSize, blockTexture, pieceColor);
 				}
 			}
 		}

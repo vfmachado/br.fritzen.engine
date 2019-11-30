@@ -48,7 +48,7 @@ public class MainLayer extends Layer {
 		
 		super("MainLayer");
 		
-		cameraController = new OrthographicCameraController(1280f/720f);
+		cameraController = new OrthographicCameraController(1280f/720f, true);
 		
 		controller = new GameController(Direction.DOWN);
 			
@@ -140,9 +140,9 @@ public class MainLayer extends Layer {
 		
 		if (e.getEventType() == EventType.KeyReleasedEvent) {
 			KeyEvent evt = (KeyEvent) e;
-			if (evt.getKeyCode() == Input.KEY_KP_ADD) {
+			if (evt.getKeyCode() == Input.KEY_EQUAL) {
 				textureRepeats++;
-			} else if (evt.getKeyCode() == Input.KEY_KP_SUBTRACT) {
+			} else if (evt.getKeyCode() == Input.KEY_MINUS) {
 				textureRepeats--;
 			}
 		}
