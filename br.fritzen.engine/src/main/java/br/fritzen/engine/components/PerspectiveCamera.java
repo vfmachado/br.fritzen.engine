@@ -2,6 +2,7 @@ package br.fritzen.engine.components;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import br.fritzen.engine.Application;
 import lombok.Getter;
@@ -15,20 +16,17 @@ public class PerspectiveCamera extends Camera {
 	
 	
 	public PerspectiveCamera() {
-		this(60f, (float) Application.getWindow().getWidth() / (float) Application.getWindow().getHeight(), 0.01f, 100f);
+		this(60f, (float) Application.getWindow().getWidth() / (float) Application.getWindow().getHeight(), 0.1f, 100f);
 	}
 	
 	
 	public PerspectiveCamera(float fovy, float aspect, float zNear, float zFar) {
 		
 		super();
-		
-		this.projection.perspective(fovy, aspect, zNear, zFar);
-		
 		this.tmpTransform = new Matrix4f();
 		this.rotation = new Quaternionf();
 		
-		recalculateViewProjection();
+		setProjection(fovy, aspect, zNear, zFar);
 		
 	}
 	
@@ -36,7 +34,7 @@ public class PerspectiveCamera extends Camera {
 	public void setProjection(float fovy, float aspect, float zNear, float zFar) {
 		
 		this.projection.identity();
-		this.projection.perspective(fovy, aspect, zNear, zFar);
+		this.projection.perspective((float)Math.toRadians(fovy), aspect, zNear, zFar);
 		recalculateViewProjection();
 		
 	}
@@ -46,8 +44,7 @@ public class PerspectiveCamera extends Camera {
 	public void recalculateViewProjection() {
 
 		tmpTransform.identity();
-		tmpTransform.translate(this.position).rotate(rotation);
-		tmpTransform.invert();
+		tmpTransform.rotate(rotation).translate(this.position).invert();
 		
 		this.view.set(tmpTransform);
 		

@@ -1,6 +1,7 @@
 package br.fritzen.engine.components;
 
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -32,13 +33,18 @@ public class MeshLoaderTest {
 			
 			this.cubeMesh = new Mesh("models/obj/cube.obj");
 			
-			this.transform = new Matrix4f();
+			this.cubeMesh.loadAssimp("models/obj/cube.obj");
 			
+			this.transform = new Matrix4f();
+//			/this.transform.scale(2);
 			this.material = new Material();
 			this.material.setDiffuseColor(new Vector4f(1, 1, 1, 1));
 			this.material.setDiffuseTexture(Texture2D.create("textures/default.png"));
 			
-			this.camera.setPosition(new Vector3f(0, 0, 1f));
+			this.camera.setPosition(new Vector3f(0, 1f, 5f));
+			this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-20), 0, 0));
+			
+			
 		}
 		
 		float angle = 0;
@@ -66,7 +72,7 @@ public class MeshLoaderTest {
 	
 	public static void main(String[] args) {
 
-		Application app = Application.create("Camera Test", 1280, 720);
+		Application app = Application.create("Load With Assimp Test", 1280, 720);
 		
 		app.addLayer(new RotationMeshLayer());
 		
