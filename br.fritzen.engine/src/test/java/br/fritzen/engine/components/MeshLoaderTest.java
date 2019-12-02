@@ -33,18 +33,18 @@ public class MeshLoaderTest {
 			
 			this.cubeMesh = new Mesh("models/obj/cube.obj");
 			
-			this.cubeMesh.loadAssimp("models/obj/cube.obj");
+			this.cubeMesh.loadAssimp("models/model.dae");
 			
 			this.transform = new Matrix4f();
 //			/this.transform.scale(2);
 			this.material = new Material();
 			this.material.setDiffuseColor(new Vector4f(1, 1, 1, 1));
-			this.material.setDiffuseTexture(Texture2D.create("textures/default.png"));
+			this.material.setDiffuseTexture(Texture2D.create("models/diffuse.png"));
 			
-			this.camera.setPosition(new Vector3f(0, 1f, 5f));
+			this.camera.setPosition(new Vector3f(0, 5f, 10f));
 			this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-20), 0, 0));
 			
-			
+			transform.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
 		}
 		
 		float angle = 0;
@@ -52,7 +52,7 @@ public class MeshLoaderTest {
 		@Override
 		public void onUpdate(float deltatime) {
 			
-			transform.rotate((float)Math.toRadians(50f * deltatime), EngineState.Y_AXIS);
+			transform.rotate((float)Math.toRadians(50f * deltatime), EngineState.Z_AXIS);
 			
 		}
 		

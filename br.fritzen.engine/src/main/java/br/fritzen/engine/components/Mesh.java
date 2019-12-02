@@ -8,8 +8,10 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.AIFace;
 import org.lwjgl.assimp.AIMesh;
 import org.lwjgl.assimp.AIScene;
+import org.lwjgl.assimp.AIVector2D;
 import org.lwjgl.assimp.AIVector3D;
 import org.lwjgl.assimp.Assimp;
+
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.platform.opengl.VertexBufferLayout;
@@ -87,9 +89,9 @@ public class Mesh {
 		PointerBuffer aiMeshes = aiScene.mMeshes();
 		AIMesh aiMesh = AIMesh.create(aiMeshes.get(0));
 		
-		System.out.println(aiMesh.mVertices().remaining());
-		System.out.println(aiMesh.mTextureCoords().remaining());
-		System.out.println(aiMesh.mNormals().remaining());
+		System.out.println("Vertices: " + aiMesh.mVertices().remaining());
+		System.out.println("Textures: " + aiMesh.mTextureCoords().remaining());
+		System.out.println("Normals: " + aiMesh.mNormals().remaining());
 		
 		System.out.println(aiMesh.mNumFaces());
 		
@@ -110,7 +112,7 @@ public class Mesh {
 	    while (textCoords.remaining() > 0) {
 	        AIVector3D aiVertex = textCoords.get();
 	        bufferTextures[index++] = aiVertex.x();
-	        bufferTextures[index++] = 1 - aiVertex.y();
+	        bufferTextures[index++] = aiVertex.y();
 	       
         }
 	    
