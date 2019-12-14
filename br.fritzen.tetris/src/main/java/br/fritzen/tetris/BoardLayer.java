@@ -131,8 +131,8 @@ public class BoardLayer extends Layer {
 		for (int i = 0; i < B.length; i++) {
 			for (int j = 0; j < B[i].length; j++) {
 				
-				tempPos.x = j * 30;
-				tempPos.y = i * 30;
+				tempPos.x = j * 30 + 15;
+				tempPos.y = i * 30 + 15;
 				
 				if (B[i][j] == 0) {
 					Renderer2D.drawQuad(tempPos, blockSize, blockTexture, emptyColor);
@@ -148,8 +148,8 @@ public class BoardLayer extends Layer {
 		tempPos.z = 0.1f;
 		for (int i = 0; i < P.length; i++) {
 			for (int j = 0; j < P[i].length; j++) {
-				tempPos.x = (j+piece.getCurrentX()) * 30;
-				tempPos.y = (i+piece.getCurrentY()) * 30;
+				tempPos.x = (j+piece.getCurrentX()) * 30 + 15;
+				tempPos.y = (i+piece.getCurrentY()) * 30 + 15;
 				
 				if (P[i][j] == 1) {
 					Renderer2D.drawQuad(tempPos, blockSize, blockTexture, pieceColor);

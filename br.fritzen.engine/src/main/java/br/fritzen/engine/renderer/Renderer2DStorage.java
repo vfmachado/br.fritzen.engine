@@ -36,10 +36,10 @@ public class Renderer2DStorage {
 		this.shader = new OpenGLShader(shaders);
 	
 		float[] positions = {
-				   0.0f, 0.0f, 0, 0, 0, //0
-	               1.0f, 0.0f, 0, 1, 0,	//1
-	               0.0f, 1.0f, 0, 0, 1,	//2
-	               1.0f, 1.0f, 0, 1, 1	//3
+				   -0.5f, -0.5f, 0, 0, 0, //0
+	                0.5f, -0.5f, 0, 1, 0,	//1
+	                0.5f,  0.5f, 0, 1, 1,	//2
+	               -0.5f,  0.5f, 0, 0, 1	//3
 	            };
 		
 		
@@ -53,7 +53,7 @@ public class Renderer2DStorage {
 		layouts.add(new VertexBufferLayout(2));
 		this.vao.addInterleavedVBO(vbo, layouts);
 				
-		int[] indices = { 0, 1, 2, 1, 3, 2};
+		int[] indices = { 0, 1, 2, 2, 3, 0};
 		
 		IndexBuffer ibo = IndexBuffer.create(EngineBuffers.createIntBuffer(indices), indices.length);
 		this.vao.setIB(ibo);

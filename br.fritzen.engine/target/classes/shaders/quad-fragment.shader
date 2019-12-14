@@ -6,7 +6,7 @@ in vec2 v_texCoord;
 
 uniform vec4 color;
 
-uniform int textureRepeats = 1;
+uniform float textureRepeats = 1;
 
 uniform sampler2D u_texture;
 

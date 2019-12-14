@@ -7,7 +7,7 @@ public enum ShaderUniform {
 	color("color"),
 	hasTexture("hasTexture"),
 	hasColor("hasColor"),
-	textureRepeats("textureRepeats"),
+	tillingFactor("textureRepeats"),
 	
 	
 	//MVP

@@ -110,8 +110,7 @@ public abstract class Renderer2D {
 		
 		RendererAPI.get().drawIndexed(sData.getVAO());
 	}
-	
-	
+		
 	
 	public static void drawQuad(Vector2f pos, Vector2f size, Texture2D texture, Vector4f color) {
 		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, texture, color);		
@@ -134,8 +133,84 @@ public abstract class Renderer2D {
 	}
 	
 	
-	public static void setTextureRepeats(int repeats) {
-		sData.getShader().setInt(ShaderUniform.textureRepeats, repeats);
+	public static void drawRotatedQuad(Vector2f pos, Vector2f size, float angle, Vector4f color) {
+		drawRotatedQuad(tmpVec3.set(pos, 0), size, angle, color);
+	}
+	
+	
+	public static void drawRotatedQuad(Vector3f pos, Vector2f size, float angle, Vector4f color) {
+		
+		tmpTransform.identity()
+			.translate(pos.x, pos.y, pos.z)
+			.rotate((float) Math.toRadians(angle), 0, 0, 1)
+			.scale(size.x, size.y, 1);
+		
+		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
+		
+		blankTexture.bind();
+		
+		sData.getShader().setInt(ShaderUniform.texture, 0);
+		
+		sData.getShader().setFloat4(ShaderUniform.color, color);
+		
+		RendererAPI.get().drawIndexed(sData.getVAO());
+		
+		
+	}
+	
+	
+	public static void drawRotatedQuad(Vector2f pos, Vector2f size, float angle, Texture2D texture) {
+		
+		Renderer2D.drawRotatedQuad(tmpVec3.set(pos, 0), size, angle, texture);		
+	}
+	
+	
+	public static void drawRotatedQuad(Vector3f pos, Vector2f size, float angle, Texture2D texture) {
+
+		tmpTransform.identity()
+			.translate(pos.x, pos.y, pos.z)
+			.rotate((float) Math.toRadians(angle), 0, 0, 1)
+			.scale(size.x, size.y, 1);
+	
+		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
+		
+		sData.getShader().setFloat4(ShaderUniform.color, 1, 1, 1, 1);
+		
+		texture.bind();
+		
+		sData.getShader().setInt(ShaderUniform.texture, 0);
+		
+		RendererAPI.get().drawIndexed(sData.getVAO());
+	}
+	
+
+	public static void drawRotatedQuad(Vector2f pos, Vector2f size, float angle, Texture2D texture, Vector4f color) {
+		Renderer2D.drawRotatedQuad(tmpVec3.set(pos, 0), size, angle, texture, color);		
+	}
+	
+	
+	public static void drawRotatedQuad(Vector3f pos, Vector2f size, float angle, Texture2D texture, Vector4f color) {
+
+		tmpTransform.identity()
+			.translate(pos.x, pos.y, pos.z)
+			.rotate((float) Math.toRadians(angle), 0, 0, 1)
+			.scale(size.x, size.y, 1);
+
+		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
+		
+		sData.getShader().setFloat4(ShaderUniform.color, color);
+		
+		texture.bind();
+		
+		sData.getShader().setInt(ShaderUniform.texture, 0);
+		
+		RendererAPI.get().drawIndexed(sData.getVAO());
+	}
+	
+
+	
+	public static void setTillingFactor(float repeats) {
+		sData.getShader().setFloat(ShaderUniform.tillingFactor, repeats);
 	}
 	
 	
