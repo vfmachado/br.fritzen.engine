@@ -2,7 +2,6 @@ package br.fritzen.engine.components;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 import br.fritzen.engine.Application;
 import lombok.Getter;

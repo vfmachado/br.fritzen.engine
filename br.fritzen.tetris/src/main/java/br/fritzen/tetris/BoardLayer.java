@@ -27,11 +27,13 @@ public class BoardLayer extends Layer {
 	private Vector4f emptyColor = new Vector4f(0.8f, 0.8f, 0.8f, 1);
 	private Vector4f fixedColor = new Vector4f(0.2f, 0.4f, 0.8f, 1);
 	private Vector4f pieceColor = new Vector4f(0.2f, 0.8f, 0.3f, 1);
+	private Vector4f castPieceColor = new Vector4f(0.2f, 0.8f, 0.3f, 0.4f);
 	private Texture2D blockTexture = Texture2D.create("textures/block.png");
 	
 	private Board board;
 	private Piece piece;
 	private Piece tempPiece;
+	private Piece castPiece;
 	
 	private OrthographicCamera camera;;
 	
@@ -42,6 +44,7 @@ public class BoardLayer extends Layer {
 	
 		board = new Board(Defines.HEIGHT, Defines.WIDTH);
 		piece = new Piece();
+		castPiece = new Piece();
 		tempPiece = new Piece();
 		
 		RenderCommand.clearColor(0,  0,  0,  1);
@@ -53,10 +56,16 @@ public class BoardLayer extends Layer {
 	public void onUpdate(float deltatime) {
 		super.onUpdate(deltatime);
 		
+		piece.clone(castPiece);
+		
+		while (board.pieceFit(castPiece, 0, 1)) {
+			castPiece.increaseY();
+		}
+		
 		//move board down
 		time += deltatime;
 		if (time >= 0.25f) {
-			
+		
 			//update everything
 			if (board.pieceFit(piece, 0, 1)) {
 				piece.increaseY();
@@ -109,7 +118,18 @@ public class BoardLayer extends Layer {
 					board.fixPiece(piece);
 					piece = new Piece();
 				}
+				
 			}
+			
+			
+			if (evt.getKeyCode() == Input.KEY_SPACE) {
+				
+				while (board.pieceFit(piece, 0, 1)) {
+					piece.increaseY();
+				}
+				
+			}
+			
 		}
 		
 		
@@ -153,6 +173,20 @@ public class BoardLayer extends Layer {
 				
 				if (P[i][j] == 1) {
 					Renderer2D.drawQuad(tempPos, blockSize, blockTexture, pieceColor);
+				}
+			}
+		}
+		
+		//cast piece
+		P = castPiece.getState();
+		tempPos.z = 0.1f;
+		for (int i = 0; i < P.length; i++) {
+			for (int j = 0; j < P[i].length; j++) {
+				tempPos.x = (j+castPiece.getCurrentX()) * 30 + 15;
+				tempPos.y = (i+castPiece.getCurrentY()) * 30 + 15;
+				
+				if (P[i][j] == 1) {
+					Renderer2D.drawQuad(tempPos, blockSize, blockTexture, castPieceColor);
 				}
 			}
 		}
