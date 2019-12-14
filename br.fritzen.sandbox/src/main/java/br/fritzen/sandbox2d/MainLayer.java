@@ -22,6 +22,8 @@ public class MainLayer extends Layer {
 
 	private OrthographicCameraController cameraController;
 	
+	private Helicopter helicopter = new Helicopter();
+	
 	private Vector2f quadDir = new Vector2f(0, 1);
 	private Vector2f tmp_quadDir = new Vector2f(0, 1);
 	
@@ -64,12 +66,13 @@ public class MainLayer extends Layer {
 	@Override
 	public void onUpdate(float deltatime) {
 		
+		helicopter.onUpdate(deltatime);
+		
 		cameraController.onUpdate(deltatime);
 
 		time += deltatime;
 		
 		quadDir.normalize( deltatime > 0 ? speed * deltatime : 1);
-		System.out.println(quadDir);
 		
 		if (Input.isKeyPressed(KeyEvent.KEY_UP)) {
 			quadPosition.add(quadDir);
@@ -115,6 +118,8 @@ public class MainLayer extends Layer {
 		
 		Renderer2D.drawRotatedQuad(quadPosition, quadSize, angle, quadColor);
 		
+		
+		helicopter.onRender();
 		
 		Renderer2D.endScene();
 		
