@@ -1,5 +1,9 @@
 package br.fritzen.engine.renderer;
 
+import java.nio.ByteBuffer;
+
+import org.lwjgl.BufferUtils;
+
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.platform.opengl.OpenGLTexture2D;
 
@@ -47,6 +51,22 @@ public abstract class Texture2D extends Texture {
 		System.exit(1);
 		return null;
 		
+	}
+	
+	public static Texture2D createBlank() {
+		
+		ByteBuffer textureData = BufferUtils.createByteBuffer(16);
+		
+		textureData.put((byte) 255);
+		textureData.put((byte) 255);
+		textureData.put((byte) 255);
+		textureData.put((byte) 255);
+		
+		textureData.flip();
+		
+		Texture2D blank = create(1, 1);
+		blank.setData(textureData, 1);
+		return blank;
 	}
 	
 }

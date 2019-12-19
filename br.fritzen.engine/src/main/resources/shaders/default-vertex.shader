@@ -6,6 +6,8 @@ layout(location = 1) in vec2 texture;
 layout(location = 2) in vec3 normal;
 
 out vec2 v_texCoord;
+out vec3 v_fragPos;
+out vec3 v_normal;
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Model;
@@ -15,5 +17,7 @@ void main() {
 	gl_Position = u_ViewProjection * u_Model * vec4(position, 1.0);
 	
 	v_texCoord = texture;
+	v_fragPos = vec3(u_Model * vec4(position, 1.0));
+	v_normal = vec3(u_Model * vec4(normal, 1.0));
 	
 }

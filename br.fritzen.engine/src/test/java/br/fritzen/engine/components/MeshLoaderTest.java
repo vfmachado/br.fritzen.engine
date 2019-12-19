@@ -11,7 +11,7 @@ import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.renderer.Material;
 import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.renderer.Texture2D;
-import imgui.imgui.demo.showExampleApp.MyDocument;
+import br.fritzen.engine.utils.Pair;
 
 public class MeshLoaderTest {
 
@@ -21,7 +21,8 @@ public class MeshLoaderTest {
 		
 		private Matrix4f transform;
 		
-		private Mesh cubeMesh;
+		//private Mesh cubeMesh;
+		private Model model;
 		
 		private Material material;
 		
@@ -31,20 +32,23 @@ public class MeshLoaderTest {
 			
 			camera = new PerspectiveCamera();
 			
-			this.cubeMesh = new Mesh("models/obj/cube.obj");
+			//this.cubeMesh = new Mesh("models/obj/cube.obj");
+			//this.cubeMesh.loadAssimp("models/model.dae");
 			
-			this.cubeMesh.loadAssimp("models/model.dae");
+			//model = new Model("models/model.dae");
+			model = new Model("models/obj/bunny.obj");
 			
 			this.transform = new Matrix4f();
 //			/this.transform.scale(2);
 			this.material = new Material();
 			this.material.setDiffuseColor(new Vector4f(1, 1, 1, 1));
-			this.material.setDiffuseTexture(Texture2D.create("models/diffuse.png"));
+			//this.material.setDiffuseTexture(Texture2D.create("models/diffuse.png"));
+			this.material.setDiffuseTexture(Texture2D.createBlank());
+		
+			this.camera.setPosition(new Vector3f(0, 0.2f, 0.5f));
+			//this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-20), 0, 0));
 			
-			this.camera.setPosition(new Vector3f(0, 5f, 10f));
-			this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-20), 0, 0));
-			
-			transform.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
+			//transform.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
 		}
 		
 		float angle = 0;
@@ -52,7 +56,7 @@ public class MeshLoaderTest {
 		@Override
 		public void onUpdate(float deltatime) {
 			
-			transform.rotate((float)Math.toRadians(50f * deltatime), EngineState.Z_AXIS);
+			transform.rotate((float)Math.toRadians(50f * deltatime), EngineState.Y_AXIS);
 			
 		}
 		
@@ -61,7 +65,11 @@ public class MeshLoaderTest {
 			
 			Renderer.beginScene(this.camera);
 		
-			Renderer.render(this.cubeMesh, this.transform, this.material);
+			//Renderer.render(this.cubeMesh, this.transform, this.material);
+			for (Pair<Mesh, Integer> m : model.getMeshes()) {
+				Renderer.render(m.getKey(), this.transform, this.material);
+			}
+			
 			
 			Renderer.endScene();
 		}

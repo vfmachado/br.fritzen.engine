@@ -16,6 +16,7 @@ public class OpenGLRendererAPI extends RendererAPI {
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
+		
 	}
 	
 	

@@ -8,10 +8,8 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.AIFace;
 import org.lwjgl.assimp.AIMesh;
 import org.lwjgl.assimp.AIScene;
-import org.lwjgl.assimp.AIVector2D;
 import org.lwjgl.assimp.AIVector3D;
 import org.lwjgl.assimp.Assimp;
-
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.platform.opengl.VertexBufferLayout;
@@ -20,51 +18,36 @@ import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.Buffer.VertexBuffer;
 import br.fritzen.engine.utils.EngineBuffers;
 import lombok.Getter;
+import lombok.Setter;
 
 public class Mesh {
 
 	@Getter
+	@Setter
 	private VertexArray vertexArray;
 
+	@Getter
+	@Setter
+	private String name;
+	
+	
+	public Mesh() {
+		
+	}
+	
 	/**
 	 * For tests reasons, it's generating quad with size 1 centered on 0, 0, 0
 	 * @param filename
 	 */
-	public Mesh(String filename) {
-		
-		//load with Assimp
-		float[] positions = {
-				  -0.5f, -0.5f, 0, 0, 0, //0
-	               0.5f, -0.5f, 0, 1, 0,	//1
-	              -0.5f,  0.5f, 0, 0, 1,	//2
-	               0.5f,  0.5f, 0, 1, 1	//3
-	            };
-		
-		this.vertexArray = VertexArray.create();
-		
-		VertexBuffer vbo = VertexBuffer.create(EngineBuffers.createFloatBuffer(positions), positions.length * 4);
-		
-		List<VertexBufferLayout> layout = new ArrayList<VertexBufferLayout>();
-		layout.add(new VertexBufferLayout(3));
-		layout.add(new VertexBufferLayout(2));
-		
-		this.vertexArray.addInterleavedVBO(vbo, layout);
-		
-		int[] indices = { 0, 1, 2, 1, 3, 2};
-		
-		IndexBuffer ibo = IndexBuffer.create(EngineBuffers.createIntBuffer(indices), indices.length);
-		this.vertexArray.setIB(ibo);
-		
-		
-	}
-	
+	/*
 	public void loadAssimp(String filename) {
 		
 		
 		AIScene aiScene = Assimp.aiImportFile("src/main/resources/" + filename, 
 				Assimp.aiProcess_JoinIdenticalVertices | 
 				Assimp.aiProcess_Triangulate | 
-				Assimp.aiProcess_FixInfacingNormals);
+				Assimp.aiProcess_FixInfacingNormals | 
+				Assimp.aiProcess_CalcTangentSpace);
 		
 		if (aiScene == null) {
 		    //throw new Exception("Error loading model");
@@ -118,9 +101,11 @@ public class Mesh {
 	    
 	    
 	    int numFaces = aiMesh.mNumFaces();
+	    System.out.println("Num faces: " + numFaces);
 	    index = 0;
 	    int[] indices = new int[numFaces * 3];
         AIFace.Buffer aiFaces = aiMesh.mFaces();
+        System.out.println("AI Faces capacity: " + aiFaces.capacity());
         for (int i = 0; i < numFaces; i++) {
             AIFace aiFace = aiFaces.get(i);
             IntBuffer buffer = aiFace.mIndices();
@@ -143,7 +128,7 @@ public class Mesh {
 	    IndexBuffer ibo = IndexBuffer.create(EngineBuffers.createIntBuffer(indices), indices.length);
 		this.vertexArray.setIB(ibo);
 	}
-	
+	*/
 	
 	
 	
