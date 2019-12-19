@@ -36,8 +36,8 @@ public class MeshLoaderTest {
 			//this.cubeMesh.loadAssimp("models/model.dae");
 			
 			//model = new Model("models/model.dae");
-			model = new Model("models/obj/bunny.obj");
-			
+			//model = new Model("models/dragons/model01/dragon.obj");
+			model = new Model("models/obj/tyra.obj");
 			this.transform = new Matrix4f();
 //			/this.transform.scale(2);
 			this.material = new Material();
@@ -45,8 +45,8 @@ public class MeshLoaderTest {
 			//this.material.setDiffuseTexture(Texture2D.create("models/diffuse.png"));
 			this.material.setDiffuseTexture(Texture2D.createBlank());
 		
-			this.camera.setPosition(new Vector3f(0, 0.2f, 0.5f));
-			//this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-20), 0, 0));
+			this.camera.setPosition(new Vector3f(0, 1f, 5f));
+			this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-30), 0, 0));
 			
 			//transform.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
 		}
@@ -56,7 +56,7 @@ public class MeshLoaderTest {
 		@Override
 		public void onUpdate(float deltatime) {
 			
-			transform.rotate((float)Math.toRadians(50f * deltatime), EngineState.Y_AXIS);
+			transform.rotate((float)Math.toRadians(20f * deltatime), EngineState.Y_AXIS);
 			
 		}
 		
@@ -67,7 +67,7 @@ public class MeshLoaderTest {
 		
 			//Renderer.render(this.cubeMesh, this.transform, this.material);
 			for (Pair<Mesh, Integer> m : model.getMeshes()) {
-				Renderer.render(m.getKey(), this.transform, this.material);
+				Renderer.render(m.getKey(), this.transform, model.getMaterials().get(m.getValue()));
 			}
 			
 			

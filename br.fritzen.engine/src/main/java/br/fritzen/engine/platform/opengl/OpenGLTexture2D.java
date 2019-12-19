@@ -131,6 +131,10 @@ public class OpenGLTexture2D extends Texture2D {
 	
 	private void loadTexture(String filename) throws IOException {
 		
+		if (EngineState.DEBUG_TEXTURE) {
+			EngineLog.info("Loading texture: " + filename);
+		}
+		
 		IntBuffer width = BufferUtils.createIntBuffer(1);
 		IntBuffer height = BufferUtils.createIntBuffer(1);
 		IntBuffer channels_b = BufferUtils.createIntBuffer(1);
@@ -139,7 +143,7 @@ public class OpenGLTexture2D extends Texture2D {
 		
 		File file = new File(EngineFiles.class.getClassLoader().getResource(filename).getFile());
 				
-		ByteBuffer imgBuffer = STBImage.stbi_load(file.getAbsolutePath(), width, height, channels_b, STBImage.STBI_rgb_alpha);
+		ByteBuffer imgBuffer = STBImage.stbi_load(file.getAbsolutePath(), width, height, channels_b, STBImage.STBI_default);
 				
 		if (EngineState.DEBUG_TEXTURE) {
 			EngineLog.info("Texture loaded: \n\tFile: " + file.getAbsolutePath() + "\n\tWidth: " + width.get(0) + "\n\tHeight: " + height.get(0) + "\n\tChannels: " + channels_b.get(0));

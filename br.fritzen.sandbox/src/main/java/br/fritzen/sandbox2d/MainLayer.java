@@ -28,8 +28,10 @@ public class MainLayer extends Layer {
 	private Vector2f tmp_quadDir = new Vector2f(0, 1);
 	
 	private Vector2f quadPosition = new Vector2f(-0.5f, -0.5f);
-	private Vector2f quadSize = new Vector2f(1f, 1f);
+	private Vector2f quadSize = new Vector2f(5f, 5f);
 	private Vector4f quadColor = new Vector4f(0.8f, 0.2f, 0.3f, 1);
+	
+	private Texture2D testTexture = Texture2D.create("models/dragons/model01/n-200.bmp");
 	
 	private Texture2D blockTexture = Texture2D.create("block.png");
 	
@@ -76,10 +78,14 @@ public class MainLayer extends Layer {
 		
 		if (Input.isKeyPressed(KeyEvent.KEY_UP)) {
 			quadPosition.add(quadDir);
+			helicopter.up();
+		} else {
+			
 		}
 		
 		if (Input.isKeyPressed(KeyEvent.KEY_DOWN)) {
 			quadPosition.sub(quadDir);
+			helicopter.down();
 		}
 		
 		if (Input.isKeyPressed(KeyEvent.KEY_RIGHT)) {
@@ -116,7 +122,7 @@ public class MainLayer extends Layer {
 		
 		Renderer2D.setTillingFactor(1);
 		
-		Renderer2D.drawRotatedQuad(quadPosition, quadSize, angle, quadColor);
+		Renderer2D.drawRotatedQuad(quadPosition, quadSize, angle, testTexture);
 		
 		
 		helicopter.onRender();

@@ -19,6 +19,8 @@ public class Helicopter {
 	private int textIndex;
 	private float time = 0;
 	
+	private float angle = 0;
+	
 	public Helicopter() {
 		
 		position = new Vector2f(-10, 0);
@@ -46,12 +48,37 @@ public class Helicopter {
 		
 		currentTexture = textures.get(textIndex);
 		
+		if (angle < 0) {
+			angle += 0.5f;
+		} else if (angle > 0) {
+			angle -= 0.5f;
+		}
+	}
+	
+	
+	public void up() {
+		
+		if (angle < 30)
+			angle++;
+		
+		position.y += 0.1f;
+		
+	}
+	
+
+	public void down() {
+		if (angle > -30)
+			angle--;
+		
+		
+		position.y -= 0.1f;
+		
 	}
 			
 	
 	public void onRender() {
 		
-		Renderer2D.drawQuad(position, size, currentTexture);
+		Renderer2D.drawRotatedQuad(position, size, angle, currentTexture);
 		
 	}
 }
