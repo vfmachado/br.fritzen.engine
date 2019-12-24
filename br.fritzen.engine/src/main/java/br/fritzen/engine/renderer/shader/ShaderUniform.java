@@ -28,6 +28,10 @@ public enum ShaderUniform {
 	material_SpecularColor("u_Material.specularColor"),
 	material_SpecularExponent("u_Material.specularExponent"),
 	
+	material_Shininess("u_Material.shininess"),
+	shininess("u_shininess"),
+	
+	materialSpecColor("materialSpecColor"),
 	//LIGHTS
 	light_NumberOfDirectional("u_numDirectionalLight"),
 	light_NumberOfSpot("u_numSpotLight"),

@@ -81,6 +81,10 @@ public abstract class Renderer {
 		material.getDiffuseTexture().bind(0);
 		sData.getShader().setInt(ShaderUniform.texture, 0);
 		
+		sData.getShader().setFloat(ShaderUniform.shininess, material.getShininess());
+		
+		sData.getShader().setFloat4(ShaderUniform.materialSpecColor, material.getSpecularColor());
+		
 		mesh.getVertexArray().bind();
 		RendererAPI.get().drawIndexed(mesh.getVertexArray());
 				

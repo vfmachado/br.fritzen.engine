@@ -35,9 +35,11 @@ public class MeshLoaderTest {
 			//this.cubeMesh = new Mesh("models/obj/cube.obj");
 			//this.cubeMesh.loadAssimp("models/model.dae");
 			
+			model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
+			
 			//model = new Model("models/model.dae");
 			//model = new Model("models/dragons/model01/dragon.obj");
-			model = new Model("models/obj/tyra.obj");
+			//model = new Model("models/obj/tyra.obj");
 			this.transform = new Matrix4f();
 //			/this.transform.scale(2);
 			this.material = new Material();
@@ -45,10 +47,11 @@ public class MeshLoaderTest {
 			//this.material.setDiffuseTexture(Texture2D.create("models/diffuse.png"));
 			this.material.setDiffuseTexture(Texture2D.createBlank());
 		
-			this.camera.setPosition(new Vector3f(0, 1f, 5f));
+			this.camera.setPosition(new Vector3f(0, 20f, 300f));
 			this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-30), 0, 0));
 			
-			//transform.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
+			transform.scale(0.5f);
+//			/transform.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
 		}
 		
 		float angle = 0;
@@ -67,6 +70,7 @@ public class MeshLoaderTest {
 		
 			//Renderer.render(this.cubeMesh, this.transform, this.material);
 			for (Pair<Mesh, Integer> m : model.getMeshes()) {
+				if (!m.getKey().getName().equals("Lamborghini_Aventador:Collider"))
 				Renderer.render(m.getKey(), this.transform, model.getMaterials().get(m.getValue()));
 			}
 			

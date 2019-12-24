@@ -15,7 +15,7 @@ public class PerspectiveCamera extends Camera {
 	
 	
 	public PerspectiveCamera() {
-		this(60f, (float) Application.getWindow().getWidth() / (float) Application.getWindow().getHeight(), 0.1f, 100f);
+		this(60f, (float) Application.getWindow().getWidth() / (float) Application.getWindow().getHeight(), 0.1f, 1000f);
 	}
 	
 	

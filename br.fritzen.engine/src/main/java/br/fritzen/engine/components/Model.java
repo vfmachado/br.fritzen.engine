@@ -1,10 +1,12 @@
 package br.fritzen.engine.components;
 
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector4f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.AIColor4D;
 import org.lwjgl.assimp.AIFace;
@@ -53,7 +55,8 @@ public class Model {
 		
 		if (aiScene == null) {
 		    //throw new Exception("Error loading model");
-			EngineLog.severe("Error loading model with Assimp");
+			
+			EngineLog.severe("Error loading model with Assimp: " + Assimp.aiGetErrorString());
 			System.exit(0);
 		}
 		
@@ -75,6 +78,17 @@ public class Model {
             Vector4f specularColor = this.extractColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR);
             material.setAmbientColor(specularColor);
         	
+            
+            IntBuffer size = BufferUtils.createIntBuffer(1);
+            size.put(1);
+            size.flip();
+            FloatBuffer floatBuf = BufferUtils.createFloatBuffer(1);
+            Assimp.aiGetMaterialFloatArray(aiMaterial, Assimp.AI_MATKEY_SHININESS, Assimp.aiTextureType_NONE, 0, floatBuf, size);
+            float shininess = floatBuf.get();
+            
+            material.setShininess(shininess);
+            
+            
             AIString text = AIString.create();
             Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_DIFFUSE, 0, text, (IntBuffer) null, null, null, null, null, null);
     		
