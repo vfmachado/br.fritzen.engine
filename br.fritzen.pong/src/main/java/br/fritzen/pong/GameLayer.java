@@ -55,7 +55,7 @@ public class GameLayer extends Layer {
 		
 		if (running) {
 			//ball collides player - invert X direction
-			if (ball.position.x <= player.position.x + player.size.x) {
+			if (ball.position.x <= player.position.x + player.size.x/2) {
 				
 				if (ball.position.y <= player.position.y + player.size.y && 
 					ball.position.y + ball.size.y >= player.position.y) {

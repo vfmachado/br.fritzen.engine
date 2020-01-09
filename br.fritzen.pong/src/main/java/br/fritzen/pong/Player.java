@@ -39,11 +39,16 @@ public class Player {
 		if (Input.isKeyPressed(Input.KEY_W)) {
 			
 			this.position.y += speed * deltatime;
+			if (this.position.y + this.size.y/2 > 100) {
+				this.position.y = 100 - this.size.y/2;
+			}
 			
 		} else if (Input.isKeyPressed(Input.KEY_S)) {
 			
 			this.position.y -= speed * deltatime;
-			
+			if (this.position.y < this.size.y/2) {
+				this.position.y = this.size.y/2;
+			}
 		}
 		
 	}

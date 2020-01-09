@@ -6,20 +6,21 @@ public abstract class MainLoopUnlimited extends MainLoop {
 
 	public void run() {
 
+		long timer = System.currentTimeMillis();
+
 		EngineLog.info("Initializing systems");
 		this.init();
 
 		isRunning = true;
 
-		
-		long timer = System.nanoTime();
+		EngineLog.info("Application main loop started after " + (System.currentTimeMillis() - timer)  + "ms.");
 
-	
+		timer = System.nanoTime();
 		long beforeTime = timer;
 		long afterTime = timer;
 		long deltaTime = 0;
 
-		EngineLog.info("Application main loop");
+
 		while (isRunning) {
 
 			

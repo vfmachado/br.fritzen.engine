@@ -51,7 +51,7 @@ public class MeshLoaderTest {
 			this.camera.setRotation(new Quaternionf().rotate((float)Math.toRadians(-30), 0, 0));
 			
 			transform.scale(0.5f);
-//			/transform.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
+//			/transform.rotate((float)Math.toRadians(-90), TEngineState.X_AXIS);
 		}
 		
 		float angle = 0;

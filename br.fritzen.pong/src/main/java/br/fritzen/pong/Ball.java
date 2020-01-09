@@ -39,24 +39,24 @@ public class Ball {
 	private Vector3f tmpDir = new Vector3f();
 	public void update(float deltatime) {
 		
-		if (position.x <= 0f || position.x > 177) {
+		if (position.x < size.x/2 || position.x + size.x/2 >= 177) {
 			direction.mul(-1, 1, 1);
-			if (position.x < 0f) {
-				position.x = 0f;
+			if (position.x < size.x/2) {
+				position.x = size.x/2;
 			} else {
-				position.x = 177f;
+				position.x = 177f - size.x/2;
 			}
 			//position.add(direction.mul(deltatime/100f, tmpDir));
 			//System.out.println("Inverter X");
 		}
 		
-		if (position.y <= 0f || position.y >= 100f) {
+		if (position.y < size.y/2 || position.y + size.y/2 > 100f) {
 			
 			direction.mul(1, -1, 1);
-			if (position.y < 0f) {
-				position.y = 0f;
+			if (position.y < size.y/2) {
+				position.y = size.y/2;
 			} else {
-				position.y = 100f;
+				position.y = 100f - size.y/2;
 			}
 			//position.add(direction.mul(deltatime/100f, tmpDir));
 			//System.out.println("Inverter Y");
