@@ -1,14 +1,14 @@
 package br.fritzen.sandbox3d;
 
 import org.joml.Matrix4f;
-import org.joml.Vector4f;
 
 import br.fritzen.engine.components.Mesh;
 import br.fritzen.engine.components.Model;
 import br.fritzen.engine.renderer.Material;
+import br.fritzen.engine.renderer.Texture2D;
 import lombok.Getter;
 
-public class Cube {
+public class Plane {
 
 	@Getter
 	private Material material;
@@ -19,12 +19,13 @@ public class Cube {
 	private Matrix4f transform;
 
 
-	public Cube() {
-		this.mesh = new Model("models/cube.obj");
+	public Plane() {
+
+		this.mesh = new Model("models/plane.obj");
 		this.material = new Material();
 		this.transform = new Matrix4f();
 
-		this.material.setDiffuseColor(new Vector4f(0.8f, 0.2f, 0.3f, 1.0f));
+		this.material.setDiffuseTexture(Texture2D.create("textures/blueChess.png"));
 	}
 
 

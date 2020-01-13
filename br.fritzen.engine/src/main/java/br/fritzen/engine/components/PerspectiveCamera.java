@@ -2,6 +2,7 @@ package br.fritzen.engine.components;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import br.fritzen.engine.Application;
 import lombok.Getter;
@@ -12,6 +13,8 @@ public class PerspectiveCamera extends Camera {
 	private Quaternionf rotation;
 	
 	private Matrix4f tmpTransform;
+	
+	private Vector3f auxPos = new Vector3f();
 	
 	
 	public PerspectiveCamera() {
@@ -44,12 +47,13 @@ public class PerspectiveCamera extends Camera {
 		
 	}
 	
+	Quaternionf auxQ = new Quaternionf();
 	
 	@Override
 	public void recalculateViewProjection() {
-
 		tmpTransform.identity();
-		tmpTransform.rotate(rotation).translate(this.position).invert();
+		
+		auxQ.set(rotation).conjugate().get(tmpTransform).translate(this.position.mul(-1, auxPos));
 		
 		this.view.set(tmpTransform);
 		

@@ -29,7 +29,7 @@ public abstract class Layer {
 		
 	}
 	
-	public void onOvent(Event e) {
+	public void onEvent(Event e) {
 		
 	}
 	

@@ -333,4 +333,22 @@ public class WindowsWindowImpl extends Window {
 		GLFW.glfwSetWindowSize(this.handler, this.width, this.height);
 			
 	}
+
+
+	@Override
+	public void setCursorPos(float x, float y) {
+		GLFW.glfwSetCursorPos(this.handler, x, y);
+	}
+	
+	@Override
+	public void enableMouse() {
+		GLFW.glfwSetInputMode(this.handler, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+	}
+
+	
+	@Override
+	public void disableMouse() {
+		GLFW.glfwSetInputMode(this.handler, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+	}
+	
 }

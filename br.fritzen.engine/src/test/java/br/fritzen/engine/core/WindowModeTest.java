@@ -32,7 +32,7 @@ public class WindowModeTest {
 			}
 			
 			@Override
-			public void onOvent(Event e) {
+			public void onEvent(Event e) {
 				
 				if (e.getEventType() == EventType.KeyPressedEvent) {
 					

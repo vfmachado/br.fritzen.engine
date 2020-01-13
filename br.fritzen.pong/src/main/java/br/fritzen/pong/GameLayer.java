@@ -104,7 +104,7 @@ public class GameLayer extends Layer {
 	}
 	
 	@Override
-	public void onOvent(Event e) {
+	public void onEvent(Event e) {
 		
 		if (e.getEventType() == EventType.KeyReleasedEvent) {
 		

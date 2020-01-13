@@ -130,7 +130,7 @@ public class MainLayer extends Layer {
 	
 	
 	@Override
-	public void onOvent(Event e) {
+	public void onEvent(Event e) {
 		
 		if (e.getEventType() == EventType.KeyReleasedEvent) {
 			KeyEvent evt = (KeyEvent) e;

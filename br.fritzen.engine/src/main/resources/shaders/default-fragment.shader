@@ -56,6 +56,5 @@ void main() {
 	
 	fragColor = vec4(pow(linearColor, gamma), alpha);
 	
-	//fragColor = textureColor * color * (ambient + diffVector + specularCoefficient *20)  ;
 
 }

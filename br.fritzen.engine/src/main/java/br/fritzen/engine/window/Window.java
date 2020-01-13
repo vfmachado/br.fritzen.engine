@@ -50,6 +50,12 @@ public abstract class Window {
 	
 	public abstract void setWindowSize(int width, int height);
 	
+	public abstract void setCursorPos(float x, float y);
+	
+	public abstract void enableMouse();
+
+	public abstract void disableMouse();
+
 	
 	public void eventCallback(Event e) {
 		
@@ -68,6 +74,9 @@ public abstract class Window {
 		init();
 		
 	}
+
+	
+	
 
 
 }

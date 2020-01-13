@@ -173,7 +173,7 @@ public class ApplicationTest {
 			}
 			
 			@Override
-			public void onOvent(Event e) {
+			public void onEvent(Event e) {
 				
 				if (e.getEventType() == EventType.KeyTypedEvent) {
 					KeyTypedEvent evt = (KeyTypedEvent) e;

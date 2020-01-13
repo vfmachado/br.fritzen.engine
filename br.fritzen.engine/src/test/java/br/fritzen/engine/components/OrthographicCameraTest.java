@@ -83,7 +83,7 @@ public class OrthographicCameraTest {
 		}
 		
 		@Override
-		public void onOvent(Event e) {
+		public void onEvent(Event e) {
 			camera.onEvent(e);
 		}
 		

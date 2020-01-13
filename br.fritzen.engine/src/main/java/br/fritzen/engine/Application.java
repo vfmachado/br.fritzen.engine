@@ -95,7 +95,7 @@ public class Application extends MainLoopUnlimited {
 		dispatcher.dispatch(this::onWindowCloseEvent, WindowCloseEvent.class);
 		
 		for (Layer layer : layerStack) {
-			layer.onOvent(e);
+			layer.onEvent(e);
 		}
 		
 	}

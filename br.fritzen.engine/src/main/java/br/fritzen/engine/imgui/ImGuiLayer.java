@@ -85,7 +85,7 @@ public class ImGuiLayer extends Layer {
 
 	
 	@Override
-	public void onOvent(Event e) {
+	public void onEvent(Event e) {
 		
 		if (e.getEventCategory() == EventCategory.Keyboard) {
 			
