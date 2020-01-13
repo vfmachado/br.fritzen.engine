@@ -112,6 +112,7 @@ public class Application extends MainLoopUnlimited {
 			layer.onRender();
 		}
 		
+		
 		/*
 		imguiLayer.begin();
 		
@@ -120,7 +121,9 @@ public class Application extends MainLoopUnlimited {
 			layer.onImGuiRender();
 		}
 		
-		
+		imguiLayer.end();
+		*/
+		/*
 		ImGui imgui = ImGui.INSTANCE;
 
 		imgui.begin("Renderer Info", GUI.TRUE, GUI.NONE_FLAG);

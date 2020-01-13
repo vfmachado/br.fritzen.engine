@@ -1,7 +1,5 @@
 package br.fritzen.sandbox2d;
 
-import java.util.Random;
-
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -113,7 +111,6 @@ public class MainLayer extends Layer {
 	public void onRender() {
 	
 		RenderCommand.clear();
-		
 		
 		Renderer2D.beginScene(cameraController.getCamera());
 
