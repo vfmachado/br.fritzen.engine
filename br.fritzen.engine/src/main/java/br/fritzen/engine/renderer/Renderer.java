@@ -1,6 +1,7 @@
 package br.fritzen.engine.renderer;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import br.fritzen.engine.components.Camera;
 import br.fritzen.engine.components.Mesh;
@@ -29,7 +30,7 @@ public abstract class Renderer {
 		sceneData.viewMatrix = camera.getView();
 		sceneData.projectionMatrix = camera.getProjection();
 		sceneData.viewProjectionMatrix = camera.getViewProjection();
-		
+		sceneData.cameraPosition = camera.getPosition();
 	}
 	
 	
@@ -44,6 +45,7 @@ public abstract class Renderer {
 		public Matrix4f viewMatrix;
 		public Matrix4f projectionMatrix;
 		public Matrix4f viewProjectionMatrix;
+		public Vector3f cameraPosition;
 		
 	}
 	
@@ -55,6 +57,8 @@ public abstract class Renderer {
 		shader.setMat4(ShaderUniform.viewProjection, sceneData.viewProjectionMatrix);
 		shader.setMat4(ShaderUniform.view, sceneData.viewMatrix);
 		shader.setMat4(ShaderUniform.projection, sceneData.projectionMatrix);
+		
+		shader.setFloat3(ShaderUniform.cameraPosition, sceneData.cameraPosition);
 		
 		shader.setMat4(ShaderUniform.model, transform);
 		

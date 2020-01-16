@@ -14,11 +14,11 @@ uniform int textureRepeats = 1;
 uniform sampler2D u_texture;
 
 //testing
-vec3 lightPos = vec3(0, 100, 300);
+vec3 lightPos = vec3(20, 20, 40);
 
 vec3 ambient = vec3(0.1, 0.1, 0.1);
 
-vec3 cameraPosition = vec3(0, 20, 300);
+uniform vec3 cameraPosition;
 
 uniform float u_shininess;
 
