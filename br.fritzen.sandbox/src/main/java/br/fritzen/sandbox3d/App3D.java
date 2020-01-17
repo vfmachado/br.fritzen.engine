@@ -60,7 +60,7 @@ public class App3D {
 
 
 	public static void main(String[] args) {
-		Application app = Application.create("Sandbox 2D", 1280, 720);
+		Application app = Application.create("Sandbox 3D", 1280, 720);
 		app.addLayer(new Scene3D());
 		app.run();
 	}

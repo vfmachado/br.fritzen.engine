@@ -1,6 +1,7 @@
 package br.fritzen.engine.platform.opengl;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.RendererAPI;
@@ -18,6 +19,8 @@ public class OpenGLRendererAPI extends RendererAPI {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 
+		GL11.glEnable(GL30.GL_MULTISAMPLE);
+		
 		// active debug with glDebugMessageCallback
 	}
 
