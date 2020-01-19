@@ -32,6 +32,7 @@ public enum ShaderUniform {
 	shininess("u_shininess"),
 	
 	materialSpecColor("materialSpecColor"),
+	
 	//LIGHTS
 	light_NumberOfDirectional("u_numDirectionalLight"),
 	light_NumberOfSpot("u_numSpotLight"),
@@ -42,7 +43,16 @@ public enum ShaderUniform {
 	
 	wireframeEnable("u_WireframeEnabled"), 
 	wireframeColor("u_WireframeColor"),
-	lightsEnable("u_LightsEnabled")
+	lightsEnable("u_LightsEnabled"), 
+	
+	light_model("LIGHT_MODEL"),
+	
+	//DIRECTIONAL LIGHT
+	//directionalLight("u_DirectionalLight"),
+	directionalLight_direction("u_DirectionalLight.direction"),
+	directionalLight_ambient("u_DirectionalLight.light.ambientColor"),
+	directionalLight_diffuse("u_DirectionalLight.light.diffuseColor"),
+	directionalLight_specular("u_DirectionalLight.light.specularColor"),
 	;
 
 	

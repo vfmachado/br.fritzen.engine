@@ -8,7 +8,8 @@ import br.fritzen.engine.components.Model;
 import br.fritzen.engine.renderer.Material;
 import lombok.Getter;
 
-public class Cube {
+
+public class LightPosition {
 
 	@Getter
 	private Material material;
@@ -19,12 +20,18 @@ public class Cube {
 	private Matrix4f transform;
 
 
-	public Cube() {
+	public LightPosition() {
+		
 		this.mesh = new Model("models/cube.obj");
 		this.material = new Material();
 		this.transform = new Matrix4f();
-
-		this.material.setDiffuseColor(new Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
+		
+		Vector4f white = new Vector4f(1, 1, 1, 1);
+		this.material.setAmbientColor(white);
+		this.material.setDiffuseColor(white);
+		this.material.setSpecularColor(white);
+		this.material.setShininess(10);
+		
 	}
 
 

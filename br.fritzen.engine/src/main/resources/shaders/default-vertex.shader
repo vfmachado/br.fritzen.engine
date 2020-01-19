@@ -18,6 +18,8 @@ void main() {
 	
 	v_texCoord = texture;
 	v_fragPos = vec3(u_Model * vec4(position, 1.0));
-	v_normal = vec3(u_Model * vec4(normal, 1.0));
+	
+	//https://learnopengl.com/Lighting/Basic-Lighting
+	v_normal = mat3(transpose(inverse(u_Model))) * normal;
 	
 }

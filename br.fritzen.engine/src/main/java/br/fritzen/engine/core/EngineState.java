@@ -79,6 +79,13 @@ public abstract class EngineState {
 	public final static Vector3f Z_AXIS = new Vector3f(0, 0, 1);
 
 	/**
+	 * TODO CHANGE FOR ENUMS
+	 * 0 -> PHONG MODEL
+	 * 1 -> BLINNPHONG MODEL
+	 */
+	public final static int LIGHT_MODEL = 1;
+	
+	/**
 	 * Max number of DirectionalLight in one scene
 	 */
 	public final static int MAX_DIRECTIONAL_LIGHTS = 5;

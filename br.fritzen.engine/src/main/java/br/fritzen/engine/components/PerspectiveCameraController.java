@@ -18,6 +18,8 @@ public class PerspectiveCameraController {
 
 	private float currentMouseY = 0;
 
+	private float speed = 1;
+
 	@Getter
 	private PerspectiveCamera camera;
 
@@ -37,36 +39,36 @@ public class PerspectiveCameraController {
 
 		if (Input.isKeyPressed(Input.KEY_W)) {
 
-			this.camera.getPosition().add(getForward().mul(0.05f));
+			this.camera.getPosition().add(getForward().mul(0.05f * this.speed));
 			this.camera.recalculateViewProjection();
 
 		} else if (Input.isKeyPressed(Input.KEY_S)) {
 
-			this.camera.getPosition().add(getBack().mul(0.05f));
+			this.camera.getPosition().add(getBack().mul(0.05f * this.speed));
 			this.camera.recalculateViewProjection();
 
 		}
 
 		if (Input.isKeyPressed(Input.KEY_A)) {
 
-			this.camera.getPosition().add(getLeft().mul(0.05f));
+			this.camera.getPosition().add(getLeft().mul(0.05f * this.speed));
 			this.camera.recalculateViewProjection();
 
 		} else if (Input.isKeyPressed(Input.KEY_D)) {
 
-			this.camera.getPosition().add(getRight().mul(0.05f));
+			this.camera.getPosition().add(getRight().mul(0.05f * this.speed));
 			this.camera.recalculateViewProjection();
 
 		}
 
 		if (Input.isKeyPressed(Input.KEY_R)) {
 
-			this.camera.getPosition().add(getUp().mul(0.05f));
+			this.camera.getPosition().add(getUp().mul(0.05f * this.speed));
 			this.camera.recalculateViewProjection();
 
 		} else if (Input.isKeyPressed(Input.KEY_F)) {
 
-			this.camera.getPosition().add(getDown().mul(0.05f));
+			this.camera.getPosition().add(getDown().mul(0.05f * this.speed));
 			this.camera.recalculateViewProjection();
 
 		}
@@ -87,7 +89,7 @@ public class PerspectiveCameraController {
 			float deltaY = this.currentMouseY - ((MouseMovedEvent) e).getPosY();
 
 			if (deltaX != 0 || deltaY != 0) {
-				
+
 				this.rotate(EngineState.Y_AXIS, deltaX * 0.001f);
 				this.rotate(getRight(), deltaY * 0.001f);
 				this.camera.recalculateViewProjection();
@@ -138,6 +140,11 @@ public class PerspectiveCameraController {
 
 	private void rotate(Vector3f axis, float angle) {
 		axisRotation.set(angle, axis).get(this.axisRotationQ).mul(this.camera.getRotation(), this.camera.getRotation());
+	}
+
+
+	public void setSpeed(float value) {
+		this.speed = value;
 	}
 
 }

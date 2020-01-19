@@ -1,10 +1,12 @@
 package br.fritzen.sandbox3d;
 
+import org.joml.Vector3f;
+
 import br.fritzen.engine.Application;
 import br.fritzen.engine.components.PerspectiveCameraController;
-import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
+import br.fritzen.engine.gameobject.Light.DirectionalLight;
 import br.fritzen.engine.renderer.Renderer;
 
 public class App3D {
@@ -13,21 +15,29 @@ public class App3D {
 
 		private PerspectiveCameraController camera;
 
-		private Cube cube;
+		private BlenderMonkey monkey;
+		
 		private Plane plane;
+		
+		private DirectionalLight dirLight;
 
+		
 		public Scene3D() {
 
 			super("Main 3D Layer");
 
 			this.camera = new PerspectiveCameraController(0, 2, 5);
 
-			this.cube = new Cube();
+			this.monkey = new BlenderMonkey();
 			this.plane = new Plane();
 			
-			this.cube.getTransform().rotate((float)Math.toRadians(45), EngineState.Y_AXIS);
+			this.dirLight = new DirectionalLight(
+					new Vector3f(0.4f), 	//ambient
+					new Vector3f(1), 		//diffuse
+					new Vector3f(1), 		//specular
+					new Vector3f(-1, -1, -1));	//direction
 			
-			this.plane.getTransform().translate(0, -0.5f, 0).scale(5);
+			this.plane.getTransform().translate(0, -1f, 0).scale(3);
 		}
 
 
@@ -42,11 +52,11 @@ public class App3D {
 		@Override
 		public void onRender() {
 
-			Renderer.beginScene(this.camera.getCamera());
+			Renderer.beginScene(this.camera.getCamera(), this.dirLight);
 			
 			Renderer.render(plane.getMesh(), plane.getTransform(), plane.getMaterial());
 			
-			Renderer.render(cube.getMesh(), cube.getTransform(), cube.getMaterial());
+			Renderer.render(monkey.getMesh(), monkey.getTransform(), monkey.getMaterial());
 
 			Renderer.endScene();
 		}
