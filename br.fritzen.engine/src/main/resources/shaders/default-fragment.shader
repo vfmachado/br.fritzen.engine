@@ -20,6 +20,7 @@ uniform float u_shininess;
 
 uniform int LIGHT_MODEL;
 
+
 struct Material {
 	
 	vec4 ambientColor;

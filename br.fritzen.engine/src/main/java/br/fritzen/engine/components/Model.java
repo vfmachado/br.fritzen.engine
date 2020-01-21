@@ -56,8 +56,18 @@ public class Model {
 		if (aiScene == null) {
 		    //throw new Exception("Error loading model");
 			
-			EngineLog.severe("Error loading model with Assimp: " + Assimp.aiGetErrorString());
-			System.exit(0);
+			aiScene = Assimp.aiImportFile(filename, 
+					Assimp.aiProcess_JoinIdenticalVertices | 
+					Assimp.aiProcess_Triangulate | 
+					Assimp.aiProcess_FixInfacingNormals |
+					//Assimp.aiProcess_GenUVCoords |
+					//Assimp.aiProcess_GenSmoothNormals |
+					Assimp.aiProcess_CalcTangentSpace);
+			
+			if (aiScene == null) {
+				EngineLog.severe("Error loading model with Assimp: " + Assimp.aiGetErrorString());
+				System.exit(0);
+			}	
 		}
 		
 		

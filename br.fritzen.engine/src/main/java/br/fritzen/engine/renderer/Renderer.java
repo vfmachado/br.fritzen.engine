@@ -2,6 +2,7 @@ package br.fritzen.engine.renderer;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import br.fritzen.engine.components.Camera;
 import br.fritzen.engine.components.Mesh;
@@ -77,9 +78,20 @@ public abstract class Renderer {
 	}
 	
 	
-	public static void submit(Shader shader, VertexArray vertexArray, Matrix4f transform) {
+	public static void beginScene(Shader shader, Camera camera) {
+		
+		
+		sceneData.viewMatrix = camera.getView();
+		sceneData.projectionMatrix = camera.getProjection();
+		sceneData.viewProjectionMatrix = camera.getViewProjection();
+		sceneData.cameraPosition = camera.getPosition();
 		
 		shader.bind();
+	}
+	
+	public static void submit(Shader shader, VertexArray vertexArray, Matrix4f transform) {
+		
+		//shader.bind();
 		
 		shader.setMat4(ShaderUniform.viewProjection, sceneData.viewProjectionMatrix);
 		shader.setMat4(ShaderUniform.view, sceneData.viewMatrix);

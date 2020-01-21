@@ -29,7 +29,7 @@ public class MainLayer extends Layer {
 	private Vector2f quadSize = new Vector2f(5f, 5f);
 	private Vector4f quadColor = new Vector4f(0.8f, 0.2f, 0.3f, 1);
 	
-	private Texture2D testTexture = Texture2D.create("models/dragons/model01/n-200.bmp");
+	private Texture2D testTexture = Texture2D.create("textures/grass_side.png");
 	
 	private Texture2D blockTexture = Texture2D.create("block.png");
 	

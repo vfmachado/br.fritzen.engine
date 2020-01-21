@@ -80,10 +80,10 @@ public class PerspectiveCameraController {
 
 		if (e.getEventType() == EventType.MouseMovedEvent) {
 
-			if (!Input.isMouseButton(Input.MOUSE_BUTTON_2)) {
-				Application.getWindow().enableMouse();
-				return;
-			}
+//			if (!Input.isMouseButton(Input.MOUSE_BUTTON_2)) {
+//				Application.getWindow().enableMouse();
+//				return;
+//			}
 
 			float deltaX = this.currentMouseX - ((MouseMovedEvent) e).getPosX();
 			float deltaY = this.currentMouseY - ((MouseMovedEvent) e).getPosY();
