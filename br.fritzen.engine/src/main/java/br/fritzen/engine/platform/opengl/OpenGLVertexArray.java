@@ -5,6 +5,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL33;
 
 import br.fritzen.engine.renderer.Buffer;
 import br.fritzen.engine.renderer.Buffer.IndexBuffer;
@@ -63,6 +64,19 @@ public class OpenGLVertexArray implements Buffer.VertexArray {
 		GL20.glVertexAttribPointer(attribArray, size, GL11.GL_FLOAT, false, 0, 0);
 		
 	}
+	
+	
+	@Override
+	public void addInstancedVB(VertexBuffer vb, int attribArray, int size, int instancedDataLength, int offset ) {
+		
+		this.bind();
+		vb.bind();
+		GL20.glEnableVertexAttribArray(attribArray);
+		GL20.glVertexAttribPointer(attribArray, size, GL11.GL_FLOAT, false, instancedDataLength * 4, offset * 4);
+		GL33.glVertexAttribDivisor(2, 1);
+		
+	}
+	
 	
 
 	@Override

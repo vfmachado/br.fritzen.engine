@@ -44,6 +44,8 @@ public abstract class RendererAPI {
 	public abstract void clearColor(float r, float g, float b, float a);
 	
 	public abstract void drawIndexed(VertexArray vertexArray);
+
+	public abstract void drawInstanced(VertexArray vertexArray, int count);
 		
 	
 }

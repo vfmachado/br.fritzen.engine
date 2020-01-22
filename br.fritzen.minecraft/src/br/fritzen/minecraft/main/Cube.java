@@ -10,6 +10,12 @@ public class Cube {
 	private static Cube instance = null;
 	private VertexArray vao;
 
+	int lines = 50;
+	int columns = 50;
+	int height = 1;
+	
+	int mat[][][] = new int[lines][columns][height];
+	
 	private Cube() {
 	
 		float[] positions = {
@@ -95,7 +101,25 @@ public class Cube {
 		
 		VertexBuffer vboTextures = VertexBuffer.create(EngineBuffers.createFloatBuffer(texCoords), texCoords.length * 4);
 		this.vao.addVB(vboTextures, 1, 2);
-				
+		
+		float[] transform = new float[lines * columns * height * 3];
+		int index = 0;
+		for (int i = 0; i < lines; i++) {
+			for (int j = 0; j < columns; j++) {
+				for (int k = 0; k < height; k++) {
+					transform[index++] = i;
+					transform[index++] = k;
+					transform[index++] = j;
+					
+				}
+			}
+		}
+		
+		
+		VertexBuffer vboTransforms = VertexBuffer.create(EngineBuffers.createFloatBuffer(transform), transform.length * 4);
+		this.vao.addInstancedVB(vboTransforms, 2, 3, 3, 3);
+		
+		
 		int[] indices = { 
 				0, 1, 2, 
 				1, 3, 2,

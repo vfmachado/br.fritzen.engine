@@ -2,6 +2,8 @@ package br.fritzen.engine.platform.opengl;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL31;
+import org.lwjgl.opengl.GL33;
 
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.RendererAPI;
@@ -56,4 +58,11 @@ public class OpenGLRendererAPI extends RendererAPI {
 
 	}
 
+	
+	@Override
+	public void drawInstanced(VertexArray vertexArray, int count) {
+		vertexArray.bind();
+		//GL31.glDrawArraysInstanced(GL11.GL_TRIANGLES, 0, vertexArray.getIB().getCount(), count);
+		GL33.glDrawElementsInstanced(GL11.GL_TRIANGLES, vertexArray.getIB().getCount() * 4, GL11.GL_UNSIGNED_INT, 0, count);
+	}
 }

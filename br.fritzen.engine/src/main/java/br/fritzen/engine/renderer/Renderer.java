@@ -107,6 +107,25 @@ public abstract class Renderer {
 		
 	}
 	
+
+	public static void submitInstanced(Shader shader, VertexArray vertexArray, Matrix4f transform, int count) {
+		
+		//shader.bind();
+		
+		shader.setMat4(ShaderUniform.viewProjection, sceneData.viewProjectionMatrix);
+		shader.setMat4(ShaderUniform.view, sceneData.viewMatrix);
+		shader.setMat4(ShaderUniform.projection, sceneData.projectionMatrix);
+		
+		shader.setFloat3(ShaderUniform.cameraPosition, sceneData.cameraPosition);
+		
+		shader.setMat4(ShaderUniform.model, transform);
+		
+		RendererAPI.get().drawInstanced(vertexArray, count);
+		
+	}
+	
+	
+	
 	
 	public static void render(Mesh mesh, Matrix4f transform, Material material) {
 	

@@ -44,6 +44,8 @@ public interface VertexArray {
 		
 		public void addVB(VertexBuffer vb, int attribArray, VertexBufferLayout layout);
 		
+		public void addInstancedVB(VertexBuffer vb, int attribArray, int size, int instancedDataLength, int offset );
+		
 		public void addInterleavedVBO(VertexBuffer vb, List<VertexBufferLayout> layouts);
 		
 		public void setIB(IndexBuffer ib);

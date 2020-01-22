@@ -18,6 +18,9 @@ import br.fritzen.engine.utils.Pair;
 
 public class SceneLayer extends Layer {
 
+	
+	
+	
 	private PerspectiveCameraController camera;
 
 	private Shader sceneShader;
@@ -26,8 +29,11 @@ public class SceneLayer extends Layer {
 
 	private Texture2D texture;
 	
-	
-	int mat[][][] = new int[10][10][10];
+	int lines = 50;
+	int columns = 50;
+	int height = 10;
+	int numberOfBlocks = 50 * 50 * 10;
+	int mat[][][] = new int[lines][columns][height];
 
 	public SceneLayer(String name) {
 		super(name);
@@ -54,10 +60,10 @@ public class SceneLayer extends Layer {
 		//GL11.glPolygonMode( GL11.GL_FRONT_AND_BACK, GL11.GL_LINE );
 		
 		
-		for (int i = 0; i < mat.length; i++) {
-			for (int j = 0; j < mat.length; j++) {
-				for (int k = 0; k < mat.length; k++) {
-					if (k > i + j)
+		for (int i = 0; i < lines; i++) {
+			for (int j = 0; j < columns; j++) {
+				for (int k = 0; k < height; k++) {
+					if (k + i > j)
 						mat[i][j][k] = 1; 
 				}
 			}
@@ -84,17 +90,7 @@ public class SceneLayer extends Layer {
 		sceneShader.setInt(ShaderUniform.texture, 0);
 		//Renderer.submit(sceneShader, Cube.getVao(), transform);
 
-		for (int i = 0; i < mat.length; i++) {
-			for (int j = 0; j < mat.length; j++) {
-				for (int k = 0; k < mat.length; k++) {
-					if (mat[i][j][k] == 1) {
-						this.transform.identity();
-						transform.translate(i, j ,k);
-						Renderer.submit(sceneShader, Cube.getVao(), transform);
-					}
-				}
-			}
-		}
+		Renderer.submitInstanced(sceneShader, Cube.getVao(), transform, numberOfBlocks);
 		
 		Renderer.endScene();
 	}
