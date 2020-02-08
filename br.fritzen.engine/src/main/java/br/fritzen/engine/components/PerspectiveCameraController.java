@@ -11,6 +11,7 @@ import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventType;
 import br.fritzen.engine.events.mouse.MouseMovedEvent;
 import lombok.Getter;
+import lombok.Setter;
 
 public class PerspectiveCameraController {
 
@@ -18,6 +19,7 @@ public class PerspectiveCameraController {
 
 	private float currentMouseY = 0;
 
+	@Setter
 	private float speed = 1;
 
 	@Getter
@@ -143,8 +145,5 @@ public class PerspectiveCameraController {
 	}
 
 
-	public void setSpeed(float value) {
-		this.speed = value;
-	}
 
 }

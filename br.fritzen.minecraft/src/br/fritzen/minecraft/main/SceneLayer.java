@@ -29,12 +29,7 @@ public class SceneLayer extends Layer {
 
 	private Texture2D texture;
 	
-	int lines = 50;
-	int columns = 50;
-	int height = 10;
-	int numberOfBlocks = 50 * 50 * 10;
-	int mat[][][] = new int[lines][columns][height];
-
+	
 	public SceneLayer(String name) {
 		super(name);
 
@@ -46,6 +41,8 @@ public class SceneLayer extends Layer {
 		sceneShader = new OpenGLShader(shaderSource);
 
 		camera = new PerspectiveCameraController(0, 0, 5);
+		camera.setSpeed(5);
+		
 		
 		transform = new Matrix4f();
 		
@@ -58,16 +55,6 @@ public class SceneLayer extends Layer {
 		texture.bind(0);
 		
 		//GL11.glPolygonMode( GL11.GL_FRONT_AND_BACK, GL11.GL_LINE );
-		
-		
-		for (int i = 0; i < lines; i++) {
-			for (int j = 0; j < columns; j++) {
-				for (int k = 0; k < height; k++) {
-					if (k + i > j)
-						mat[i][j][k] = 1; 
-				}
-			}
-		}
 		
 	}
 
@@ -90,7 +77,7 @@ public class SceneLayer extends Layer {
 		sceneShader.setInt(ShaderUniform.texture, 0);
 		//Renderer.submit(sceneShader, Cube.getVao(), transform);
 
-		Renderer.submitInstanced(sceneShader, Cube.getVao(), transform, numberOfBlocks);
+		Renderer.submitInstanced(sceneShader, Cube.getVao(), transform, Cube.quantity);
 		
 		Renderer.endScene();
 	}

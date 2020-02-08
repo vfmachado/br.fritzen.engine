@@ -21,7 +21,7 @@ public class OpenGLVertexBuffer implements Buffer.VertexBuffer {
 		}
 		
 		bind();
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_STATIC_DRAW);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_DYNAMIC_DRAW);
 		
 	}
 	
