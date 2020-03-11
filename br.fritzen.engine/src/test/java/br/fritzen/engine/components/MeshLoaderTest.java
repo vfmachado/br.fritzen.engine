@@ -1,12 +1,15 @@
 package br.fritzen.engine.components;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import br.fritzen.engine.Application;
 import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.core.input.Input;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
+import br.fritzen.engine.gameobject.Light.DirectionalLight;
+import br.fritzen.engine.renderer.Material;
 import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.utils.Pair;
 
@@ -19,13 +22,15 @@ public class MeshLoaderTest {
 		private Matrix4f transform;
 		
 		private Model model;
+
+		private DirectionalLight dirLight;
 		
 		
 		
 		public RotationMeshLayer() {
 			super("MAIN LAYER");
 			
-			cameraController = new PerspectiveCameraController(0, 20, 40);
+			cameraController = new PerspectiveCameraController(0, 5, 10);
 			cameraController.setSpeed(5);
 			
 			model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
@@ -33,11 +38,17 @@ public class MeshLoaderTest {
 			this.transform = new Matrix4f();
 			transform.scale(0.1f);
 			
+			this.dirLight = new DirectionalLight(
+					new Vector3f(0.4f), 	//ambient
+					new Vector3f(1), 		//diffuse
+					new Vector3f(1), 		//specular
+					new Vector3f(-1, -1, -1));	//direction
+			
 		}
 		
 		float angle = 0;
 		
-		@Override
+		@Override	
 		public void onUpdate(float deltatime) {
 			
 			this.cameraController.onUpdate(deltatime);
@@ -52,13 +63,12 @@ public class MeshLoaderTest {
 		@Override
 		public void onRender() {
 			
-			Renderer.beginScene(this.cameraController.getCamera());
-		
+			Renderer.beginScene(this.cameraController.getCamera(), dirLight);
+			
 			for (Pair<Mesh, Integer> m : model.getMeshes()) {
 				if (!m.getKey().getName().equals("Lamborghini_Aventador:Collider"))
 				Renderer.render(m.getKey(), this.transform, model.getMaterials().get(m.getValue()));
 			}
-			
 			
 			Renderer.endScene();
 		}

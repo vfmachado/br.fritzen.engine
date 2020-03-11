@@ -8,6 +8,8 @@ import lombok.Data;
 public class Material {
 
 
+	public static final Material blank = new Material();
+
 	private Vector4f ambientColor;
 	
 	private Vector4f diffuseColor;

@@ -18,9 +18,6 @@ import br.fritzen.engine.utils.Pair;
 
 public class SceneLayer extends Layer {
 
-	
-	
-	
 	private PerspectiveCameraController camera;
 
 	private Shader sceneShader;
@@ -66,6 +63,8 @@ public class SceneLayer extends Layer {
 
 	}
 
+	
+	float angle;
 
 	@Override
 	public void onRender() {
@@ -77,7 +76,14 @@ public class SceneLayer extends Layer {
 		sceneShader.setInt(ShaderUniform.texture, 0);
 		//Renderer.submit(sceneShader, Cube.getVao(), transform);
 
+		transform.identity();
+		
 		Renderer.submitInstanced(sceneShader, Cube.getVao(), transform, Cube.quantity);
+		
+		//transform.translate(10, 0, 0);
+		
+		//Renderer.submitInstanced(sceneShader, Cube.getVao(), transform, Cube.quantity);
+		
 		
 		Renderer.endScene();
 	}

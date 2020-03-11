@@ -10,15 +10,29 @@ public class Cube {
 	private static Cube instance = null;
 	private VertexArray vao;
 
-	static int lines = 8;
-	static int columns = 8;
-	static int height = 8;
+	static int lines = 16;
+	static int columns = 16;
+	static int height = 16;
 	static int count = lines * columns * height;
 	
 	int mat[][][] = new int[lines][columns][height];
 	static int quantity = 0;
-	private Cube() {
 	
+	private Cube() {
+		
+		for (int i = 0; i < lines; i++) {
+			for (int j = 0; j < columns; j++) {
+				for (int k = 0; k < height; k++) {
+					
+					//if ((k >= Math.abs(i - j)))
+					mat[i][k][j] = 1;
+				}
+			}
+		}
+		
+		mat[2][0][1] = 0;
+		mat[2][1][1] = 0;
+		
 		float[] positions = {
 				
 			//top
@@ -105,14 +119,24 @@ public class Cube {
 		
 		float[] transform = new float[lines * columns * height * 3];
 		int index = 0;
-		for (int i = -lines/2; i < lines/2; i++) {
-			for (int j = -columns/2; j < columns/2; j++) {
-				for (int k = -height/2; k < height/2; k++) {
-					transform[index++] = i;
-					transform[index++] = k;
-					transform[index++] = j;
-					quantity++;
+		
+		for (int i = 0; i < lines; i++) {
+			for (int j = 0; j < columns; j++) {
+				for (int k = 0; k < height; k++) {
 					
+					if (mat[i][j][k] == 1) {
+						
+						try {
+							if (mat[i+1][j][k] == 1 && mat[i-1][j][k] == 1 && mat[i][j+1][k] == 1 && mat[i][j-1][k] == 1 && mat[i][j][k+1] == 1 && mat[i][j][k-1] == 1)
+								continue;
+						} catch (IndexOutOfBoundsException e) {}
+						
+						transform[index++] = i - lines/2;
+						transform[index++] = k;
+						transform[index++] = j - columns/2;
+						quantity++;
+						
+					}
 				}
 			}
 		}
