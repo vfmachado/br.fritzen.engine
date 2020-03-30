@@ -7,6 +7,7 @@ import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.utils.Pair;
+import lombok.Getter;
 	
 /**
  * Static Class to get all necessary data for render  
@@ -16,20 +17,26 @@ import br.fritzen.engine.utils.Pair;
  */
 public class Renderer3DStorage {
 
-	private Shader shader;
+	@Getter
+	private Shader mainShader;
+	
+	@Getter
+	private Shader skyboxShader;
 	
 	public Renderer3DStorage() {
 		
 		List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/default-vertex.shader", OpenGLShaderType.VERTEX));
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/default-fragment.shader", OpenGLShaderType.FRAGMENT));
-		this.shader = new OpenGLShader(shaders);
+		this.mainShader = new OpenGLShader(shaders);
+		
+		List<Pair<String, OpenGLShaderType>> skyshaders = new ArrayList<Pair<String, OpenGLShaderType>>();
+		skyshaders.add(new Pair<String, OpenGLShaderType>("shaders/sky-vertex.shader", OpenGLShaderType.VERTEX));
+		skyshaders.add(new Pair<String, OpenGLShaderType>("shaders/sky-fragment.shader", OpenGLShaderType.FRAGMENT));
+		this.skyboxShader = new OpenGLShader(skyshaders);
 		
 	}
 		
 	
-	public Shader getShader() {
-		return this.shader;
-	}
 
 }

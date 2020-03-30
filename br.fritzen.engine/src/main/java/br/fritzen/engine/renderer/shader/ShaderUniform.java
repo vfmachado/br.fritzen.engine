@@ -53,6 +53,8 @@ public enum ShaderUniform {
 	directionalLight_ambient("u_DirectionalLight.light.ambientColor"),
 	directionalLight_diffuse("u_DirectionalLight.light.diffuseColor"),
 	directionalLight_specular("u_DirectionalLight.light.specularColor"),
+	
+	skybox_Texture("u_mainTexture"),
 	;
 
 	

@@ -1,13 +1,20 @@
 package br.fritzen.sandbox3d;
 
+
+
 import org.joml.Vector3f;
 
 import br.fritzen.engine.Application;
+import br.fritzen.engine.components.Model;
 import br.fritzen.engine.components.PerspectiveCameraController;
+import br.fritzen.engine.components.Skybox;
+import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.gameobject.Light.DirectionalLight;
 import br.fritzen.engine.renderer.Renderer;
+import br.fritzen.engine.renderer.Texture2D;
+import br.fritzen.engine.renderer.TextureFormat;
 
 public class App3D {
 
@@ -21,6 +28,8 @@ public class App3D {
 		
 		private DirectionalLight dirLight;
 
+		private Skybox skybox;
+		
 		
 		public Scene3D() {
 
@@ -37,7 +46,12 @@ public class App3D {
 					new Vector3f(1), 		//specular
 					new Vector3f(-1, -1, -1));	//direction
 			
-			this.plane.getTransform().translate(0, -1f, 0).scale(3);
+			this.plane.getTransform().translate(0, -1f, 0).scale(5);
+			
+			this.skybox = new Skybox(
+					new Model("models/skybox/skycube.obj").getMeshes().get(0).getKey(),
+					Texture2D.create("textures/sunnysky.png"), 
+					50);
 		}
 
 
@@ -52,7 +66,7 @@ public class App3D {
 		@Override
 		public void onRender() {
 
-			Renderer.beginScene(this.camera.getCamera(), this.dirLight);
+			Renderer.beginScene(this.camera.getCamera(), this.dirLight, this.skybox);
 			
 			Renderer.render(plane.getMesh(), plane.getTransform(), plane.getMaterial());
 			
@@ -65,6 +79,9 @@ public class App3D {
 		@Override
 		public void onEvent(Event e) {
 			this.camera.onEvent(e);
+			
+			//EngineLog.info(e.toString());
+			
 		}
 	}
 

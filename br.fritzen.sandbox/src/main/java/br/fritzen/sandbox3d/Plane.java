@@ -25,7 +25,7 @@ public class Plane {
 		this.material = new Material();
 		this.transform = new Matrix4f();
 
-		this.material.setDiffuseTexture(Texture2D.create("textures/wood-floor.png"));
+		this.material.setDiffuseTexture(Texture2D.create("textures/grass.jpg"));
 		this.material.setShininess(32f);
 	}
 
