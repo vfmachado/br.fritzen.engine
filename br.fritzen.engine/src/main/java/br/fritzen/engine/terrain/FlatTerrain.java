@@ -6,7 +6,6 @@ import br.fritzen.engine.renderer.Buffer.IndexBuffer;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.Buffer.VertexBuffer;
 import br.fritzen.engine.renderer.Material;
-import br.fritzen.engine.scenegraph.GameObjectType;
 import br.fritzen.engine.utils.EngineBuffers;
 import lombok.Getter;
 

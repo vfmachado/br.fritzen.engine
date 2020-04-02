@@ -34,7 +34,11 @@ public abstract class Light extends GameObject{
 		@Setter
 		private Vector3f direction;
 		
-		private static DirectionalLight nullInstance = new DirectionalLight(new Vector3f(0), new Vector3f(0));
+		private static DirectionalLight nullInstance = new DirectionalLight(
+				new Vector3f(0.5f, 0.5f, 0.5f), 
+				new Vector3f(0.5f, 0.5f, 0.5f), 
+				new Vector3f(0), 
+				new Vector3f(-1, 0, 0.7f));
 		
 		
 		public DirectionalLight(Vector3f mainColor, Vector3f direction) {

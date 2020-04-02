@@ -53,6 +53,7 @@ public abstract class Texture2D extends Texture {
 		
 	}
 	
+	
 	public static Texture2D createBlank() {
 		
 		ByteBuffer textureData = BufferUtils.createByteBuffer(16);

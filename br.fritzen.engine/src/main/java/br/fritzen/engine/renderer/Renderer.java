@@ -4,14 +4,21 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import br.fritzen.engine.components.Camera;
+import br.fritzen.engine.components.GameComponent;
+import br.fritzen.engine.components.GameComponentType;
 import br.fritzen.engine.components.Mesh;
+import br.fritzen.engine.components.MeshRenderer;
+import br.fritzen.engine.components.Model;
 import br.fritzen.engine.components.Skybox;
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.renderer.shader.ShaderUniform;
+import br.fritzen.engine.scenegraph.GameObject;
 import br.fritzen.engine.scenegraph.Light.DirectionalLight;
+import br.fritzen.engine.scenegraph.Scene;
+import br.fritzen.engine.utils.Pair;
 
 public abstract class Renderer {
 
@@ -40,7 +47,55 @@ public abstract class Renderer {
 		beginScene(camera, directionalLight, null);
 	}
 
+	
+	public static void beginScene(Shader shader, Camera camera) {
 
+		sceneData.viewMatrix = camera.getView();
+		sceneData.projectionMatrix = camera.getProjection();
+		sceneData.viewProjectionMatrix = camera.getViewProjection();
+		sceneData.cameraPosition = camera.getPosition();
+
+		shader.bind();
+	}
+
+	
+	/**
+	 * Use Engine Renderer Storage and Default Shaders
+	 * @param scene
+	 */
+	public static void beginScene(Scene scene) {
+		
+		if (scene.getLights().isEmpty()) {
+			Renderer.beginScene(scene.getCamera(), DirectionalLight.getEmpty(), scene.getSkybox());
+		}
+		
+		//Renderer all models on the scene
+		recursiveRenderer(scene.getRootGameObject());
+	}
+	
+	
+	private static GameComponent currentComponent;
+	private static void recursiveRenderer(GameObject parent) {
+		
+		//EngineLog.info("Redering " + parent.getName());
+		
+		//RENDER CURRENT PARENT
+		if ( (currentComponent = parent.getComponent(GameComponentType.MESH_RENDERER)) != null) {
+//			/EngineLog.info("... has a MESH_RENDERER");
+			for (Pair<Mesh, Material> m : ((MeshRenderer) currentComponent).getMeshMaterial()) {
+				Renderer.render(m.getKey(), parent.getTransform(), m.getValue());
+			}
+			
+		}
+		
+		
+		//RECALL FOR CHILDREN
+		for (GameObject go : parent.getChildren()) {
+			recursiveRenderer(go);
+		}
+	}
+	
+	
 	public static void beginScene(Camera camera, DirectionalLight directionalLight, Skybox skybox) {
 
 		// copy values from camera
@@ -99,17 +154,6 @@ public abstract class Renderer {
 		public Matrix4f viewProjectionMatrix;
 		public Vector3f cameraPosition;
 
-	}
-
-
-	public static void beginScene(Shader shader, Camera camera) {
-
-		sceneData.viewMatrix = camera.getView();
-		sceneData.projectionMatrix = camera.getProjection();
-		sceneData.viewProjectionMatrix = camera.getViewProjection();
-		sceneData.cameraPosition = camera.getPosition();
-
-		shader.bind();
 	}
 
 
@@ -173,4 +217,18 @@ public abstract class Renderer {
 
 	}
 
+	
+	/**
+	 * Renderer for Models loaded.
+	 * @param model : Model object.
+	 * @param transform : Matrix4f with the transform 
+	 */
+	public static void render(Model model, Matrix4f transform) {
+		for (Pair<Mesh, Integer> m : model.getMeshes()) {
+			Renderer.render(m.getKey(), transform, model.getMaterials().get(m.getValue()));
+		}
+	}
+	
+	
+	
 }

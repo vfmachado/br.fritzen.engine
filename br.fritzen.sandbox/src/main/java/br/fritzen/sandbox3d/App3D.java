@@ -2,6 +2,7 @@ package br.fritzen.sandbox3d;
 
 
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import br.fritzen.engine.Application;
@@ -14,13 +15,14 @@ import br.fritzen.engine.renderer.Material;
 import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.renderer.Texture2D;
 import br.fritzen.engine.scenegraph.Light.DirectionalLight;
+import br.fritzen.engine.scenegraph.Scene;
 import br.fritzen.engine.terrain.FlatTerrain;
 
 public class App3D {
 
 	public static class Scene3D extends Layer {
 
-		private PerspectiveCameraController camera;
+		private PerspectiveCameraController cameraController;
 
 		private BlenderMonkey monkey;
 		
@@ -32,14 +34,20 @@ public class App3D {
 		
 		private FlatTerrain terrain;
 		
-		//OBJECTIVE: private Scene scene;
+		private Model model; 
+		
+		private Matrix4f transform;
+		
+		private Matrix4f terrainTransform;
+		
+		private Scene scene;
 		
 		
 		public Scene3D() {
 
 			super("Main 3D Layer");
 
-			this.camera = new PerspectiveCameraController(0, 2, 5);
+			this.cameraController = new PerspectiveCameraController(0, 2, 5);
 
 			this.monkey = new BlenderMonkey();
 			this.plane = new Plane();
@@ -59,31 +67,32 @@ public class App3D {
 			
 			Material terrainMaterial = new Material();
 					
-			terrainMaterial.setDiffuseTexture(Texture2D.create("textures/grass.jpg"));
+			terrainMaterial.setDiffuseTexture(Texture2D.create("textures/grass_DIF.jpg"));
 			terrainMaterial.setShininess(32f);
 			
-			this.terrain = new FlatTerrain(0, 0, terrainMaterial);
+			this.terrain = new FlatTerrain(-5, -5, terrainMaterial);
+			this.terrainTransform = new Matrix4f().translate(-10, 0, -10).scale(10);
+			model = new Model("models/Tree_02/tree02.obj");
+			transform = new Matrix4f();
 			
-			//OBJECTIVE:
-			/*
 			
-			this.scene.setCamera(this.camera);
-			this.scene.setSky(this.skybox);
+			
+			this.scene = new Scene(cameraController.getCamera());
+			
+			this.scene.setSkybox(this.skybox);
 			this.scene.add(this.monkey);
-			this.scene.add(this.dirLight);
-			this.scene.add(this.terrain);
-			 
+			//this.scene.add(this.dirLight);
+			//this.scene.add(this.terrain);
 			
-			 */
 		}
 
 
 		@Override
 		public void onUpdate(float deltatime) {
 
-			camera.onUpdate(deltatime);	//PROBABLY GO TO SCENE PROCESS
+			cameraController.onUpdate(deltatime);	//PROBABLY GO TO SCENE PROCESS
 			
-			//OBJECTIVE: this.scene.onUpdate(deltatime);			
+			this.scene.onUpdate(deltatime);			
 			
 		}
 
@@ -91,17 +100,19 @@ public class App3D {
 		@Override
 		public void onRender() {
 
-			//OBJECTIVE: Renderer.beginScene(scene);	//render all things on scene
+			Renderer.beginScene(scene);	//render all things on scene
 			
 			//allows user to render more things. apart from scene
 			
-			Renderer.beginScene(this.camera.getCamera(), this.dirLight, this.skybox);
+			//Renderer.beginScene(this.cameraController.getCamera(), this.dirLight, this.skybox);
+			
+			//Renderer.render(model, transform);
 			
 			//Renderer.render(plane.getMesh(), plane.getTransform(), plane.getMaterial());
 			
-			Renderer.render(monkey.getMesh(), monkey.getTransform(), monkey.getMaterial());
+			//Renderer.render(monkey.getMesh(), monkey.getTransform(), monkey.getMaterial());
 
-			Renderer.render(terrain.getMesh(), monkey.getTransform(), terrain.getMaterial());
+			//Renderer.render(terrain.getMesh(), terrainTransform, terrain.getMaterial());
 			
 			Renderer.endScene();
 		}
@@ -110,7 +121,7 @@ public class App3D {
 		@Override
 		public void onEvent(Event e) {
 			
-			this.camera.onEvent(e);
+			this.cameraController.onEvent(e);
 			
 			//OBJECTIVE: this.sceneOnEvent(e);
 			

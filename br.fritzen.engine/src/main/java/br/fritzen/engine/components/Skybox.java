@@ -28,6 +28,11 @@ public class Skybox {
 		this.transform = new Matrix4f().scale(size);
 		this.material = new Material(new Vector4f(1), new Vector4f(1), new Vector4f(0), 0);
 	}
+
+	//must implement
+	public void onUpdate(float deltatime) {
+		
+	}
 	
 	
 }
