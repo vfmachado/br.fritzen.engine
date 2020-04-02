@@ -8,9 +8,9 @@ import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.core.input.Input;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
-import br.fritzen.engine.gameobject.Light.DirectionalLight;
 import br.fritzen.engine.renderer.Material;
 import br.fritzen.engine.renderer.Renderer;
+import br.fritzen.engine.scenegraph.Light.DirectionalLight;
 import br.fritzen.engine.utils.Pair;
 
 public class MeshLoaderTest {

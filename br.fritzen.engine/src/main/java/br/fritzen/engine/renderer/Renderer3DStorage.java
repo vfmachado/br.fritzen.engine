@@ -23,6 +23,10 @@ public class Renderer3DStorage {
 	@Getter
 	private Shader skyboxShader;
 	
+	@Getter
+	private Shader terrainShader;
+	
+	
 	public Renderer3DStorage() {
 		
 		List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
@@ -34,6 +38,11 @@ public class Renderer3DStorage {
 		skyshaders.add(new Pair<String, OpenGLShaderType>("shaders/sky-vertex.shader", OpenGLShaderType.VERTEX));
 		skyshaders.add(new Pair<String, OpenGLShaderType>("shaders/sky-fragment.shader", OpenGLShaderType.FRAGMENT));
 		this.skyboxShader = new OpenGLShader(skyshaders);
+		
+		List<Pair<String, OpenGLShaderType>> terrainshaders = new ArrayList<Pair<String, OpenGLShaderType>>();
+		terrainshaders.add(new Pair<String, OpenGLShaderType>("shaders/terrain/vertex.shader", OpenGLShaderType.VERTEX));
+		terrainshaders.add(new Pair<String, OpenGLShaderType>("shaders/terrain/fragment.shader", OpenGLShaderType.FRAGMENT));
+		this.terrainShader = new OpenGLShader(terrainshaders);
 		
 	}
 		

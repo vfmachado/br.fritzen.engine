@@ -8,10 +8,10 @@ import br.fritzen.engine.components.Mesh;
 import br.fritzen.engine.components.Skybox;
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.EngineState;
-import br.fritzen.engine.gameobject.Light.DirectionalLight;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.renderer.shader.ShaderUniform;
+import br.fritzen.engine.scenegraph.Light.DirectionalLight;
 
 public abstract class Renderer {
 

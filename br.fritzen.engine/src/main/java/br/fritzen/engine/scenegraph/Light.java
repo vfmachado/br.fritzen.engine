@@ -1,4 +1,4 @@
-package br.fritzen.engine.gameobject;
+package br.fritzen.engine.scenegraph;
 
 import org.joml.Vector3f;
 
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor
-public abstract class Light {
+public abstract class Light extends GameObject{
 	
 	@Getter
 	@Setter
@@ -21,6 +21,12 @@ public abstract class Light {
 	@Setter
 	private Vector3f specularColor;
 
+	
+	@Override
+	protected GameObjectType getType() {
+		return GameObjectType.LIGHT;
+	}
+	
 	
 	public static class DirectionalLight extends Light {
 
@@ -42,6 +48,10 @@ public abstract class Light {
 		}
 		
 		
+		/**
+		 * No light at all.
+		 * @return light with all components being 0.
+		 */
 		public static DirectionalLight getEmpty() {
 			return nullInstance;
 		}

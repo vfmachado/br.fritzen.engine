@@ -49,8 +49,8 @@ public class Model {
 				Assimp.aiProcess_JoinIdenticalVertices | 
 				Assimp.aiProcess_Triangulate | 
 				Assimp.aiProcess_FixInfacingNormals |
-				//Assimp.aiProcess_GenUVCoords |
-				//Assimp.aiProcess_GenSmoothNormals |
+				Assimp.aiProcess_GenUVCoords |
+				Assimp.aiProcess_GenSmoothNormals |
 				Assimp.aiProcess_CalcTangentSpace);
 		
 		if (aiScene == null) {
