@@ -9,7 +9,11 @@ out vec2 v_texCoord;
 out vec3 v_fragPos;
 out vec3 v_normal;
 
+out mat4 modelViewMatrix;
+
 uniform mat4 u_ViewProjection;
+uniform mat4 u_View;
+uniform mat4 u_Projection;
 uniform mat4 u_Model;
 
 void main() {
@@ -22,4 +26,5 @@ void main() {
 	//https://learnopengl.com/Lighting/Basic-Lighting
 	v_normal = mat3(transpose(inverse(u_Model))) * normal;
 	
+	modelViewMatrix = u_View * u_Model;
 }

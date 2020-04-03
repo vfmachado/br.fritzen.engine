@@ -8,6 +8,11 @@ import br.fritzen.engine.components.Skybox;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The scene is currently using default directional light in the renderer;
+ * @author fritz
+ *
+ */
 public class Scene {
 
 	@Getter
@@ -35,13 +40,7 @@ public class Scene {
 		
 		this.skybox = null;
 		
-		rootGameObject = new GameObject() {
-			
-			@Override
-			protected GameObjectType getType() {
-				return GameObjectType.SIMPLE;
-			}
-		};
+		rootGameObject = new GameObject();
 		
 		rootGameObject.setSceneReferene(this);
 		

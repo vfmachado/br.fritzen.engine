@@ -70,4 +70,25 @@ public abstract class Texture2D extends Texture {
 		return blank;
 	}
 	
+	
+	/**
+	 * Creates a flat color texture
+	 * @return
+	 */
+	public static Texture2D createFlat(int r, int g, int b) {
+		
+		ByteBuffer textureData = BufferUtils.createByteBuffer(16);
+		
+		textureData.put((byte) r);
+		textureData.put((byte) g);
+		textureData.put((byte) b);
+		textureData.put((byte) 255);
+		
+		textureData.flip();
+		
+		Texture2D blank = create(1, 1);
+		blank.setData(textureData, 1);
+		return blank;
+	}
+	
 }

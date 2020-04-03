@@ -35,6 +35,8 @@ public class Model {
 	@Getter
 	private List<Material> materials;
 	
+	@Getter
+	private List<Pair<Mesh, Material>> meshMaterialList;
 	
 	/**
 	 * Load full model with multiple meshes and materials with assimp
@@ -44,6 +46,7 @@ public class Model {
 		
 		this.meshes = new ArrayList<Pair<Mesh, Integer>>();
 		this.materials = new ArrayList<Material>();
+		this.meshMaterialList = new ArrayList<Pair<Mesh, Material>>();
 		
 		AIScene aiScene = Assimp.aiImportFile("src/main/resources/" + filename, 
 				Assimp.aiProcess_JoinIdenticalVertices | 
@@ -99,19 +102,35 @@ public class Model {
             material.setShininess(shininess);
             
             
-            AIString text = AIString.create();
-            Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_DIFFUSE, 0, text, (IntBuffer) null, null, null, null, null, null);
+            AIString difftext = AIString.create();
+            Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_DIFFUSE, 0, difftext, (IntBuffer) null, null, null, null, null, null);
     		
-            System.out.println("Texture with assimp: " + text.dataString());
+            System.out.println("Diffuse Texture with assimp: " + difftext.dataString());
             
-            if (!text.dataString().equals("")) {
+            if (!difftext.dataString().equals("")) {
 	            String currentPath = filename.substring(0, filename.lastIndexOf("/")+1);
 	            System.out.println(currentPath);
 	            
-	            Texture2D texture = Texture2D.create(currentPath + text.dataString());
+	            Texture2D texture = Texture2D.create(currentPath + difftext.dataString());
 	            
 	            material.setDiffuseTexture(texture);
             }
+            
+            
+            AIString normaltext = AIString.create();
+            Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_NORMALS, 0, normaltext, (IntBuffer) null, null, null, null, null, null);
+    		
+            System.out.println("NormalMap Texture with assimp: " + normaltext.dataString());
+            
+            if (!normaltext.dataString().equals("")) {
+	            String currentPath = filename.substring(0, filename.lastIndexOf("/")+1);
+	            System.out.println(currentPath);
+	            
+	            Texture2D texture = Texture2D.create(currentPath + normaltext.dataString());
+	            
+	            material.setNormalMapTexture(texture);
+            }
+            
         	materials.add(material);
         	
         } 
@@ -164,6 +183,11 @@ public class Model {
 			int materialIndex = aiMesh.mMaterialIndex();
 			
 			this.meshes.add(new Pair<Mesh, Integer>(mesh, materialIndex));
+		}
+		
+		
+		for (Pair<Mesh, Integer> m : this.meshes) {
+			meshMaterialList.add(new Pair<Mesh, Material>(m.getKey(), this.materials.get(m.getValue())));
 		}
 	}
 	

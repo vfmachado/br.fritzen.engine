@@ -18,18 +18,14 @@ public class Material {
 	
 	private Texture2D diffuseTexture;
 	
+	private Texture2D normalMapTexture;
+	
 	private float shininess;
 	
 	public Material() {
 		
-		this.ambientColor = new Vector4f(1);
-		this.diffuseColor = new Vector4f(1);
-		this.specularColor = new Vector4f(1);
-		
-		this.diffuseTexture = Texture2D.createBlank();
-		
-		this.shininess = 1f;
-		
+		this(new Vector4f(1), new Vector4f(1),new Vector4f(1), 1);
+				
 	}
 	
 	
@@ -40,6 +36,7 @@ public class Material {
 		this.specularColor = specular;
 		
 		this.diffuseTexture = Texture2D.createBlank();
+		this.normalMapTexture = Texture2D.createFlat(128, 128, 255);
 		
 		this.shininess = shininess;
 		

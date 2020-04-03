@@ -34,7 +34,8 @@ public class MeshLoaderTest {
 			//cameraController.setSpeed(5);
 			
 			//model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
-			model = new Model("models/Tree_02/tree02.obj");
+			//model = new Model("models/Tree_02/tree02.obj");
+			model = new Model("models/handgun.dae");
 			
 			this.transform = new Matrix4f();
 			//transform.scale(0.1f);

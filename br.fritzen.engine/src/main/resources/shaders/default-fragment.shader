@@ -6,6 +6,8 @@ in vec2 v_texCoord;
 in vec3 v_normal;
 in vec3 v_fragPos;
 
+in mat4 modelViewMatrix;
+
 uniform vec4 color;
 uniform vec4 materialSpecColor;
 
@@ -28,6 +30,7 @@ struct Material {
 	vec4 specularColor;
 	
 	sampler2D diffuseTexture;
+	sampler2D normalMapTexture;
 	
 	float specularExponent;
 	float shininess;
@@ -53,9 +56,15 @@ uniform DirectionalLight u_DirectionalLight;
 
 void main() {
 
+	//update normal to normalMap 
+	vec3 newNormal;
+	newNormal = texture(u_Material.normalMapTexture, v_texCoord).rgb;
+    newNormal = normalize(newNormal * 2 - 1);
+    newNormal = normalize(modelViewMatrix * vec4(newNormal, 0.0)).xyz;
+
 	vec4 textureColor = texture(u_Material.diffuseTexture, v_texCoord * textureRepeats);
 	
-	if (textureColor.w < 0.2)
+	if (textureColor.w < 0.1)
 		discard;
 
 
@@ -64,7 +73,7 @@ void main() {
 	vec3 ambient = u_DirectionalLight.light.ambientColor;
 	
 	//DIFFUSE
-	vec3 norm = normalize(v_normal);
+	vec3 norm = normalize(newNormal);
 	//vec3 lightDir   = normalize(lightPos - v_fragPos); //point light
 	vec3 lightDir = normalize(-u_DirectionalLight.direction);	//directional light
 	float diff = max(dot(norm, lightDir), 0.0);
@@ -106,45 +115,5 @@ void main() {
 	float alpha = textureColor.a * u_Material.diffuseColor.a;
 	fragColor = vec4(linearColor, alpha);
 
-/*
-	//diffuse color
-	vec3 norm = normalize(v_normal);
-	vec3 lightDir = normalize(lightPos - v_fragPos);  
-	float diff = max(dot(norm, lightDir), 0.1);
-	
-	vec3 diffVector = vec3(diff);
-	
-	
-	//specular
-	
-	vec3 incidenceVector = -lightDir;
-	vec3 reflectionVector = reflect(incidenceVector, norm);
-	vec3 surfaceToCamera = normalize(cameraPosition - v_fragPos);
-	
-	float specularCoefficient = 0.0;
-	
-	specularCoefficient = pow(max(0.0, dot(surfaceToCamera, reflect(-lightDir, norm))), u_Material.shininess);
-	
-	vec3 specular = specularCoefficient * materialSpecColor.rgb;
-	
-	vec3 linearColor = (ambient + diffVector + specular) * textureColor.rgb * color.rgb;
-	vec3 gamma = vec3(1.0/2.2);
-	
-	float alpha = textureColor.a * color.a;
-	
-	fragColor = vec4(pow(linearColor, gamma), alpha);
-	
-
-*/
-
-	/*
-		//gama correction
-	vec3 gamma = vec3(1.0/2.2);
-	
-	//float alpha = textureColor.a * color.a;
-	float alpha = textureColor.a * u_Material.diffuseColor.a;
-	
-	fragColor = vec4(pow(linearColor, gamma), alpha);
-	*/
 
 }

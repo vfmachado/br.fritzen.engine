@@ -2,10 +2,14 @@ package br.fritzen.sandbox3d;
 
 
 
+import java.util.List;
+
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import br.fritzen.engine.Application;
+import br.fritzen.engine.components.Mesh;
+import br.fritzen.engine.components.MeshRenderer;
 import br.fritzen.engine.components.Model;
 import br.fritzen.engine.components.PerspectiveCameraController;
 import br.fritzen.engine.components.Skybox;
@@ -15,8 +19,11 @@ import br.fritzen.engine.renderer.Material;
 import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.renderer.Texture2D;
 import br.fritzen.engine.scenegraph.Light.DirectionalLight;
+import br.fritzen.engine.scenegraph.GameObject;
+import br.fritzen.engine.scenegraph.GameObjectType;
 import br.fritzen.engine.scenegraph.Scene;
 import br.fritzen.engine.terrain.FlatTerrain;
+import br.fritzen.engine.utils.Pair;
 
 public class App3D {
 
@@ -80,7 +87,21 @@ public class App3D {
 			this.scene = new Scene(cameraController.getCamera());
 			
 			this.scene.setSkybox(this.skybox);
-			this.scene.add(this.monkey);
+			
+			
+			
+			GameObject tree = new GameObject();
+			
+			tree.addComponent(new MeshRenderer() {
+				@Override
+				public List<Pair<Mesh, Material>> getMeshMaterial() {
+					return model.getMeshMaterialList();
+				}
+			});
+			
+			this.scene.add(tree);
+			
+			//this.scene.add(this.monkey);
 			//this.scene.add(this.dirLight);
 			//this.scene.add(this.terrain);
 			
@@ -106,7 +127,7 @@ public class App3D {
 			
 			//Renderer.beginScene(this.cameraController.getCamera(), this.dirLight, this.skybox);
 			
-			//Renderer.render(model, transform);
+			Renderer.render(model, transform);
 			
 			//Renderer.render(plane.getMesh(), plane.getTransform(), plane.getMaterial());
 			

@@ -19,6 +19,9 @@ public class PerspectiveCameraController {
 
 	private float currentMouseY = 0;
 
+	private boolean active = true;
+	
+	
 	@Setter
 	private float speed = 1;
 
@@ -84,9 +87,18 @@ public class PerspectiveCameraController {
 
 			if (!Input.isMouseButton(Input.MOUSE_BUTTON_2)) {
 				Application.getWindow().enableMouse();
+				active = false;
 				return;
 			}
 
+			
+			if (active == false) {
+				active = true;
+				Application.getWindow().setCursorPos(this.currentMouseX, this.currentMouseY);
+				Application.getWindow().disableMouse();
+				return;
+			}
+			
 			float deltaX = this.currentMouseX - ((MouseMovedEvent) e).getPosX();
 			float deltaY = this.currentMouseY - ((MouseMovedEvent) e).getPosY();
 

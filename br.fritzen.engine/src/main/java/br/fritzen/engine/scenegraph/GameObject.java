@@ -11,7 +11,7 @@ import br.fritzen.engine.events.Event;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class GameObject {
+public class GameObject {
 
 	@Getter
 	@Setter
@@ -62,7 +62,9 @@ public abstract class GameObject {
 	}
 	
 	
-	protected abstract GameObjectType getType();
+	protected GameObjectType getType() {
+		return GameObjectType.SIMPLE;
+	}
 	
 	
 	protected void onUpdate(float deltatime) {}

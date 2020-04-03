@@ -21,6 +21,7 @@ public enum ShaderUniform {
 	
 	//Materials
 	material_DiffuseTexture("u_Material.diffuseTexture"),
+	material_NormalMapTexture("u_Material.normalMapTexture"),
 	material_HasDiffuseTexture("u_Material.hasDiffuseTexture"),
 	
 	material_AmbientColor("u_Material.ambientColor"),
