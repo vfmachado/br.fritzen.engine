@@ -63,9 +63,9 @@ public class Model {
 					Assimp.aiProcess_JoinIdenticalVertices | 
 					Assimp.aiProcess_Triangulate | 
 					Assimp.aiProcess_FixInfacingNormals |
-					//Assimp.aiProcess_GenUVCoords |
-					//Assimp.aiProcess_GenSmoothNormals |
-					Assimp.aiProcess_CalcTangentSpace);
+					Assimp.aiProcess_GenUVCoords |
+					Assimp.aiProcess_GenSmoothNormals |
+					Assimp.aiProcess_CalcTangentSpace );
 			
 			if (aiScene == null) {
 				EngineLog.severe("Error loading model with Assimp: " + Assimp.aiGetErrorString());
@@ -99,7 +99,7 @@ public class Model {
             Assimp.aiGetMaterialFloatArray(aiMaterial, Assimp.AI_MATKEY_SHININESS, Assimp.aiTextureType_NONE, 0, floatBuf, size);
             float shininess = floatBuf.get();
             
-            material.setShininess(shininess);
+            material.setShininess(shininess * 128f);
             
             
             AIString difftext = AIString.create();
@@ -129,6 +129,21 @@ public class Model {
 	            Texture2D texture = Texture2D.create(currentPath + normaltext.dataString());
 	            
 	            material.setNormalMapTexture(texture);
+            }
+            
+            
+            AIString spectext = AIString.create();
+            Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_SPECULAR, 0, spectext, (IntBuffer) null, null, null, null, null, null);
+    		
+            System.out.println("SpecularMap Texture with assimp: " + spectext.dataString());
+            
+            if (!spectext.dataString().equals("")) {
+	            String currentPath = filename.substring(0, filename.lastIndexOf("/")+1);
+	            System.out.println(currentPath);
+	            
+	            Texture2D texture = Texture2D.create(currentPath + spectext.dataString());
+	            
+	            material.setSpecularMapTexture(texture);
             }
             
         	materials.add(material);
@@ -172,6 +187,12 @@ public class Model {
 				vao.addVB(vbNormal, 2, 3);
 			}
 			
+			AIVector3D.Buffer aiTangents = aiMesh.mTangents();
+			if (aiTangents != null) {
+				System.out.println("\tProcessing tangents: " + aiTangents.remaining());
+				VertexBuffer vbTangents = createVB(aiTangents, 3);
+				vao.addVB(vbTangents, 3, 3);
+			}
 			
 			AIFace.Buffer aiFaces = aiMesh.mFaces();
 	        IndexBuffer ib = createIB(aiFaces);

@@ -211,6 +211,10 @@ public abstract class Renderer {
 		material.getNormalMapTexture().bind(1);
 		sData.getMainShader().setInt(ShaderUniform.material_NormalMapTexture, 1);
 		
+		material.getSpecularMapTexture().bind(2);
+		sData.getMainShader().setInt(ShaderUniform.material_SpecularMapTexture, 2);
+		
+		
 		sData.getMainShader().setFloat(ShaderUniform.material_Shininess, material.getShininess());
 
 		sData.getMainShader().setFloat4(ShaderUniform.materialSpecColor, material.getSpecularColor());

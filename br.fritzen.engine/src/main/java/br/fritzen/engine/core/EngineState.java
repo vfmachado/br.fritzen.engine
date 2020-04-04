@@ -31,6 +31,11 @@ public abstract class EngineState {
 	/**
 	 * Enable/Disable FPS Log of the engine console
 	 */
+	public static boolean DEBUG_OPENGL = true;
+	
+	/**
+	 * Enable/Disable FPS Log of the engine console
+	 */
 	public static boolean DEBUG_FPS = true;
 	
 	/**

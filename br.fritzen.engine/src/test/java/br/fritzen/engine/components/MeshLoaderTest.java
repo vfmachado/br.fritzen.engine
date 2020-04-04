@@ -31,14 +31,14 @@ public class MeshLoaderTest {
 			super("MAIN LAYER");
 			
 			cameraController = new PerspectiveCameraController(0, 1, 2);
-			//cameraController.setSpeed(5);
+			cameraController.setSpeed(5);
 			
-			//model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
+			model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
 			//model = new Model("models/Tree_02/tree02.obj");
-			model = new Model("models/handgun.dae");
+			//model = new Model("models/handgun.dae");
 			
 			this.transform = new Matrix4f();
-			//transform.scale(0.1f);
+			transform.scale(0.1f);
 			
 			this.dirLight = new DirectionalLight(
 					new Vector3f(0.4f), 	//ambient
@@ -68,7 +68,7 @@ public class MeshLoaderTest {
 			Renderer.beginScene(this.cameraController.getCamera(), dirLight);
 			
 			for (Pair<Mesh, Integer> m : model.getMeshes()) {
-				//if (!m.getKey().getName().equals("Lamborghini_Aventador:Collider"))
+				if (!m.getKey().getName().equals("Lamborghini_Aventador:Collider"))
 				Renderer.render(m.getKey(), this.transform, model.getMaterials().get(m.getValue()));
 			}
 			

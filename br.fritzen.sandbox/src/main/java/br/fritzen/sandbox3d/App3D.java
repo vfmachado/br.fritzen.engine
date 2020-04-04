@@ -68,9 +68,12 @@ public class App3D {
 			this.plane.getTransform().translate(0, -1f, 0).scale(5);
 			
 			this.skybox = new Skybox(
-					new Model("src/main/resources/skybox/skybox.obj").getMeshes().get(0).getKey(),
-					Texture2D.create("skybox/skybox.png"), 
+					new Model("src/main/resources/skybox/sky3.obj").getMeshes().get(0).getKey(),
+					Texture2D.create("skybox/yellow_field_2k.hdr"), 
 					50);
+			
+			
+			
 			
 			Material terrainMaterial = new Material();
 					
@@ -79,7 +82,16 @@ public class App3D {
 			
 			this.terrain = new FlatTerrain(-5, -5, terrainMaterial);
 			this.terrainTransform = new Matrix4f().translate(-10, 0, -10).scale(10);
-			model = new Model("models/Tree_02/tree02.obj");
+			
+			
+			
+			//model = new Model("models/plants/Bush_01/Bush_01.obj");
+			//model = new Model("models/plants/Grass_01/grassmodel.obj");
+			//model = new Model("models/plants/Palm_01/Palma 001.obj");
+			//model = new Model("models/plants/Plant_01/billboardmodel.obj");
+			//model = new Model("models/plants/Tree_01/tree01.obj");
+			model = new Model("models/plants/Tree_02/tree02.obj");
+			
 			transform = new Matrix4f();
 			
 			

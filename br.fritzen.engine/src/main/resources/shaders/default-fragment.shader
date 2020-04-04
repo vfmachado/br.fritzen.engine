@@ -6,7 +6,7 @@ in vec2 v_texCoord;
 in vec3 v_normal;
 in vec3 v_fragPos;
 
-in mat4 modelViewMatrix;
+in mat3 tbnMatrix;
 
 uniform vec4 color;
 uniform vec4 materialSpecColor;
@@ -31,6 +31,7 @@ struct Material {
 	
 	sampler2D diffuseTexture;
 	sampler2D normalMapTexture;
+	sampler2D specMapTexture;
 	
 	float specularExponent;
 	float shininess;
@@ -56,17 +57,18 @@ uniform DirectionalLight u_DirectionalLight;
 
 void main() {
 
-	//update normal to normalMap 
-	vec3 newNormal;
-	newNormal = texture(u_Material.normalMapTexture, v_texCoord).rgb;
-    newNormal = normalize(newNormal * 2 - 1);
-    newNormal = normalize(modelViewMatrix * vec4(newNormal, 0.0)).xyz;
-
 	vec4 textureColor = texture(u_Material.diffuseTexture, v_texCoord * textureRepeats);
 	
+	//transparent
 	if (textureColor.w < 0.1)
 		discard;
 
+
+	//update normal to normalMap 
+	vec3 newNormal = tbnMatrix * (255.0/128.0 * texture2D(u_Material.normalMapTexture, v_texCoord * textureRepeats).xyz - 1);
+
+
+	
 
 	//AMBIENT
 	//vec3 ambient = vec3(0.4, 0.4, 0.4);
@@ -81,6 +83,10 @@ void main() {
 	
 	
 	//SPECULAR
+	
+	//update spec color from specular map texture.
+	vec3 specColorMap = texture(u_Material.specMapTexture, v_texCoord * textureRepeats).xyz;
+	
 	vec3 specular = vec3(0);
 	float spec = 0;
 		
@@ -101,7 +107,7 @@ void main() {
 	}
 	
 
-	specular = u_DirectionalLight.light.specularColor * spec * 0.5;	//0.5 to decrease the intensity
+	specular = u_DirectionalLight.light.specularColor * specColorMap * spec;	//0.5 to decrease the intensity
 
 
 	

@@ -212,6 +212,9 @@ public class WindowsWindowImpl extends Window {
 		//must be called before window creation
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, EngineState.MSAA_SAMPLES);
 		
+		//TODO REVIEW
+		GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_DEBUG_CONTEXT, GLFW.GLFW_TRUE);
+		
 		long handler = GLFW.glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
 		
 		if (handler == NULL ) {

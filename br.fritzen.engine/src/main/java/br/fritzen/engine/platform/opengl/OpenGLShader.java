@@ -39,11 +39,13 @@ public class OpenGLShader extends Shader {
 		GL20.glLinkProgram(this.program);
 		if (GL20.glGetProgrami(this.program, GL20.GL_LINK_STATUS) == 0) {
 			EngineLog.warning("ERROR on link program: " + GL20.glGetShaderInfoLog(this.program));
+			System.exit(0);
 		}
 		
 		GL20.glValidateProgram(this.program);
 		if (GL20.glGetProgrami(this.program, GL20.GL_VALIDATE_STATUS) == 0) {
 			EngineLog.warning("ERROR on validate program: " + GL20.glGetShaderInfoLog(this.program));
+			System.exit(0);
 		}
 		
 	}

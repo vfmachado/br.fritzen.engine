@@ -3,8 +3,12 @@ package br.fritzen.engine.platform.opengl;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLUtil;
+import org.lwjgl.system.Callback;
+import org.lwjgl.system.Configuration;
 
 import br.fritzen.engine.core.EngineLog;
+import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.renderer.GraphicsContext;
 
 
@@ -27,6 +31,11 @@ public class OpenGLContext extends GraphicsContext {
 	
 		GLFW.glfwMakeContextCurrent(windowHandler);
 		GL.createCapabilities();
+		
+		if (EngineState.DEBUG_OPENGL) {
+			Configuration.DEBUG.set(true);
+			Callback debugProc = GLUtil.setupDebugMessageCallback();
+		}
 		
 		EngineLog.info("OpenGL Info");
 		EngineLog.info("   Vendor: " + GL11.glGetString(GL11.GL_VENDOR));
