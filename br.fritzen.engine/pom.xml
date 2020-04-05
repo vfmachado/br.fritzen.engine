@@ -41,7 +41,7 @@
   	<properties>
 	    <maven.compiler.source>1.8</maven.compiler.source>
 	    <maven.compiler.target>1.8</maven.compiler.target>
-		<lwjgl.version>3.2.2-SNAPSHOT</lwjgl.version>
+		<lwjgl.version>3.2.3</lwjgl.version>
 		<joml.version>1.9.9</joml.version>
   	</properties>
   	
@@ -57,6 +57,19 @@
 			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
 	</repositories>
+
+<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.lwjgl</groupId>
+				<artifactId>lwjgl-bom</artifactId>
+				<version>${lwjgl.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 
 	<dependencies>
 	

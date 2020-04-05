@@ -68,18 +68,15 @@ void main() {
 	vec3 newNormal = tbnMatrix * (255.0/128.0 * texture2D(u_Material.normalMapTexture, v_texCoord * textureRepeats).xyz - 1);
 
 
-	
-
 	//AMBIENT
-	//vec3 ambient = vec3(0.4, 0.4, 0.4);
-	vec3 ambient = u_DirectionalLight.light.ambientColor;
+	vec3 ambient = u_DirectionalLight.light.ambientColor * textureColor.xyz;
 	
 	//DIFFUSE
 	vec3 norm = normalize(newNormal);
 	//vec3 lightDir   = normalize(lightPos - v_fragPos); //point light
 	vec3 lightDir = normalize(-u_DirectionalLight.direction);	//directional light
 	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = u_DirectionalLight.light.diffuseColor * diff;
+	vec3 diffuse = u_DirectionalLight.light.diffuseColor * textureColor.xyz * diff;
 	
 	
 	//SPECULAR
@@ -115,7 +112,7 @@ void main() {
 		ambient * u_Material.ambientColor.rgb +
 		diffuse * u_Material.diffuseColor.rgb + 
 		specular * u_Material.specularColor.rgb
-		) *  textureColor.rgb;
+		);
 	
 	
 	float alpha = textureColor.a * u_Material.diffuseColor.a;

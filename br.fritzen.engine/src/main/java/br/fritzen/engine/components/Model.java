@@ -49,28 +49,34 @@ public class Model {
 		this.meshMaterialList = new ArrayList<Pair<Mesh, Material>>();
 		
 		AIScene aiScene = Assimp.aiImportFile("src/main/resources/" + filename, 
-				Assimp.aiProcess_JoinIdenticalVertices | 
+				// Assimp.aiProcess_JoinIdenticalVertices | 
 				Assimp.aiProcess_Triangulate | 
 				Assimp.aiProcess_FixInfacingNormals |
 				Assimp.aiProcess_GenUVCoords |
 				Assimp.aiProcess_GenSmoothNormals |
-				Assimp.aiProcess_CalcTangentSpace);
+				Assimp.aiProcess_CalcTangentSpace
+				);
 		
 		if (aiScene == null) {
 		    //throw new Exception("Error loading model");
 			
 			aiScene = Assimp.aiImportFile(filename, 
-					Assimp.aiProcess_JoinIdenticalVertices | 
+					//Assimp.aiProcess_JoinIdenticalVertices | 
 					Assimp.aiProcess_Triangulate | 
 					Assimp.aiProcess_FixInfacingNormals |
 					Assimp.aiProcess_GenUVCoords |
 					Assimp.aiProcess_GenSmoothNormals |
-					Assimp.aiProcess_CalcTangentSpace );
+					Assimp.aiProcess_CalcTangentSpace 
+					);
 			
 			if (aiScene == null) {
 				EngineLog.severe("Error loading model with Assimp: " + Assimp.aiGetErrorString());
 				System.exit(0);
-			}	
+			} else {
+				EngineLog.info("Model loaded by external system");
+			}
+		} else {
+			EngineLog.info("Model loaded by internal engine system");
 		}
 		
 		
@@ -99,7 +105,7 @@ public class Model {
             Assimp.aiGetMaterialFloatArray(aiMaterial, Assimp.AI_MATKEY_SHININESS, Assimp.aiTextureType_NONE, 0, floatBuf, size);
             float shininess = floatBuf.get();
             
-            material.setShininess(shininess * 128f);
+            material.setShininess(shininess * 128);
             
             
             AIString difftext = AIString.create();

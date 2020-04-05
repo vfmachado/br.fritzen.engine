@@ -90,7 +90,8 @@ public class App3D {
 			//model = new Model("models/plants/Palm_01/Palma 001.obj");
 			//model = new Model("models/plants/Plant_01/billboardmodel.obj");
 			//model = new Model("models/plants/Tree_01/tree01.obj");
-			model = new Model("models/plants/Tree_02/tree02.obj");
+			//model = new Model("models/plants/Tree_02/tree02.obj");
+			
 			
 			transform = new Matrix4f();
 			

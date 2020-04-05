@@ -33,7 +33,9 @@ public class MeshLoaderTest {
 			cameraController = new PerspectiveCameraController(0, 1, 2);
 			cameraController.setSpeed(5);
 			
-			model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
+			//model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
+			
+			model = new Model("arissa/Running.dae");
 			//model = new Model("models/Tree_02/tree02.obj");
 			//model = new Model("models/handgun.dae");
 			
@@ -41,10 +43,10 @@ public class MeshLoaderTest {
 			transform.scale(0.1f);
 			
 			this.dirLight = new DirectionalLight(
-					new Vector3f(0.4f), 	//ambient
-					new Vector3f(1), 		//diffuse
-					new Vector3f(1), 		//specular
-					new Vector3f(-1, -1, -1));	//direction
+					new Vector3f(0.8f), 	//ambient
+					new Vector3f(1f), 		//diffuse
+					new Vector3f(5), 		//specular	//5x improve strength
+					new Vector3f(-0.5f, -0.2f, -0.6f));	//direction
 			
 		}
 		

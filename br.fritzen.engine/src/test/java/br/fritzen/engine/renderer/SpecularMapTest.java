@@ -35,7 +35,7 @@ public class SpecularMapTest extends Layer {
 
 		//TODO ADD TO SCENE
 		this.dirLight = new DirectionalLight(
-				new Vector3f(0.4f), 	//ambient
+				new Vector3f(0.2f), 	//ambient
 				new Vector3f(1), 		//diffuse
 				new Vector3f(1), 		//specular
 				new Vector3f(-1, -1, -1));	//direction

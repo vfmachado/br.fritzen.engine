@@ -26,7 +26,7 @@ public class Material {
 	
 	public Material() {
 		
-		this(new Vector4f(1), new Vector4f(1),new Vector4f(1), 64);
+		this(new Vector4f(1), new Vector4f(1),new Vector4f(1), 32);
 				
 	}
 	
