@@ -16,7 +16,9 @@ import br.fritzen.engine.components.Skybox;
 import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.renderer.Material;
+import br.fritzen.engine.renderer.RenderCommand;
 import br.fritzen.engine.renderer.Renderer;
+import br.fritzen.engine.renderer.Renderer2D;
 import br.fritzen.engine.renderer.Texture2D;
 import br.fritzen.engine.scenegraph.Light.DirectionalLight;
 import br.fritzen.engine.scenegraph.GameObject;
@@ -63,7 +65,7 @@ public class App3D {
 					new Vector3f(0.4f), 	//ambient
 					new Vector3f(1), 		//diffuse
 					new Vector3f(1), 		//specular
-					new Vector3f(-1, -1, -1));	//direction
+					new Vector3f(0, -1, -1));	//direction
 			
 			this.plane.getTransform().translate(0, -1f, 0).scale(5);
 			
@@ -71,8 +73,7 @@ public class App3D {
 					new Model("src/main/resources/skybox/sky3.obj").getMeshes().get(0).getKey(),
 					Texture2D.create("skybox/yellow_field_2k.hdr"), 
 					50);
-			
-			
+					
 			
 			
 			Material terrainMaterial = new Material();
@@ -83,25 +84,21 @@ public class App3D {
 			this.terrain = new FlatTerrain(-5, -5, terrainMaterial);
 			this.terrainTransform = new Matrix4f().translate(-10, 0, -10).scale(10);
 			
-			
-			
 			//model = new Model("models/plants/Bush_01/Bush_01.obj");
 			//model = new Model("models/plants/Grass_01/grassmodel.obj");
 			//model = new Model("models/plants/Palm_01/Palma 001.obj");
 			//model = new Model("models/plants/Plant_01/billboardmodel.obj");
 			//model = new Model("models/plants/Tree_01/tree01.obj");
-			//model = new Model("models/plants/Tree_02/tree02.obj");
+			model = new Model("models/plants/Tree_02/tree02.obj");
 			
 			
 			transform = new Matrix4f();
 			
-			
-			
+						
 			this.scene = new Scene(cameraController.getCamera());
 			
 			this.scene.setSkybox(this.skybox);
-			
-			
+						
 			
 			GameObject tree = new GameObject();
 			
@@ -115,9 +112,27 @@ public class App3D {
 			this.scene.add(tree);
 			
 			//this.scene.add(this.monkey);
-			//this.scene.add(this.dirLight);
+			this.scene.add(this.dirLight);
 			//this.scene.add(this.terrain);
 			
+			//adding a new light as child of an gameobject
+			/*
+			DirectionalLight newLight = new DirectionalLight(
+					new Vector3f(0.4f), 	//ambient
+					new Vector3f(1, 0, 0), 		//diffuse
+					new Vector3f(1), 		//specular
+					new Vector3f(1, -1, 0));	//direction
+			
+			tree.addChild(newLight);
+			
+			/*
+			DirectionalLight newLight2 = new DirectionalLight(
+					new Vector3f(0.4f), 	//ambient
+					new Vector3f(1), 		//diffuse
+					new Vector3f(1), 		//specular
+					new Vector3f(-1, -1, -1));	//direction
+			
+			newLight.addChild(newLight2);*/
 		}
 
 
@@ -146,7 +161,9 @@ public class App3D {
 			
 			//Renderer.render(monkey.getMesh(), monkey.getTransform(), monkey.getMaterial());
 
-			//Renderer.render(terrain.getMesh(), terrainTransform, terrain.getMaterial());
+			Renderer.setTillingFactor(100);
+			Renderer.render(terrain.getMesh(), terrainTransform, terrain.getMaterial());
+			Renderer.setTillingFactor(1);
 			
 			Renderer.endScene();
 		}

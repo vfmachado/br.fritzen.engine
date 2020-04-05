@@ -26,7 +26,7 @@ public class GameObject {
 	
 	@Getter
 	@Setter
-	private Scene sceneReferene = null;
+	private Scene sceneReference = null;
 	
 	@Getter
 	@Setter
@@ -38,9 +38,11 @@ public class GameObject {
 	
 	public void addChild(GameObject gameObject) {
 		
-		gameObject.setParent(this);
-		gameObject.setSceneReferene(this.sceneReferene);
+		if (sceneReference != null) {
+			sceneReference.updateSceneReference(gameObject);
+		}
 		
+		gameObject.setParent(this);
 		this.children.add(gameObject);
 	}
 	

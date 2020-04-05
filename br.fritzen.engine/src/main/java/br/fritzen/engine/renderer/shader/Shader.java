@@ -11,18 +11,18 @@ public abstract class Shader {
 	public abstract void unbind();
 	
 	
-	public abstract void setInt(ShaderUniform uniform, int value);
+	public abstract void setInt(String uniform, int value);
 	
-	public abstract void setFloat(ShaderUniform uniform, float value);
+	public abstract void setFloat(String uniform, float value);
 
-	public abstract void setFloat3(ShaderUniform uniform, float x, float y, float z);
+	public abstract void setFloat3(String uniform, float x, float y, float z);
 	
-	public abstract void setFloat3(ShaderUniform uniform, Vector3f vec);
+	public abstract void setFloat3(String uniform, Vector3f vec);
 	
-	public abstract void setFloat4(ShaderUniform uniform, float x, float y, float z, float w);
+	public abstract void setFloat4(String uniform, float x, float y, float z, float w);
 	
-	public abstract void setFloat4(ShaderUniform uniform, Vector4f vec);
+	public abstract void setFloat4(String uniform, Vector4f vec);
 	
-	public abstract void setMat4(ShaderUniform uniform, Matrix4f mat);
+	public abstract void setMat4(String uniform, Matrix4f mat);
 	
 }

@@ -11,7 +11,7 @@ in mat3 tbnMatrix;
 uniform vec4 color;
 uniform vec4 materialSpecColor;
 
-uniform int textureRepeats = 1;
+uniform float textureRepeats = 1;
 
 
 uniform vec3 u_CameraPosition;
@@ -21,7 +21,6 @@ uniform float u_shininess;
 
 
 uniform int LIGHT_MODEL;
-
 
 struct Material {
 	
@@ -52,70 +51,75 @@ struct DirectionalLight {
 	Light light;
 };
 
-uniform DirectionalLight u_DirectionalLight;
+uniform DirectionalLight u_DirectionalLight[10];
+
+uniform int u_NumberOfDirectionalLights;
 
 
 void main() {
 
 	vec4 textureColor = texture(u_Material.diffuseTexture, v_texCoord * textureRepeats);
 	
-	//transparent
-	if (textureColor.w < 0.1)
+	//if transparent just discard, lights doesn't affect
+	if (textureColor.w < 0.2)
 		discard;
 
-
 	//update normal to normalMap 
-	vec3 newNormal = tbnMatrix * (255.0/128.0 * texture2D(u_Material.normalMapTexture, v_texCoord * textureRepeats).xyz - 1);
-
-
-	//AMBIENT
-	vec3 ambient = u_DirectionalLight.light.ambientColor * textureColor.xyz;
-	
-	//DIFFUSE
+	vec3 newNormal = tbnMatrix * (255.0/128.0 * texture(u_Material.normalMapTexture, v_texCoord * textureRepeats).xyz - 1);
 	vec3 norm = normalize(newNormal);
-	//vec3 lightDir   = normalize(lightPos - v_fragPos); //point light
-	vec3 lightDir = normalize(-u_DirectionalLight.direction);	//directional light
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = u_DirectionalLight.light.diffuseColor * textureColor.xyz * diff;
-	
-	
-	//SPECULAR
+	vec3 viewDir = normalize(u_CameraPosition - v_fragPos);
 	
 	//update spec color from specular map texture.
 	vec3 specColorMap = texture(u_Material.specMapTexture, v_texCoord * textureRepeats).xyz;
 	
-	vec3 specular = vec3(0);
-	float spec = 0;
+	vec3 linearColor = vec3(0);
+
+
+	for (int i = 0; i < u_NumberOfDirectionalLights && i < 10; i++) {
 		
-	vec3 viewDir    = normalize(u_CameraPosition - v_fragPos);
+		DirectionalLight currentLight = u_DirectionalLight[i];
+		
+		//AMBIENT
+		vec3 ambient = currentLight.light.ambientColor * textureColor.xyz;
+		
+		//DIFFUSE
+		vec3 lightDir = normalize(-currentLight.direction);	//directional light
+		float diff = max(dot(norm, lightDir), 0.0);
+		vec3 diffuse = currentLight.light.diffuseColor * textureColor.xyz * diff;
+		
+		
+		//SPECULAR
+		float spec = 0;
+			
+		if (LIGHT_MODEL == 0) {
+			//LIGHT MODEL 0 => PHONG
+			vec3 reflectDir = reflect(-lightDir, norm);
+			spec = pow(max(dot(viewDir, reflectDir), 0.0), u_Material.shininess);
+			
+		//BLINN-PHONG - https://learnopengl.com/Advanced-Lighting/Advanced-Lighting
+		} else if (LIGHT_MODEL == 1) {
+			//LIGHT MODEL 1 => BLINN-PHONG
+			vec3 halfwayDir = normalize(lightDir + viewDir);
+			spec = pow(max(dot(norm, halfwayDir), 0.0),  u_Material.shininess);
+			
+		}
+		
 	
+		vec3 specular = currentLight.light.specularColor * specColorMap * spec;	//0.5 to decrease the intensity
 	
-	if (LIGHT_MODEL == 0) {
-		//LIGHT MODEL 0 => PHONG
-		vec3 reflectDir = reflect(-lightDir, norm);
-		spec = pow(max(dot(viewDir, reflectDir), 0.0), u_Material.shininess);
 		
-	//BLINN-PHONG - https://learnopengl.com/Advanced-Lighting/Advanced-Lighting
-	} else if (LIGHT_MODEL == 1) {
-		//LIGHT MODEL 1 => BLINN-PHONG
-		vec3 halfwayDir = normalize(lightDir + viewDir);
-		spec = pow(max(dot(norm, halfwayDir), 0.0),  u_Material.shininess);
-		
+		linearColor += (
+			ambient * u_Material.ambientColor.rgb +
+			diffuse * u_Material.diffuseColor.rgb + 
+			specular * u_Material.specularColor.rgb
+			);
+			
 	}
-	
-
-	specular = u_DirectionalLight.light.specularColor * specColorMap * spec;	//0.5 to decrease the intensity
-
 
 	
-	vec3 linearColor = (
-		ambient * u_Material.ambientColor.rgb +
-		diffuse * u_Material.diffuseColor.rgb + 
-		specular * u_Material.specularColor.rgb
-		);
-	
-	
+	//extract material alpha from diffuse values
 	float alpha = textureColor.a * u_Material.diffuseColor.a;
+	
 	fragColor = vec4(linearColor, alpha);
 
 

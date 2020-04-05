@@ -65,8 +65,27 @@ public abstract class Renderer {
 	 */
 	public static void beginScene(Scene scene) {
 		
+		
 		if (scene.getLights().isEmpty()) {
+			//SIMPLE DIRECTIONAL LIGHT
 			Renderer.beginScene(scene.getCamera(), DirectionalLight.getEmpty(), scene.getSkybox());
+		} else {
+			
+			//BIND LIGHTS ON SCENE!!!
+			Renderer.beginScene(scene.getCamera(), null, scene.getSkybox());
+			
+			//EngineLog.info("Number of dir lights: " + scene.getDirlights().size() );
+			sData.getMainShader().setInt(ShaderUniform.light_NumberOfDirectional, scene.getDirlights().size());
+			
+			int index = 0;
+			for (DirectionalLight dirLight : scene.getDirlights()) {
+				sData.getMainShader().setFloat3(ShaderUniform.dirLightDirection(index), dirLight.getDirection());
+				sData.getMainShader().setFloat3(ShaderUniform.dirLightAmbientColor(index), dirLight.getAmbientColor());
+				sData.getMainShader().setFloat3(ShaderUniform.dirLightDiffuseColor(index), dirLight.getDiffuseColor());
+				sData.getMainShader().setFloat3(ShaderUniform.dirLightSpecularColor(index), dirLight.getSpecularColor());
+				index++;
+			}
+			
 		}
 		
 		//Renderer all models on the scene
@@ -135,11 +154,19 @@ public abstract class Renderer {
 		// BIND DIRECTIONAL LIGHT
 		// directionalLight.bind(sData.getShader()); //maybe?
 
-		sData.getMainShader().setFloat3(ShaderUniform.directionalLight_direction, directionalLight.getDirection());
-		sData.getMainShader().setFloat3(ShaderUniform.directionalLight_ambient, directionalLight.getAmbientColor());
-		sData.getMainShader().setFloat3(ShaderUniform.directionalLight_diffuse, directionalLight.getDiffuseColor());
-		sData.getMainShader().setFloat3(ShaderUniform.directionalLight_specular, directionalLight.getSpecularColor());
-
+		if (directionalLight != null) {
+			sData.getMainShader().setInt(ShaderUniform.light_NumberOfDirectional, 1);
+			sData.getMainShader().setFloat3(ShaderUniform.dirLightDirection(0), directionalLight.getDirection());
+			sData.getMainShader().setFloat3(ShaderUniform.dirLightAmbientColor(0), directionalLight.getAmbientColor());
+			sData.getMainShader().setFloat3(ShaderUniform.dirLightDiffuseColor(0), directionalLight.getDiffuseColor());
+			sData.getMainShader().setFloat3(ShaderUniform.dirLightSpecularColor(0), directionalLight.getSpecularColor());
+		} 
+		
+		//SOMETHING LIKE
+		/*
+		for dir lighs : allDirLights
+			shaderUniform.getDirLight(0).direction
+		 */
 	}
 
 
@@ -234,6 +261,11 @@ public abstract class Renderer {
 		for (Pair<Mesh, Integer> m : model.getMeshes()) {
 			Renderer.render(m.getKey(), transform, model.getMaterials().get(m.getValue()));
 		}
+	}
+	
+	
+	public static void setTillingFactor(float repeats) {
+		sData.getMainShader().setFloat(ShaderUniform.tillingFactor, repeats);
 	}
 	
 	

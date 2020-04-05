@@ -38,7 +38,8 @@ public class MeshLoaderTest {
 			
 			//model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
 			
-			model = new Model("paladin/Walking.dae");
+			//model = new Model("paladin/Walking.dae");
+			model = new Model("arissa/Running.dae");
 			
 			//model = new Model("models/Tree_02/tree02.obj");
 			
@@ -53,7 +54,7 @@ public class MeshLoaderTest {
 			
 			this.transform = new Matrix4f();
 			//.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
-			transform.scale(0.01f);
+			transform.scale(0.1f);
 			
 			this.dirLight = new DirectionalLight(
 					new Vector3f(0.8f), 	//ambient

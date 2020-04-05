@@ -9,6 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public abstract class Light extends GameObject {
 	
+	public enum LightType {
+		Directional,
+		Point,
+		Spot
+	}
+	
 	@Getter
 	@Setter
 	private Vector3f ambientColor;
@@ -27,6 +33,7 @@ public abstract class Light extends GameObject {
 		return GameObjectType.LIGHT;
 	}
 	
+	abstract LightType getLightType();
 	
 	public static class DirectionalLight extends Light {
 
@@ -34,11 +41,14 @@ public abstract class Light extends GameObject {
 		@Setter
 		private Vector3f direction;
 		
+		/**
+		 * Similar to blender default lamp in Sun Mode
+		 */
 		private static DirectionalLight nullInstance = new DirectionalLight(
-				new Vector3f(0.2f), 
-				new Vector3f(0.8f), 
+				new Vector3f(0.5f), 
+				new Vector3f(1.0f), 
 				new Vector3f(2f), 
-				new Vector3f(0.4f, -0.2f, -1f));
+				new Vector3f(4f, 5.9f, -1f));
 		
 		
 		public DirectionalLight(Vector3f mainColor, Vector3f direction) {
@@ -58,6 +68,12 @@ public abstract class Light extends GameObject {
 		 */
 		public static DirectionalLight getEmpty() {
 			return nullInstance;
+		}
+
+
+		@Override
+		LightType getLightType() {
+			return LightType.Directional;
 		}
 		
 	}

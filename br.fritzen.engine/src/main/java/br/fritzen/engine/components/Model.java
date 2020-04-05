@@ -49,7 +49,6 @@ public class Model {
 		this.meshMaterialList = new ArrayList<Pair<Mesh, Material>>();
 		
 		AIScene aiScene = Assimp.aiImportFile("src/main/resources/" + filename, 
-				// Assimp.aiProcess_JoinIdenticalVertices | 
 				Assimp.aiProcess_Triangulate | 
 				Assimp.aiProcess_FixInfacingNormals |
 				Assimp.aiProcess_GenUVCoords |
@@ -58,10 +57,8 @@ public class Model {
 				);
 		
 		if (aiScene == null) {
-		    //throw new Exception("Error loading model");
-			
+		   
 			aiScene = Assimp.aiImportFile(filename, 
-					//Assimp.aiProcess_JoinIdenticalVertices | 
 					Assimp.aiProcess_Triangulate | 
 					Assimp.aiProcess_FixInfacingNormals |
 					Assimp.aiProcess_GenUVCoords |
