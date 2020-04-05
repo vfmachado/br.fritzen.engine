@@ -105,7 +105,7 @@ public class Model {
             Assimp.aiGetMaterialFloatArray(aiMaterial, Assimp.AI_MATKEY_SHININESS, Assimp.aiTextureType_NONE, 0, floatBuf, size);
             float shininess = floatBuf.get();
             
-            material.setShininess(shininess * 128);
+            material.setShininess(shininess);
             
             
             AIString difftext = AIString.create();

@@ -3,6 +3,8 @@ package br.fritzen.engine.components;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import com.jogamp.common.net.asset.Handler;
+
 import br.fritzen.engine.Application;
 import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.core.input.Input;
@@ -10,6 +12,7 @@ import br.fritzen.engine.core.layers.Layer;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.renderer.Material;
 import br.fritzen.engine.renderer.Renderer;
+import br.fritzen.engine.renderer.Texture2D;
 import br.fritzen.engine.scenegraph.Light.DirectionalLight;
 import br.fritzen.engine.utils.Pair;
 
@@ -25,27 +28,37 @@ public class MeshLoaderTest {
 
 		private DirectionalLight dirLight;
 		
-		
+		private Material handgun; 
 		
 		public RotationMeshLayer() {
 			super("MAIN LAYER");
 			
 			cameraController = new PerspectiveCameraController(0, 1, 2);
-			cameraController.setSpeed(5);
+			//cameraController.setSpeed(5);
 			
 			//model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
 			
-			model = new Model("arissa/Running.dae");
+			model = new Model("paladin/Walking.dae");
+			
 			//model = new Model("models/Tree_02/tree02.obj");
+			
 			//model = new Model("models/handgun.dae");
 			
+			handgun = new Material();
+			handgun.setDiffuseTexture(Texture2D.create("models/handgun_C.jpg"));
+			handgun.setNormalMapTexture(Texture2D.create("models/handgun_N.jpg"));
+			handgun.setSpecularMapTexture(Texture2D.create("models/handgun_S.jpg"));
+			
+			
+			
 			this.transform = new Matrix4f();
-			transform.scale(0.1f);
+			//.rotate((float)Math.toRadians(-90), EngineState.X_AXIS);
+			transform.scale(0.01f);
 			
 			this.dirLight = new DirectionalLight(
 					new Vector3f(0.8f), 	//ambient
 					new Vector3f(1f), 		//diffuse
-					new Vector3f(5), 		//specular	//5x improve strength
+					new Vector3f(1), 		//specular	//5x improve strength
 					new Vector3f(-0.5f, -0.2f, -0.6f));	//direction
 			
 		}
@@ -69,11 +82,21 @@ public class MeshLoaderTest {
 			
 			Renderer.beginScene(this.cameraController.getCamera(), dirLight);
 			
+			
 			for (Pair<Mesh, Integer> m : model.getMeshes()) {
 				if (!m.getKey().getName().equals("Lamborghini_Aventador:Collider"))
 				Renderer.render(m.getKey(), this.transform, model.getMaterials().get(m.getValue()));
 			}
 			
+			
+			/*
+			for (Pair<Mesh, Integer> m : model.getMeshes()) {
+				if (!m.getKey().getName().equals("Cube.005") && 
+						!m.getKey().getName().equals("Cube")  && 
+						!m.getKey().getName().equals("Plane.002"))
+				Renderer.render(m.getKey(), this.transform, handgun);
+			}
+			*/
 			Renderer.endScene();
 		}
 		
