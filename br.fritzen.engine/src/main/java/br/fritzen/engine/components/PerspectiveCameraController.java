@@ -33,7 +33,7 @@ public class PerspectiveCameraController {
 
 		this.camera = new PerspectiveCamera(90f, 16f / 9f, 0.1f, 1000f);
 		this.camera.setPosition(new Vector3f(posX, posY, posZ));
-
+		
 		this.currentMouseX = Application.getWindow().getWidth() / 2;
 		this.currentMouseY = Application.getWindow().getHeight() / 2;
 

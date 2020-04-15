@@ -19,6 +19,10 @@ uniform mat4 u_View;
 uniform mat4 u_Projection;
 uniform mat4 u_Model;
 
+uniform mat4 lightViewProj;
+
+out vec4 shadowMapCoords;
+
 void main() {
 
 	gl_Position = u_ViewProjection * u_Model * vec4(position, 1.0);
@@ -39,9 +43,10 @@ void main() {
 	t = normalize(t - dot(t, n) * n);
 	
 	vec3 biTangent = cross(t, n);
-	
-	
+		
 	tbnMatrix = mat3(t, biTangent, n);
 	
 	modelViewMatrix = u_View * u_Model;
+	
+	shadowMapCoords = lightViewProj * u_Model * vec4(position, 1.0);
 }

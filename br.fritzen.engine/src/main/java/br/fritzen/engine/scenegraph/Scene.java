@@ -96,12 +96,6 @@ public class Scene {
 
 	public List<Light> getLights() {
 
-		this.lights.clear();
-
-		this.dirlights.clear();
-		
-		addLights(rootGameObject);
-
 		return this.lights;
 
 	}
@@ -130,5 +124,17 @@ public class Scene {
 			addLights(go);
 		}
 
+	}
+
+
+	/**
+	 * Call just one time per update / frame
+	 */
+	public void processLights() {
+		
+		this.lights.clear();
+		this.dirlights.clear();
+		
+		addLights(this.rootGameObject);
 	}
 }

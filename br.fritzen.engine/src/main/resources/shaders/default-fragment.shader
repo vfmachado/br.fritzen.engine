@@ -55,6 +55,47 @@ uniform DirectionalLight u_DirectionalLight[10];
 
 uniform int u_NumberOfDirectionalLights;
 
+in vec4 shadowMapCoords;
+uniform sampler2D shadowMap;
+
+
+float calcShadow() {
+    
+    /* https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping
+    vec3 projCoords = position.xyz;
+    // Transform from screen coordinates to texture coordinates
+    projCoords = projCoords * 0.5 + 0.5;
+    float bias = 0.05;
+
+    float shadowFactor = 0.0;
+    vec2 inc = 1.0 / textureSize(shadowMap, 0);
+    for(int row = -1; row <= 1; ++row)
+    {
+        for(int col = -1; col <= 1; ++col)
+        {
+            float textDepth = texture(shadowMap, projCoords.xy + vec2(row, col) * inc).r; 
+            shadowFactor += projCoords.z - bias > textDepth ? 1.0 : 0.0;        
+        }    
+    }
+    shadowFactor /= 9.0;
+
+    if(projCoords.z > 1.0)
+    {
+        shadowFactor = 1.0;
+    }
+
+    return 1 - shadowFactor;
+    */
+    
+    //bennybox
+    vec3 shadowCoords = (shadowMapCoords.xyz/shadowMapCoords.w) * 0.5 + 0.5;	//perspective divide	//transform to 0 to 1
+    
+    float factor = step(shadowCoords.z, texture(shadowMap, shadowCoords.xy).r); 
+    
+    return 1 - factor;
+    
+} 
+
 
 void main() {
 
@@ -116,11 +157,14 @@ void main() {
 			
 	}
 
+	linearColor *= calcShadow();
 	
 	//extract material alpha from diffuse values
 	float alpha = textureColor.a * u_Material.diffuseColor.a;
 	
 	fragColor = vec4(linearColor, alpha);
 
-
+	//gamma correction. May create a problem with textures being to bright
+	float gamma = 2.2;
+    fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));
 }

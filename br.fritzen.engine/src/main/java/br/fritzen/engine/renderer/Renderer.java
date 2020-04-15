@@ -2,6 +2,9 @@ package br.fritzen.engine.renderer;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL30;
 
 import br.fritzen.engine.components.Camera;
 import br.fritzen.engine.components.GameComponent;
@@ -15,6 +18,7 @@ import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.renderer.Buffer.VertexArray;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.renderer.shader.ShaderUniform;
+import br.fritzen.engine.renderer.shadow.ShadowMap;
 import br.fritzen.engine.scenegraph.GameObject;
 import br.fritzen.engine.scenegraph.Light.DirectionalLight;
 import br.fritzen.engine.scenegraph.Scene;
@@ -24,7 +28,8 @@ public abstract class Renderer {
 
 	private static SceneData sceneData = new SceneData();
 
-	private static Renderer3DStorage sData = new Renderer3DStorage();
+	//TODO PUBLIC BECAUSE TESTING SHADOW MAP
+	public static Renderer3DStorage sData = new Renderer3DStorage();
 
 	private static Shader currentShader;
 	
@@ -59,12 +64,58 @@ public abstract class Renderer {
 	}
 
 	
+	static Matrix4f  lightViewProj = new Matrix4f();
+	
 	/**
 	 * Use Engine Renderer Storage and Default Shaders
+	 * Objects not included on Scene will NOT cast shadows
 	 * @param scene
 	 */
 	public static void beginScene(Scene scene) {
 		
+		scene.processLights();
+		
+		//TODO SHADOW MAP
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, sData.getShadowMap().getDepthMapFBO());
+		//GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT); //related to light position
+		RenderCommand.setViewPort(ShadowMap.SHADOW_MAP_WIDTH, ShadowMap.SHADOW_MAP_WIDTH);
+			
+		//OPENGL SPECIFIC	- BIND THIS AS RENDERER TARGET
+		
+		//	GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT); //TODO THIS IS CAUSING BLACK SCREEN
+		
+		//configure shaders and matrices
+		sData.getDepthShader().bind();
+		
+		//LIGHT VIEW MATRIX
+		Vector3f lightDir = new Vector3f().set(scene.getDirlights().get(0).getDirection());
+		lightDir.mul(-10);
+		System.out.println("Light \"Pos\": " + lightDir);
+		Matrix4f lightView = new Matrix4f().lookAt(lightDir, new Vector3f(0), EngineState.Y_AXIS);
+		
+		sData.getDepthShader().setMat4("u_LightViewMatrix", lightView);
+		
+		//ORTHO
+		Matrix4f orthoProj = new Matrix4f().ortho(-50, 50, -50, 50, -50, 50);
+		sData.getDepthShader().setMat4("u_OrthoProjectionMatrix", orthoProj);
+		
+		lightViewProj.set(orthoProj).mul(lightView);
+		
+		//render objects that cast shadows
+		recursiveShadowRenderer(scene.getRootGameObject());
+		
+		//unbind
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,0);
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+		sData.getDepthShader().unbind();
+		
+		//restore viewPort
+		RenderCommand.setViewPort(1280, 720);	//TODO GET THIS VALUES DYNAMICALLY
+		RenderCommand.clear();
+		
+		
+		
+		//NORMAL RENDERER CYCLE
 		
 		if (scene.getLights().isEmpty()) {
 			//SIMPLE DIRECTIONAL LIGHT
@@ -79,6 +130,7 @@ public abstract class Renderer {
 			
 			int index = 0;
 			for (DirectionalLight dirLight : scene.getDirlights()) {
+				//EngineLog.info(" DIR LIGHT " + index);
 				sData.getMainShader().setFloat3(ShaderUniform.dirLightDirection(index), dirLight.getDirection());
 				sData.getMainShader().setFloat3(ShaderUniform.dirLightAmbientColor(index), dirLight.getAmbientColor());
 				sData.getMainShader().setFloat3(ShaderUniform.dirLightDiffuseColor(index), dirLight.getDiffuseColor());
@@ -111,6 +163,32 @@ public abstract class Renderer {
 		//RECALL FOR CHILDREN
 		for (GameObject go : parent.getChildren()) {
 			recursiveRenderer(go);
+		}
+	}
+	
+	
+	
+	private static void recursiveShadowRenderer(GameObject parent) {
+		
+		
+		//RENDER CURRENT PARENT
+		if ( (currentComponent = parent.getComponent(GameComponentType.MESH_RENDERER)) != null) {
+			
+			for (Pair<Mesh, Material> m : ((MeshRenderer) currentComponent).getMeshMaterial()) {
+				
+				//BIND JUST MODEL
+				sData.getDepthShader().setMat4(ShaderUniform.model, parent.getTransform());
+				
+				m.getKey().getVertexArray().bind(); // RendererAPI must deal with this
+				RendererAPI.get().drawIndexed(m.getKey().getVertexArray());
+			}
+			
+		}
+		
+		
+		//RECALL FOR CHILDREN
+		for (GameObject go : parent.getChildren()) {
+			recursiveShadowRenderer(go);
 		}
 	}
 	
@@ -151,6 +229,13 @@ public abstract class Renderer {
 
 		sData.getMainShader().setFloat3(ShaderUniform.cameraPosition, sceneData.cameraPosition);
 
+		//bind shadow texture
+		
+		sData.getShadowMap().getDepthMapTexture().bind(3);
+		sData.getMainShader().setInt("shadowMap", 3);
+		
+		sData.getMainShader().setMat4("lightViewProj", lightViewProj);
+		
 		// BIND DIRECTIONAL LIGHT
 		// directionalLight.bind(sData.getShader()); //maybe?
 

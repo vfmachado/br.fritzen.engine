@@ -1,19 +1,38 @@
 package br.fritzen.engine.scenegraph;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
+
 public abstract class Light extends GameObject {
+	
 	
 	public enum LightType {
 		Directional,
 		Point,
 		Spot
 	}
+	
+	
+	@Data
+	public class ShadowInfo {
+		
+		private Matrix4f lightProjection;
+		
+	}
+	
+		
+	public Light(Vector3f ambientColor, Vector3f diffuseColor, Vector3f specularColor) {
+		this.ambientColor = ambientColor;
+		this.diffuseColor = diffuseColor;
+		this.specularColor = specularColor;
+	}
+
 	
 	@Getter
 	@Setter
@@ -34,6 +53,10 @@ public abstract class Light extends GameObject {
 	}
 	
 	abstract LightType getLightType();
+	
+	@Getter
+	protected ShadowInfo shadowInfo = null;
+	
 	
 	public static class DirectionalLight extends Light {
 
@@ -59,6 +82,10 @@ public abstract class Light extends GameObject {
 		public DirectionalLight(Vector3f ambientColor, Vector3f diffuseColor, Vector3f specularColor, Vector3f direction) {
 			super(ambientColor, diffuseColor, specularColor);
 			this.direction = direction;
+			
+			this.shadowInfo = new ShadowInfo();
+			this.shadowInfo.setLightProjection(new Matrix4f().ortho(-50, 50, -50, 50, -50, 50));
+			
 		}
 		
 		

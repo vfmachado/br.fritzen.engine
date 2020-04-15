@@ -39,7 +39,7 @@ public class Material {
 		
 		this.diffuseTexture = Texture2D.createBlank();
 		this.normalMapTexture = Texture2D.createFlat(128, 128, 255);
-		this.specularMapTexture = Texture2D.createFlat(0, 0, 0);
+		this.specularMapTexture = Texture2D.createFlat(255, 255, 255);
 		
 		this.shininess = shininess;
 		
