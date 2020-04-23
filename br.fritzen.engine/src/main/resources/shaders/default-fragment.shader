@@ -58,66 +58,78 @@ uniform int u_NumberOfDirectionalLights;
 in vec4 shadowMapCoords;
 uniform sampler2D shadowMap;
 
+float shadowBias = 0.0;
+
+
+float SampleShadowMap(sampler2D shadowMap, vec2 coords, float compare)
+{
+	return step(compare - shadowBias, texture2D(shadowMap, coords.xy).r);
+}
+
+float SampleShadowMapLinear(sampler2D shadowMap, vec2 coords, float compare, vec2 texelSize)
+{
+	vec2 pixelPos = coords/texelSize + vec2(0.5);
+	vec2 fracPart = fract(pixelPos);
+	vec2 startTexel = (pixelPos - fracPart) * texelSize;
+	
+	float blTexel = SampleShadowMap(shadowMap, startTexel, compare);
+	float brTexel = SampleShadowMap(shadowMap, startTexel + vec2(texelSize.x, 0.0), compare);
+	float tlTexel = SampleShadowMap(shadowMap, startTexel + vec2(0.0, texelSize.y), compare);
+	float trTexel = SampleShadowMap(shadowMap, startTexel + texelSize, compare);
+	
+	float mixA = mix(blTexel, tlTexel, fracPart.y);
+	float mixB = mix(brTexel, trTexel, fracPart.y);
+	
+	return mix(mixA, mixB, fracPart.x);
+}
+
+
+float SampleShadowMapPCF(sampler2D shadowMap, vec2 coords, float compare, vec2 texelSize)
+{
+	const float NUM_SAMPLES = 3.0f;
+	const float SAMPLES_START = (NUM_SAMPLES-1.0f)/2.0f;
+	const float NUM_SAMPLES_SQUARED = NUM_SAMPLES*NUM_SAMPLES;
+
+	float result = 0.0f;
+	for(float y = -SAMPLES_START; y <= SAMPLES_START; y += 1.0f)
+	{
+		for(float x = -SAMPLES_START; x <= SAMPLES_START; x += 1.0f)
+		{
+			vec2 coordsOffset = vec2(x,y)*texelSize;
+			result += SampleShadowMapLinear(shadowMap, coords + coordsOffset, compare, texelSize);
+		}
+	}
+	return result/NUM_SAMPLES_SQUARED;
+}
+
 
 float calcShadow() {
-    /*
-    // perform perspective divide
-    vec3 projCoords = shadowMapCoords.xyz/shadowMapCoords.w;
     
-    // transform to [0,1] range
+    vec3 projCoords = shadowMapCoords.xyz/shadowMapCoords.w;
     projCoords = projCoords * 0.5 + 0.5;
     
-    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-    float closestDepth = texture(shadowMap, projCoords.xy).r; 
     
-    // get depth of current fragment from light's perspective
-    float currentDepth = projCoords.z;
+    //vec2 texelSize  = 1.0 / textureSize(shadowMap, 0);
+	//return SampleShadowMapPCF(shadowMap, projCoords.xy, projCoords.z, texelSize );
     
-    // check whether current frag pos is in shadow
-    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
-
-    return 1 - shadow;
-    */
-        
-    
-    // https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping
-    vec3 projCoords = shadowMapCoords.xyz/shadowMapCoords.w;
-    
-    // Transform from screen coordinates to texture coordinates
-    projCoords = projCoords * 0.5 + 0.5;
-    
-    float bias = 0.01;
-
-    float shadowFactor = 0.0;
-    vec2 inc = 1.0 / textureSize(shadowMap, 0);
-    for(int row = -1; row <= 1; ++row)
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x)
     {
-        for(int col = -1; col <= 1; ++col)
+        for(int y = -1; y <= 1; ++y)
         {
-            float textDepth = texture(shadowMap, projCoords.xy + vec2(row, col) * inc).r; 
-            shadowFactor += projCoords.z - bias > textDepth ? 1.0 : 0.0;
-                  
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            shadow += projCoords.z - shadowBias > pcfDepth  ? 1.0 : 0.0;        
         }    
     }
-    shadowFactor /= 9.0;
-
+    shadow /= 9.0;
+    
+    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
     if(projCoords.z > 1.0)
-    {
-        shadowFactor = 1.0;
-    }
-
-
-    return 1 - shadowFactor;
+        shadow = 0.0;
+        
+    return 1 - shadow;
     
-    
-    /*
-    //bennybox
-    vec3 shadowCoords = (shadowMapCoords.xyz/shadowMapCoords.w) * 0.5 + 0.5;	//perspective divide	//transform to 0 to 1
-    
-    float factor = step(shadowCoords.z, texture(shadowMap, shadowCoords.xy).r); 
-    
-    return 1 - factor;
-    */
 } 
 
 
@@ -172,6 +184,7 @@ void main() {
 	
 		vec3 specular = currentLight.light.specularColor * specColorMap * spec;	//0.5 to decrease the intensity
 	
+		shadowBias = max(0.01 * (1.0 - dot(norm,  lightDir)), 0.003);
 		float shadow = calcShadow();
 		
 		linearColor += (

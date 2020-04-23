@@ -36,7 +36,7 @@ public abstract class Renderer {
 
 	private static Shader currentShader;
 	
-	public static Texture2D lightViewTexture = Texture2D.create(2048, 2048);
+	public static Texture2D lightViewTexture = Texture2D.create(4096, 4096);
 	
 	
 	public static void init() {
@@ -90,7 +90,7 @@ public abstract class Renderer {
 		lightView.identity().lookAt(scene.getDirlights().get(0).getDirection().mul(-1, new Vector3f()), new Vector3f(0), EngineState.Y_AXIS);
 		sData.getDepthShader().setMat4("u_LightViewMatrix", lightView);
 		
-		float orthoSize = 25;
+		float orthoSize = 15;
 		orthoProj.identity().ortho(-orthoSize, orthoSize, -orthoSize, orthoSize, -orthoSize, orthoSize);
 		sData.getDepthShader().setMat4("u_OrthoProjectionMatrix", orthoProj);
 		
