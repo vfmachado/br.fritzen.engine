@@ -3,6 +3,7 @@ package br.fritzen.engine.platform.opengl;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GLUtil;
 import org.lwjgl.system.Callback;
 import org.lwjgl.system.Configuration;
@@ -10,6 +11,7 @@ import org.lwjgl.system.Configuration;
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.renderer.GraphicsContext;
+import br.fritzen.engine.renderer.RenderCommand;
 
 
 
@@ -72,5 +74,9 @@ public class OpenGLContext extends GraphicsContext {
 	}
 
 	
-	
+	@Override
+	public void bindAsRenderTarget() {
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, 0);
+	}
 }

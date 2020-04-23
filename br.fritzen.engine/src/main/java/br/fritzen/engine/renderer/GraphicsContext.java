@@ -6,6 +6,8 @@ public abstract class GraphicsContext {
 		
 	public abstract void swapBuffers();
 	
+	public abstract void bindAsRenderTarget();
+	
 	public abstract String getVendor();
 	
 	public abstract String getRenderer();

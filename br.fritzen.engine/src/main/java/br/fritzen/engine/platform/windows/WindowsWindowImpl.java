@@ -328,6 +328,12 @@ public class WindowsWindowImpl extends Window {
 		GLFW.glfwSetWindowMonitor(this.handler, monitor, windowedParams.posx, windowedParams.posy, this.width, this.height, monitorVideoMode.refreshRate());
 			
 	}
+	
+	
+	@Override
+	public void bindAsRenderTarget() {
+		this.context.bindAsRenderTarget();
+	}
 
 
 	@Override

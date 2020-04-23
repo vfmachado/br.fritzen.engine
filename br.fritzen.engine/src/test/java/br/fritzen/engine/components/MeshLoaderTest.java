@@ -36,19 +36,19 @@ public class MeshLoaderTest {
 			cameraController = new PerspectiveCameraController(0, 1, 2);
 			//cameraController.setSpeed(5);
 			
-			//model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
+			model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
 			
 			//model = new Model("paladin/Walking.dae");
-			model = new Model("arissa/Running.dae");
+			//model = new Model("arissa/Running.dae");
 			
 			//model = new Model("models/Tree_02/tree02.obj");
 			
 			//model = new Model("models/handgun.dae");
 			
-			handgun = new Material();
-			handgun.setDiffuseTexture(Texture2D.create("models/handgun_C.jpg"));
-			handgun.setNormalMapTexture(Texture2D.create("models/handgun_N.jpg"));
-			handgun.setSpecularMapTexture(Texture2D.create("models/handgun_S.jpg"));
+//			handgun = new Material();
+//			handgun.setDiffuseTexture(Texture2D.create("models/handgun_C.jpg"));
+//			handgun.setNormalMapTexture(Texture2D.create("models/handgun_N.jpg"));
+//			handgun.setSpecularMapTexture(Texture2D.create("models/handgun_S.jpg"));
 			
 			
 			

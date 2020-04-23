@@ -2,9 +2,11 @@ package br.fritzen.engine.renderer.shadow;
 
 import java.nio.ByteBuffer;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL13;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.*;
+import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL14.*;
+import static org.lwjgl.opengl.GL30.*;
 
 import br.fritzen.engine.renderer.Texture2D;
 import br.fritzen.engine.renderer.TextureFormat;
@@ -20,21 +22,22 @@ public class ShadowTexture extends Texture2D {
 	
 	public ShadowTexture(int width, int height, int pixelFormat) throws Exception {
 	    
-		this.id = GL11.glGenTextures();
+		this.id = glGenTextures();
 	    this.width = width;
 	    this.height = height;
 	    
-	    GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
-	    GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_DEPTH_COMPONENT, this.width, this.height, 0, pixelFormat, GL11.GL_FLOAT, (ByteBuffer) null);
+	    glBindTexture(GL_TEXTURE_2D, this.id);
+	    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, this.width, this.height, 0, pixelFormat, GL_FLOAT, 0);
+	    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this.width, this.height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 	    
-	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
-	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	    
-	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	    
 	    //float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-//	    /GL11.glTexParameterfv(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_BORDER_COLOR, borderColor);  
+	    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);  
 	}
 
 	
@@ -44,7 +47,7 @@ public class ShadowTexture extends Texture2D {
 
 
 	public void cleanup() {
-		GL11.glDeleteTextures(this.id);
+		glDeleteTextures(this.id);
 	}
 
 
@@ -86,15 +89,15 @@ public class ShadowTexture extends Texture2D {
 
 	@Override
 	public void bind(int slot) {
-		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);	
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
+		glActiveTexture(GL_TEXTURE0 + slot);	
+		glBindTexture(GL_TEXTURE_2D, this.id);
 	}
 
 
 	@Override
 	public void unbind() {
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, this.id);
 	}
 
 
@@ -107,6 +110,12 @@ public class ShadowTexture extends Texture2D {
 	@Override
 	public int getPlatformFormat(TextureFormat format) {
 		return 0;
+	}
+
+
+	@Override
+	public void bindAsRenderTarget() {
+		
 	}
 	
 	

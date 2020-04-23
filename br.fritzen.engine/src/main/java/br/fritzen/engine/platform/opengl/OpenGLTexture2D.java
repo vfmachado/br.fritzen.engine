@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL32;
 import org.lwjgl.stb.STBImage;
 
 import br.fritzen.engine.core.EngineLog;
@@ -23,6 +24,8 @@ import lombok.Getter;
 public class OpenGLTexture2D extends Texture2D {
 
 	private int id;
+	
+	private int frameBufferID;
 	
 	private String filename;
 	
@@ -77,6 +80,9 @@ public class OpenGLTexture2D extends Texture2D {
 	@Override
 	public void cleanup() {
 		GL11.glDeleteTextures(this.id);
+		
+		if (frameBufferID != 0)
+			GL30.glDeleteFramebuffers(this.frameBufferID);
 	}
 	
 	
@@ -100,6 +106,39 @@ public class OpenGLTexture2D extends Texture2D {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.id);
 	}
 
+	
+	@Override
+	public void bindAsRenderTarget() {
+		
+		this.bind();
+		
+		if (frameBufferID == 0) {
+			
+			//create and bind
+			frameBufferID = GL30.glGenFramebuffers();
+			GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferID);
+			
+			//GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, this.internalFormat, this.width, this.height, 0,  this.dataFormat, GL11.GL_UNSIGNED_BYTE, 0);
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, this.internalFormat, this.width, this.height, 0,  this.dataFormat, GL11.GL_UNSIGNED_BYTE, 0);
+			
+			//associate to a texture
+			GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL32.GL_COLOR_ATTACHMENT0, this.id, 0);
+			
+			//render buffer -> it should fix stencil and depth
+			int renderbuffer = 0;
+			renderbuffer = GL30.glGenRenderbuffers();
+			GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, renderbuffer);
+			GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL30.GL_DEPTH24_STENCIL8, this.width, this.height);
+			GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_STENCIL_ATTACHMENT, GL30.GL_RENDERBUFFER, renderbuffer);
+		}
+		
+		
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferID);
+		GL11.glViewport(0, 0, this.getWidth(), this.getHeight());
+				
+	}
+	
 	
 	@Override
 	public void unbind() {

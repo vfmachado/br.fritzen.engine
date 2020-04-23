@@ -16,9 +16,11 @@ import br.fritzen.engine.core.EngineState;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.utils.EngineFiles;
 import br.fritzen.engine.utils.Pair;
+import lombok.Getter;
 
 public class OpenGLShader extends Shader {
 
+	@Getter
 	private int program;
 	
 	private HashMap<String, Integer> uniformsLocation;

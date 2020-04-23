@@ -33,6 +33,8 @@ public class ShadowMapTest extends Layer {
 
 	private Texture2D defaultTexture = Texture2D.create("textures/default.png");
 
+	private Texture2D sceneTexture = Texture2D.create(1024, 1024);
+	
 	public ShadowMapTest() {
 
 		super("MainLayer");
@@ -44,7 +46,7 @@ public class ShadowMapTest extends Layer {
 		this.dirLight = new DirectionalLight(new Vector3f(0.2f), // ambient
 				new Vector3f(0.5f), // diffuse
 				new Vector3f(0.8f), // specular
-				new Vector3f(-3f, -1f, 2)); // direction
+				new Vector3f(-2, -2f, 4)); // direction
 
 		scene = new Scene(cameraController.getCamera());
 
@@ -100,6 +102,9 @@ public class ShadowMapTest extends Layer {
 		scene.add(planeFlat);
 		scene.add(cube);
 
+		
+		//CONFIG
+		RenderCommand.clearColor(1,1, 1, 1);
 	}
 
 
@@ -125,19 +130,30 @@ public class ShadowMapTest extends Layer {
 			dirLight.getDirection().z -= 0.1;
 		}
 		
-		System.out.println(dirLight.getDirection());
+		//System.out.println(dirLight.getDirection());
 	}
 
 
 	@Override
 	public void onRender() {
-
+		
+		Renderer.drawToTexture(scene);
+		
+		sceneTexture.bindAsRenderTarget(); 
+		Renderer.beginScene(scene);
+		Renderer.endScene();
+				
+		//normal rendering system
+		Application.getWindow().bindAsRenderTarget();
+		RenderCommand.setViewPort(Application.getWindow().getWidth(), Application.getWindow().getHeight());
 		Renderer.beginScene(scene);
 		Renderer.endScene();
 		
+		//working as a hud
 		Renderer2D.beginScene(orthoCam);
-		Renderer2D.drawQuad(new Vector2f(100, 100), new Vector2f(200, 200), Renderer.sData.getShadowMap().getDepthMapTexture());
+		Renderer2D.drawQuad(new Vector2f(100, 100), new Vector2f(200, 200), Renderer.lightViewTexture);
 		Renderer2D.drawQuad(new Vector2f(300, 100), new Vector2f(200, 200), defaultTexture);
+		Renderer2D.drawQuad(new Vector2f(500, 100), new Vector2f(200, 200), sceneTexture);
 	}
 
 

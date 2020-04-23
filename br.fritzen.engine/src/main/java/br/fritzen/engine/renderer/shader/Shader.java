@@ -10,6 +10,7 @@ public abstract class Shader {
 	
 	public abstract void unbind();
 	
+	public abstract int getProgram();
 	
 	public abstract void setInt(String uniform, int value);
 	

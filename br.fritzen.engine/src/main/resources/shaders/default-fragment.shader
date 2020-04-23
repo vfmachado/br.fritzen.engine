@@ -60,12 +60,33 @@ uniform sampler2D shadowMap;
 
 
 float calcShadow() {
+    /*
+    // perform perspective divide
+    vec3 projCoords = shadowMapCoords.xyz/shadowMapCoords.w;
     
-    /* https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping
-    vec3 projCoords = position.xyz;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    
+    // check whether current frag pos is in shadow
+    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
+
+    return 1 - shadow;
+    */
+        
+    
+    // https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping
+    vec3 projCoords = shadowMapCoords.xyz/shadowMapCoords.w;
+    
     // Transform from screen coordinates to texture coordinates
     projCoords = projCoords * 0.5 + 0.5;
-    float bias = 0.05;
+    
+    float bias = 0.01;
 
     float shadowFactor = 0.0;
     vec2 inc = 1.0 / textureSize(shadowMap, 0);
@@ -74,7 +95,8 @@ float calcShadow() {
         for(int col = -1; col <= 1; ++col)
         {
             float textDepth = texture(shadowMap, projCoords.xy + vec2(row, col) * inc).r; 
-            shadowFactor += projCoords.z - bias > textDepth ? 1.0 : 0.0;        
+            shadowFactor += projCoords.z - bias > textDepth ? 1.0 : 0.0;
+                  
         }    
     }
     shadowFactor /= 9.0;
@@ -84,16 +106,18 @@ float calcShadow() {
         shadowFactor = 1.0;
     }
 
+
     return 1 - shadowFactor;
-    */
     
+    
+    /*
     //bennybox
     vec3 shadowCoords = (shadowMapCoords.xyz/shadowMapCoords.w) * 0.5 + 0.5;	//perspective divide	//transform to 0 to 1
     
     float factor = step(shadowCoords.z, texture(shadowMap, shadowCoords.xy).r); 
     
     return 1 - factor;
-    
+    */
 } 
 
 
@@ -148,16 +172,17 @@ void main() {
 	
 		vec3 specular = currentLight.light.specularColor * specColorMap * spec;	//0.5 to decrease the intensity
 	
+		float shadow = calcShadow();
 		
 		linearColor += (
 			ambient * u_Material.ambientColor.rgb +
-			diffuse * u_Material.diffuseColor.rgb + 
-			specular * u_Material.specularColor.rgb
+			(diffuse * u_Material.diffuseColor.rgb + 
+			specular * u_Material.specularColor.rgb) * shadow
 			);
 			
 	}
 
-	linearColor *= calcShadow();
+	
 	
 	//extract material alpha from diffuse values
 	float alpha = textureColor.a * u_Material.diffuseColor.a;
@@ -167,4 +192,7 @@ void main() {
 	//gamma correction. May create a problem with textures being to bright
 	float gamma = 2.2;
     fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));
+    
+  
+    
 }

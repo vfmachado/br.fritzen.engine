@@ -19,11 +19,16 @@ uniform mat4 u_View;
 uniform mat4 u_Projection;
 uniform mat4 u_Model;
 
+uniform mat4 lightView;
+uniform mat4 lightProj;
 uniform mat4 lightViewProj;
 
 out vec4 shadowMapCoords;
 
 void main() {
+
+	lightView;
+	lightProj;
 
 	gl_Position = u_ViewProjection * u_Model * vec4(position, 1.0);
 	
@@ -36,17 +41,14 @@ void main() {
 	//bennybox	- same result as above
 	v_normal = (u_Model * vec4(normal, 0.0)).xyz;
 	
-	//check normalize cost.
+	//TBN MATRIX
 	vec3 n = normalize((u_Model * vec4(normal, 0.0)).xyz);
 	vec3 t = normalize((u_Model * vec4(tangent, 0.0)).xyz);
-	
 	t = normalize(t - dot(t, n) * n);
-	
 	vec3 biTangent = cross(t, n);
 		
 	tbnMatrix = mat3(t, biTangent, n);
 	
-	modelViewMatrix = u_View * u_Model;
-	
-	shadowMapCoords = lightViewProj * u_Model * vec4(position, 1.0);
+	//SHADOW MAP COORDS
+	shadowMapCoords = lightViewProj  * u_Model * vec4(position, 1.0);
 }

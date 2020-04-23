@@ -56,6 +56,7 @@ public abstract class Window {
 
 	public abstract void disableMouse();
 
+	public abstract void bindAsRenderTarget();
 	
 	public void eventCallback(Event e) {
 		

@@ -18,6 +18,8 @@ public abstract class Texture {
 	
 	public abstract void bind(int slot);
 	
+	public abstract void bindAsRenderTarget();
+	
 	public abstract void unbind();
 	
 	public abstract int getRendererId();
