@@ -108,7 +108,7 @@ public abstract class EngineState {
 	/**
 	 * VSync enable / disable in the application
 	 */
-	public static final boolean VSYNC = true;
+	public static final boolean VSYNC = false;
 	
 	/**
 	 * Enable/Disable Wireframe render for the main shader

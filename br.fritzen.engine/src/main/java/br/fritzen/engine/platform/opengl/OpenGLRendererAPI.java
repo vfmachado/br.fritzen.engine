@@ -48,12 +48,18 @@ public class OpenGLRendererAPI extends RendererAPI {
 
 	}
 
-
 	@Override
 	public void drawIndexed(VertexArray vertexArray) {
-
 		vertexArray.bind();
 		GL11.glDrawElements(GL11.GL_TRIANGLES, vertexArray.getIB().getCount(), GL11.GL_UNSIGNED_INT,
+				vertexArray.getIB().getOffset());
+
+	}
+
+	@Override
+	public void drawIndexed(VertexArray vertexArray, int count) {
+		vertexArray.bind();
+		GL11.glDrawElements(GL11.GL_TRIANGLES, count, GL11.GL_UNSIGNED_INT,
 				vertexArray.getIB().getOffset());
 
 	}
@@ -62,7 +68,6 @@ public class OpenGLRendererAPI extends RendererAPI {
 	@Override
 	public void drawInstanced(VertexArray vertexArray, int count) {
 		vertexArray.bind();
-		//GL31.glDrawArraysInstanced(GL11.GL_TRIANGLES, 0, vertexArray.getIB().getCount(), count);
 		GL33.glDrawElementsInstanced(GL11.GL_TRIANGLES, vertexArray.getIB().getCount() * 4, GL11.GL_UNSIGNED_INT, 0, count);
 	}
 }

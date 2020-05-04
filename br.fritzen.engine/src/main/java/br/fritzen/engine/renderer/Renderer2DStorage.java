@@ -1,7 +1,13 @@
 package br.fritzen.engine.renderer;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+import org.lwjgl.BufferUtils;
 
 import br.fritzen.engine.platform.opengl.OpenGLShader;
 import br.fritzen.engine.platform.opengl.OpenGLShaderType;
@@ -12,73 +18,135 @@ import br.fritzen.engine.renderer.Buffer.VertexBuffer;
 import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.utils.EngineBuffers;
 import br.fritzen.engine.utils.Pair;
-	
+import lombok.Getter;
+
 /**
- * Static Class to get all necessary for render a Quad with flat color
+ * Static Class to get all necessary for render a Quad
  * 
  * @author fritz
  *
  */
 public class Renderer2DStorage {
 
+	@Getter
 	private Shader shader;
+
+	@Getter
+	private VertexArray vertexArray;
 	
-	private VertexArray vao;
+	@Getter 
+	private VertexBuffer vertexBuffer;
+
+	// private static Renderer2DStorage instance = null;
+
+	private static final int MAX_QUADS = 1000;
+
+	private static final int MAX_VERTICES = MAX_QUADS * 4;
+
+	private static final int MAX_INDICES = MAX_QUADS * 6;
+
+	private int quadIndexCount = 0;
+
+	private FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(MAX_VERTICES * QuadVertex.FLOATS);
 	
-	//private static Renderer2DStorage instance = null;
 	
+	public class QuadVertex {
+
+		public static final int FLOATS = 9;
+		public static final int BYTES = 36;
+		
+		public Vector3f position;
+		public Vector2f texCoord;
+		public Vector4f color;
+
+
+		public QuadVertex() {
+			position = new Vector3f();
+			texCoord = new Vector2f();
+			color = new Vector4f();
+		}
+	}
+
+	private QuadVertex[] quadVertexBuffer;
+
+	public QuadVertex getQuadPointer() {
+		return quadVertexBuffer[quadIndexCount];
+	}
 	
+	public void startQuadPointer() {
+		quadIndexCount = 0;
+	}
+	
+	public void increaseQuadPointer() {
+		quadIndexCount++;
+	}
+	
+	public boolean mustFlush() {
+		return quadIndexCount >= MAX_VERTICES;
+	}
+
 	public Renderer2DStorage() {
+
+		quadVertexBuffer = new QuadVertex[MAX_VERTICES];
+		for (int i = 0; i < MAX_VERTICES; i++) {
+			quadVertexBuffer[i] = new QuadVertex();
+		}
 		
 		List<Pair<String, OpenGLShaderType>> shaders = new ArrayList<Pair<String, OpenGLShaderType>>();
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/quad-vertex.shader", OpenGLShaderType.VERTEX));
 		shaders.add(new Pair<String, OpenGLShaderType>("shaders/quad-fragment.shader", OpenGLShaderType.FRAGMENT));
 		this.shader = new OpenGLShader(shaders);
-	
-		float[] positions = {
-				   -0.5f, -0.5f, 0, 0, 0, //0
-	                0.5f, -0.5f, 0, 1, 0,	//1
-	                0.5f,  0.5f, 0, 1, 1,	//2
-	               -0.5f,  0.5f, 0, 0, 1	//3
-	            };
+
 		
-		
-		
-		this.vao = VertexArray.create();
-		
-		VertexBuffer vbo = VertexBuffer.create(EngineBuffers.createFloatBuffer(positions), positions.length * 4);
-		
+		this.vertexArray = VertexArray.create();
+
+		this.vertexBuffer = VertexBuffer.create(MAX_VERTICES * QuadVertex.BYTES); 
+																					
+
 		List<VertexBufferLayout> layouts = new ArrayList<VertexBufferLayout>();
-		layouts.add(new VertexBufferLayout(3));
-		layouts.add(new VertexBufferLayout(2));
-		this.vao.addInterleavedVBO(vbo, layouts);
-				
-		int[] indices = { 0, 1, 2, 2, 3, 0};
+		layouts.add(new VertexBufferLayout(3)); // position
+		layouts.add(new VertexBufferLayout(2)); // texture
+		layouts.add(new VertexBufferLayout(4)); // color
+		this.vertexArray.addInterleavedVBO(vertexBuffer, layouts);
+
+		int[] indices = new int[MAX_INDICES];
+
+		int offset = 0;
+		for (int i = 0; i < MAX_INDICES; i += 6) {
+			
+			indices[i + 0] = offset + 0;
+			indices[i + 1] = offset + 1;
+			indices[i + 2] = offset + 2;
+			
+			indices[i + 3] = offset + 2;
+			indices[i + 4] = offset + 3;
+			indices[i + 5] = offset + 0;
+			
+			offset += 4;
+		}
+		
 		
 		IndexBuffer ibo = IndexBuffer.create(EngineBuffers.createIntBuffer(indices), indices.length);
-		this.vao.setIB(ibo);
+		this.vertexArray.setIB(ibo);
+
+	}
+
+	public void updateData() {
 		
+		this.vertexBuffer.setData(EngineBuffers.updateFloatBuffer(floatBuffer, quadVertexBuffer, quadIndexCount), quadIndexCount);
+		
+	}
+
+	public int getQuadCount() {
+		return quadIndexCount/4 * 6;
 	}
 	
 	/*
-	private static Renderer2DStorage get() {
-		
-		if (instance == null) {
-			instance = new Renderer2DStorage();
-		}
-		
-		return instance;
-	}
-	*/
-	
-	
-	public VertexArray getVAO() {
-		return this.vao;
-	}
-	
-	
-	public Shader getShader() {
-		return this.shader;
-	}
+	 * private static Renderer2DStorage get() {
+	 * 
+	 * if (instance == null) { instance = new Renderer2DStorage(); }
+	 * 
+	 * return instance; }
+	 */
 
 }

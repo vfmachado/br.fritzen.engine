@@ -3,8 +3,7 @@
 layout(location = 0) out vec4 fragColor;
 
 in vec2 v_texCoord;
-
-uniform vec4 color;
+in vec4 v_color;
 
 uniform float textureRepeats = 1;
 
@@ -13,11 +12,13 @@ uniform sampler2D u_texture;
 
 void main() {
 
-	vec4 textureColor = texture(u_texture, v_texCoord * textureRepeats);
+	//vec4 textureColor = texture(u_texture, v_texCoord * textureRepeats);
 	
-	if (textureColor.w < 0.3)
-		discard;
+	//if (textureColor.w < 0.3)
+	//	discard;
 
 	
-	fragColor = textureColor * color;
+	//fragColor = textureColor * v_color;
+	
+	fragColor = v_color;
 }

@@ -10,7 +10,21 @@ import br.fritzen.engine.renderer.Buffer;
 public class OpenGLVertexBuffer implements Buffer.VertexBuffer {
 	
 	private int vbo;
-	 
+	
+	
+	public OpenGLVertexBuffer(int size) {
+		
+		this.vbo = GL15.glGenBuffers();
+		
+		if (this.vbo == 0) {
+			EngineLog.warning("Problem creating OpenGL VBO");
+		}
+		
+		bind();
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, size, GL15.GL_DYNAMIC_DRAW);
+		
+	}
+	
 	
 	public OpenGLVertexBuffer(FloatBuffer data, int size) {
 	
@@ -21,8 +35,14 @@ public class OpenGLVertexBuffer implements Buffer.VertexBuffer {
 		}
 		
 		bind();
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_DYNAMIC_DRAW);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_STATIC_DRAW);
 		
+	}
+	
+	
+	public void setData(FloatBuffer data, int size) {
+		bind();
+		GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0, data);
 	}
 	
 	

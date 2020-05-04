@@ -33,8 +33,8 @@ public class MeshLoaderTest {
 		public RotationMeshLayer() {
 			super("MAIN LAYER");
 			
-			cameraController = new PerspectiveCameraController(0, 1, 2);
-			//cameraController.setSpeed(5);
+			cameraController = new PerspectiveCameraController(0, 10, 20);
+			cameraController.setSpeed(5);
 			
 			model = new Model("models/lamborghini/Lamborghini_Aventador.obj");
 			

@@ -26,7 +26,7 @@ public class Application extends MainLoopUnlimited {
 	
 	private LayerStack layerStack;
 	
-	private ImGuiLayer imguiLayer;
+	//private ImGuiLayer imguiLayer;
 
 			
 	
@@ -76,8 +76,8 @@ public class Application extends MainLoopUnlimited {
 	@Override
 	protected void init() {
 		
-		imguiLayer = new ImGuiLayer();
-		layerStack.pushOverlay(imguiLayer);
+		//imguiLayer = new ImGuiLayer();
+		//layerStack.pushOverlay(imguiLayer);
 		
 	}
 

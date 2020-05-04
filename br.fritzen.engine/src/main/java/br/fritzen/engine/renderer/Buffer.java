@@ -56,6 +56,27 @@ public interface VertexArray {
 	
 	public interface VertexBuffer {
 		
+		public static VertexBuffer create(int size) {
+			
+			switch (RendererAPI.SELECTED_API) {
+			
+			case NONE:
+				EngineLog.severe("None API selected");
+				break;
+			
+			case OPENGL:
+				return new OpenGLVertexBuffer(size);
+				
+			case VULKAN:
+				EngineLog.severe("Not supported yet");
+				break;
+			}
+			
+			EngineLog.severe("Invalid Renderer API.");
+			System.exit(1);
+			return null;
+		}
+		
 		public static VertexBuffer create(FloatBuffer data, int size) {
 			
 			switch (RendererAPI.SELECTED_API) {
@@ -80,6 +101,8 @@ public interface VertexArray {
 		public void bind();
 		
 		public void unbind();
+		
+		public void setData(FloatBuffer data, int size);
 		
 	}
 	

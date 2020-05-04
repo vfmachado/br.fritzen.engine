@@ -5,6 +5,8 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import br.fritzen.engine.renderer.Renderer2DStorage.QuadVertex;
+
 public class EngineBuffers {
 
 	public static IntBuffer createIntBuffer(int[] values) {
@@ -21,7 +23,31 @@ public class EngineBuffers {
 		floatBuffer.flip();
 		return floatBuffer;
 	}
+
+
+	public static FloatBuffer updateFloatBuffer(FloatBuffer floatBuffer, QuadVertex[] quadVertexBuffer, int quadIndex) {
+		
+		
+		for (int i = 0; i < quadIndex; i++) {
+		
+			floatBuffer.put(quadVertexBuffer[i].position.x);
+			floatBuffer.put(quadVertexBuffer[i].position.y);
+			floatBuffer.put(quadVertexBuffer[i].position.z);
+			
+			floatBuffer.put(quadVertexBuffer[i].texCoord.x);
+			floatBuffer.put(quadVertexBuffer[i].texCoord.y);
+			
+			floatBuffer.put(quadVertexBuffer[i].color.x);
+			floatBuffer.put(quadVertexBuffer[i].color.y);
+			floatBuffer.put(quadVertexBuffer[i].color.z);
+			floatBuffer.put(quadVertexBuffer[i].color.w);
+		}
+		
+		floatBuffer.rewind();
+		return floatBuffer;
+	}
 	
+
 	
 	/*
 	public static FloatBuffer createFloatBuffer(List<Vertex> vertices) {

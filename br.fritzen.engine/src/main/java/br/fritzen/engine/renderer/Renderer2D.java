@@ -22,11 +22,13 @@ public abstract class Renderer2D {
 		
 	}
 	
+	
 	private static SceneData sceneData = new SceneData();
 		
-	private static Renderer2DStorage sData = new Renderer2DStorage();
+	private static final Renderer2DStorage sData = new Renderer2DStorage();
 	
-	private static Texture2D blankTexture = Texture2D.create(1, 1);
+	private static final Texture2D blankTexture = Texture2D.create(1, 1);
+	
 	
 	public static void init() {
 		
@@ -46,6 +48,8 @@ public abstract class Renderer2D {
 	
 	public static void beginScene(Camera camera) {
 	
+		//System.out.println("STARTING SCENE");
+		
 		sData.getShader().bind();
 		
 		sceneData.viewMatrix = camera.getView();
@@ -53,29 +57,72 @@ public abstract class Renderer2D {
 		sceneData.viewProjectionMatrix = camera.getViewProjection();
 
 		sData.getShader().setMat4(ShaderUniform.viewProjection, sceneData.viewProjectionMatrix);
-		sData.getShader().setMat4(ShaderUniform.view, sceneData.viewMatrix);
-		sData.getShader().setMat4(ShaderUniform.projection, sceneData.projectionMatrix);
+		//sData.getShader().setMat4(ShaderUniform.view, sceneData.viewMatrix);
+		//sData.getShader().setMat4(ShaderUniform.projection, sceneData.projectionMatrix);
 		
+		sData.startQuadPointer();
+				
 	}
 	
 	
 	
 	public static void endScene() {
+		
+		flush();
 	
-	
+		//System.out.println("END SCENE\n\n");
 	}
 	
 	
-	public static void drawQuad(Vector2f pos, Vector2f size, Vector4f color) {
+	public static void flush() {
 		
-		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, color);		
+		//System.out.println("DRAW!!!");
+		
+		sData.updateData();
+		RendererAPI.get().drawIndexed(sData.getVertexArray(), sData.getQuadCount());
+		
+		sData.startQuadPointer();
+	}
+	
+	
+	public static void drawQuad(Vector2f position, Vector2f size, Vector4f color) {
+		
+		Renderer2D.drawQuad(tmpVec3.set(position, 0), size, color);		
 		
 	}
 	
 	
-	public static void drawQuad(Vector3f pos, Vector2f size, Vector4f color) {
-				
-		tmpTransform.identity().translate(pos.x, pos.y, pos.z).scale(size.x, size.y, 1);
+	public static void drawQuad(Vector3f position, Vector2f size, Vector4f color) {
+
+		//BOTTOM - LEFT
+		sData.getQuadPointer().position.set(position);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(0, 0);
+		sData.increaseQuadPointer();
+		
+		//BOTTOM - RIGHT
+		sData.getQuadPointer().position.set(position.x + size.x, position.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(1, 0);
+		sData.increaseQuadPointer();
+		
+		//UP - RIGHT
+		sData.getQuadPointer().position.set(position.x + size.x, position.y + size.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(1, 1);
+		sData.increaseQuadPointer();
+		
+		//UP - LEFT
+		sData.getQuadPointer().position.set(position.x, position.y + size.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(0, 1);
+		sData.increaseQuadPointer();
+		
+		
+		if (sData.mustFlush())	flush();
+		
+		/*
+		tmpTransform.identity().translate(position.x, position.y, position.z).scale(size.x, size.y, 1);
 		
 		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
 		
@@ -85,20 +132,20 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setFloat4(ShaderUniform.color, color);
 		
-		RendererAPI.get().drawIndexed(sData.getVAO());
-		
+		RendererAPI.get().drawIndexed(sData.getVertexArray());
+		*/
 	}
 	
 	
-	public static void drawQuad(Vector2f pos, Vector2f size, Texture2D texture) {
+	public static void drawQuad(Vector2f position, Vector2f size, Texture2D texture) {
 		
-		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, texture);		
+		Renderer2D.drawQuad(tmpVec3.set(position, 0), size, texture);		
 	}
 	
 	
-	public static void drawQuad(Vector3f pos, Vector2f size, Texture2D texture) {
+	public static void drawQuad(Vector3f position, Vector2f size, Texture2D texture) {
 
-		tmpTransform.identity().translate(pos.x, pos.y, pos.z).scale(size.x, size.y, 1);
+		tmpTransform.identity().translate(position.x, position.y, position.z).scale(size.x, size.y, 1);
 		
 		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
 		
@@ -108,18 +155,18 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setInt(ShaderUniform.texture, 0);
 		
-		RendererAPI.get().drawIndexed(sData.getVAO());
+		RendererAPI.get().drawIndexed(sData.getVertexArray());
 	}
 		
 	
-	public static void drawQuad(Vector2f pos, Vector2f size, Texture2D texture, Vector4f color) {
-		Renderer2D.drawQuad(tmpVec3.set(pos, 0), size, texture, color);		
+	public static void drawQuad(Vector2f position, Vector2f size, Texture2D texture, Vector4f color) {
+		Renderer2D.drawQuad(tmpVec3.set(position, 0), size, texture, color);		
 	}
 	
 	
-	public static void drawQuad(Vector3f pos, Vector2f size, Texture2D texture, Vector4f color) {
+	public static void drawQuad(Vector3f position, Vector2f size, Texture2D texture, Vector4f color) {
 
-		tmpTransform.identity().translate(pos.x, pos.y, pos.z).scale(size.x, size.y, 1);
+		tmpTransform.identity().translate(position.x, position.y, position.z).scale(size.x, size.y, 1);
 		
 		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
 		
@@ -129,19 +176,19 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setInt(ShaderUniform.texture, 0);
 		
-		RendererAPI.get().drawIndexed(sData.getVAO());
+		RendererAPI.get().drawIndexed(sData.getVertexArray());
 	}
 	
 	
-	public static void drawRotatedQuad(Vector2f pos, Vector2f size, float angle, Vector4f color) {
-		drawRotatedQuad(tmpVec3.set(pos, 0), size, angle, color);
+	public static void drawRotatedQuad(Vector2f position, Vector2f size, float angle, Vector4f color) {
+		drawRotatedQuad(tmpVec3.set(position, 0), size, angle, color);
 	}
 	
 	
-	public static void drawRotatedQuad(Vector3f pos, Vector2f size, float angle, Vector4f color) {
+	public static void drawRotatedQuad(Vector3f position, Vector2f size, float angle, Vector4f color) {
 		
 		tmpTransform.identity()
-			.translate(pos.x, pos.y, pos.z)
+			.translate(position.x, position.y, position.z)
 			.rotate((float) Math.toRadians(angle), 0, 0, 1)
 			.scale(size.x, size.y, 1);
 		
@@ -153,14 +200,13 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setFloat4(ShaderUniform.color, color);
 		
-		RendererAPI.get().drawIndexed(sData.getVAO());
+		RendererAPI.get().drawIndexed(sData.getVertexArray());
 		
 		
 	}
 	
 	
 	public static void drawRotatedQuad(Vector2f pos, Vector2f size, float angle, Texture2D texture) {
-		
 		Renderer2D.drawRotatedQuad(tmpVec3.set(pos, 0), size, angle, texture);		
 	}
 	
@@ -180,7 +226,7 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setInt(ShaderUniform.texture, 0);
 		
-		RendererAPI.get().drawIndexed(sData.getVAO());
+		RendererAPI.get().drawIndexed(sData.getVertexArray());
 	}
 	
 
@@ -204,7 +250,7 @@ public abstract class Renderer2D {
 		
 		sData.getShader().setInt(ShaderUniform.texture, 0);
 		
-		RendererAPI.get().drawIndexed(sData.getVAO());
+		RendererAPI.get().drawIndexed(sData.getVertexArray());
 	}
 	
 
