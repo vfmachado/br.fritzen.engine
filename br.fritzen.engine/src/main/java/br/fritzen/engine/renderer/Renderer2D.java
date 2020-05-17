@@ -29,6 +29,7 @@ public abstract class Renderer2D {
 	
 	private static final Texture2D blankTexture = Texture2D.create(1, 1);
 	
+	private static int drawCalls;
 	
 	public static void init() {
 		
@@ -48,6 +49,7 @@ public abstract class Renderer2D {
 	
 	public static void beginScene(Camera camera) {
 	
+		drawCalls = 0;
 		//System.out.println("STARTING SCENE");
 		
 		sData.getShader().bind();
@@ -61,7 +63,15 @@ public abstract class Renderer2D {
 		//sData.getShader().setMat4(ShaderUniform.projection, sceneData.projectionMatrix);
 		
 		sData.startQuadPointer();
-				
+		
+		sData.getTextureSlot()[0] = blankTexture.getRendererId();
+		sData.setTextureSlotIndex(1);
+		
+		
+		for (int i = 0; i < Renderer2DStorage.MAX_TEXTURE_SLOTS; i++) {
+			sData.getShader().setInt("u_texture[" + i + "]", i);
+		}
+		
 	}
 	
 	
@@ -69,19 +79,29 @@ public abstract class Renderer2D {
 	public static void endScene() {
 		
 		flush();
-	
-		//System.out.println("END SCENE\n\n");
+		//System.out.println("DRAW CALLS: " + drawCalls);
+		drawCalls = 0;
 	}
 	
 	
 	public static void flush() {
 		
-		//System.out.println("DRAW!!!");
+		//bind textures
+		for (int i = 0; i < sData.getTextureSlotIndex(); i++) {
+			RendererAPI.get().bindTexture(i, sData.getTextureSlot()[i]);
+		}
 		
 		sData.updateData();
 		RendererAPI.get().drawIndexed(sData.getVertexArray(), sData.getQuadCount());
-		
+		drawCalls++;
 		sData.startQuadPointer();
+	}
+	
+	
+	public static void flushAndReset() {
+		
+		flush();
+		sData.setTextureSlotIndex(1);
 	}
 	
 	
@@ -121,41 +141,16 @@ public abstract class Renderer2D {
 		
 		if (sData.mustFlush())	flush();
 		
-		/*
-		tmpTransform.identity().translate(position.x, position.y, position.z).scale(size.x, size.y, 1);
-		
-		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
-		
-		blankTexture.bind();
-		
-		sData.getShader().setInt(ShaderUniform.texture, 0);
-		
-		sData.getShader().setFloat4(ShaderUniform.color, color);
-		
-		RendererAPI.get().drawIndexed(sData.getVertexArray());
-		*/
 	}
 	
 	
 	public static void drawQuad(Vector2f position, Vector2f size, Texture2D texture) {
-		
 		Renderer2D.drawQuad(tmpVec3.set(position, 0), size, texture);		
 	}
 	
 	
 	public static void drawQuad(Vector3f position, Vector2f size, Texture2D texture) {
-
-		tmpTransform.identity().translate(position.x, position.y, position.z).scale(size.x, size.y, 1);
-		
-		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
-		
-		sData.getShader().setFloat4(ShaderUniform.color, 1, 1, 1, 1);
-		
-		texture.bind();
-		
-		sData.getShader().setInt(ShaderUniform.texture, 0);
-		
-		RendererAPI.get().drawIndexed(sData.getVertexArray());
+		Renderer2D.drawQuad(position, size, texture, Colors.WHITE);	
 	}
 		
 	
@@ -166,17 +161,117 @@ public abstract class Renderer2D {
 	
 	public static void drawQuad(Vector3f position, Vector2f size, Texture2D texture, Vector4f color) {
 
-		tmpTransform.identity().translate(position.x, position.y, position.z).scale(size.x, size.y, 1);
+		float textureIndex = -1;
+		for (int i = 0; i < sData.getTextureSlotIndex(); i++) {
+			
+			if (sData.getTextureSlot()[i] == texture.getRendererId()) {
+				textureIndex = (float) i;
+				break;
+			}
+		}
+
+		if (textureIndex == -1)
+		{
+			if (sData.getTextureSlotIndex() >= Renderer2DStorage.MAX_TEXTURE_SLOTS)
+				flushAndReset();
+
+			textureIndex = (float)sData.getTextureSlotIndex();
+			sData.getTextureSlot()[sData.getTextureSlotIndex()] = texture.getRendererId();
+			
+			sData.setTextureSlotIndex(sData.getTextureSlotIndex()+1);
+		}
 		
-		sData.getShader().setMat4(ShaderUniform.model, tmpTransform);
+		//BOTTOM - LEFT
+		sData.getQuadPointer().position.set(position);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(0, 0);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
 		
-		sData.getShader().setFloat4(ShaderUniform.color, color);
+		//BOTTOM - RIGHT
+		sData.getQuadPointer().position.set(position.x + size.x, position.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(1, 0);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
 		
-		texture.bind();
+		//UP - RIGHT
+		sData.getQuadPointer().position.set(position.x + size.x, position.y + size.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(1, 1);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
 		
-		sData.getShader().setInt(ShaderUniform.texture, 0);
+		//UP - LEFT
+		sData.getQuadPointer().position.set(position.x, position.y + size.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(0, 1);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
 		
-		RendererAPI.get().drawIndexed(sData.getVertexArray());
+		
+		if (sData.mustFlush())	flush();
+
+	}
+	
+	
+	public static void drawQuad(Vector2f position, Vector2f size, SubTexture2D subtexture) {
+		Renderer2D.drawQuad(tmpVec3.set(position, 0), size, subtexture, Colors.WHITE);
+	}
+	
+	public static void drawQuad(Vector3f position, Vector2f size, SubTexture2D subtexture, Vector4f color) {
+
+		float textureIndex = -1;
+		for (int i = 0; i < sData.getTextureSlotIndex(); i++) {
+			
+			if (sData.getTextureSlot()[i] == subtexture.getTexture().getRendererId()) {
+				textureIndex = (float) i;
+				break;
+			}
+		}
+
+		if (textureIndex == -1)
+		{
+			if (sData.getTextureSlotIndex() >= Renderer2DStorage.MAX_TEXTURE_SLOTS)
+				flushAndReset();
+
+			textureIndex = (float)sData.getTextureSlotIndex();
+			sData.getTextureSlot()[sData.getTextureSlotIndex()] = subtexture.getTexture().getRendererId();
+			
+			sData.setTextureSlotIndex(sData.getTextureSlotIndex()+1);
+		}
+		
+		//BOTTOM - LEFT
+		sData.getQuadPointer().position.set(position);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[0]);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
+		
+		//BOTTOM - RIGHT
+		sData.getQuadPointer().position.set(position.x + size.x, position.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[1]);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
+		
+		//UP - RIGHT
+		sData.getQuadPointer().position.set(position.x + size.x, position.y + size.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[2]);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
+		
+		//UP - LEFT
+		sData.getQuadPointer().position.set(position.x, position.y + size.y, position.z);
+		sData.getQuadPointer().color.set(color);
+		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[3]);
+		sData.getQuadPointer().texIndex = textureIndex;
+		sData.increaseQuadPointer();
+		
+		
+		if (sData.mustFlush())	flush();
+
 	}
 	
 	

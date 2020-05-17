@@ -1,7 +1,7 @@
 package br.fritzen.engine;
 
 import br.fritzen.engine.core.EngineLog;
-import br.fritzen.engine.core.MainLoopUnlimited;
+import br.fritzen.engine.core.MainLoopFixedFPS;
 import br.fritzen.engine.core.OSDetection;
 import br.fritzen.engine.core.OSDetection.OSType;
 import br.fritzen.engine.core.layers.Layer;
@@ -9,14 +9,13 @@ import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.window.WindowCloseEvent;
-import br.fritzen.engine.imgui.ImGuiLayer;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
 import br.fritzen.engine.renderer.RenderCommand;
 import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.window.Window;
 
 
-public class Application extends MainLoopUnlimited {
+public class Application extends MainLoopFixedFPS {
 
 	private static Application instance = null;
 	

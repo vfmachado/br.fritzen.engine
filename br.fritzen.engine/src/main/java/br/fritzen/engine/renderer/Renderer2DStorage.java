@@ -19,6 +19,7 @@ import br.fritzen.engine.renderer.shader.Shader;
 import br.fritzen.engine.utils.EngineBuffers;
 import br.fritzen.engine.utils.Pair;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Static Class to get all necessary for render a Quad
@@ -45,26 +46,41 @@ public class Renderer2DStorage {
 
 	private static final int MAX_INDICES = MAX_QUADS * 6;
 
+	public static final int MAX_TEXTURE_SLOTS = 32;
+	
+	
 	private int quadIndexCount = 0;
 
+	@Getter
+	private int[] textureSlot = new int[MAX_TEXTURE_SLOTS];
+	
+	@Getter
+	@Setter
+	private int textureSlotIndex = 1;
+	
 	private FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(MAX_VERTICES * QuadVertex.FLOATS);
 	
 	
 	public class QuadVertex {
 
-		public static final int FLOATS = 9;
-		public static final int BYTES = 36;
+		public static final int FLOATS = 11;
+		public static final int BYTES = 44;
 		
 		public Vector3f position;
 		public Vector2f texCoord;
 		public Vector4f color;
+		public float texIndex;
+		public float tillingFactor;
 
 
 		public QuadVertex() {
 			position = new Vector3f();
 			texCoord = new Vector2f();
 			color = new Vector4f();
+			texIndex = 0.0f;
+			tillingFactor = 1.0f;
 		}
+		
 	}
 
 	private QuadVertex[] quadVertexBuffer;
@@ -107,6 +123,8 @@ public class Renderer2DStorage {
 		layouts.add(new VertexBufferLayout(3)); // position
 		layouts.add(new VertexBufferLayout(2)); // texture
 		layouts.add(new VertexBufferLayout(4)); // color
+		layouts.add(new VertexBufferLayout(1)); // texIndex
+		layouts.add(new VertexBufferLayout(1)); // tillingFactor
 		this.vertexArray.addInterleavedVBO(vertexBuffer, layouts);
 
 		int[] indices = new int[MAX_INDICES];

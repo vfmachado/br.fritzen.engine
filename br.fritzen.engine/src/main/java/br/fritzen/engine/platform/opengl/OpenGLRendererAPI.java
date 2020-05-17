@@ -1,6 +1,7 @@
 package br.fritzen.engine.platform.opengl;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GL33;
@@ -69,5 +70,12 @@ public class OpenGLRendererAPI extends RendererAPI {
 	public void drawInstanced(VertexArray vertexArray, int count) {
 		vertexArray.bind();
 		GL33.glDrawElementsInstanced(GL11.GL_TRIANGLES, vertexArray.getIB().getCount() * 4, GL11.GL_UNSIGNED_INT, 0, count);
+	}
+
+
+	@Override
+	public void bindTexture(int slot, int id) {
+		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 	}
 }

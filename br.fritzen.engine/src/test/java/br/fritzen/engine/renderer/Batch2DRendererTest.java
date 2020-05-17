@@ -22,7 +22,7 @@ public class Batch2DRendererTest extends Layer {
 	
 	private Vector2f size = new Vector2f();
 	
-	private Vector4f color = new Vector4f();
+	private Vector4f color = new Vector4f(1);
 	
 	
 	public Batch2DRendererTest() {
@@ -45,7 +45,7 @@ public class Batch2DRendererTest extends Layer {
 	
 		RenderCommand.clear();
 		Renderer2D.beginScene(cameraController.getCamera());
-		
+
 		size.set(SIZE, SIZE);
 		
 		for (float x = -COLS/2; x < COLS/2; x += OFFSET) {
@@ -57,9 +57,8 @@ public class Batch2DRendererTest extends Layer {
 				Renderer2D.drawQuad(position, size, color);
 			}
 		}
-				
+
 		Renderer2D.endScene();
-		
 	}
 	
 	

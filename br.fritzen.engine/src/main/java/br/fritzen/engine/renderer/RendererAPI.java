@@ -49,5 +49,5 @@ public abstract class RendererAPI {
 
 	public abstract void drawInstanced(VertexArray vertexArray, int count);
 		
-	
+	public abstract void bindTexture(int slot, int id);
 }

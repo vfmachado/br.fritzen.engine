@@ -42,6 +42,7 @@ public class ShadowMapTest extends Layer {
 		this.orthoCam = new OrthographicCamera(0, 1280, 0, 720);
 		
 		this.cameraController = new PerspectiveCameraController(0, 2, 5);
+		this.cameraController.setSpeed(2);
 
 		this.dirLight = new DirectionalLight(new Vector3f(0.2f), // ambient
 				new Vector3f(0.5f), // diffuse

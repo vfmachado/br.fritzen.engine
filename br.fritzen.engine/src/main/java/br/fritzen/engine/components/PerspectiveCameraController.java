@@ -44,36 +44,36 @@ public class PerspectiveCameraController {
 
 		if (Input.isKeyPressed(Input.KEY_W)) {
 
-			this.camera.getPosition().add(getForward().mul(0.05f * this.speed));
+			this.camera.getPosition().add(getForward().mul(deltatime * this.speed));
 			this.camera.recalculateViewProjection();
 
 		} else if (Input.isKeyPressed(Input.KEY_S)) {
 
-			this.camera.getPosition().add(getBack().mul(0.05f * this.speed));
+			this.camera.getPosition().add(getBack().mul(deltatime * this.speed));
 			this.camera.recalculateViewProjection();
 
 		}
 
 		if (Input.isKeyPressed(Input.KEY_A)) {
 
-			this.camera.getPosition().add(getLeft().mul(0.05f * this.speed));
+			this.camera.getPosition().add(getLeft().mul(deltatime * this.speed));
 			this.camera.recalculateViewProjection();
 
 		} else if (Input.isKeyPressed(Input.KEY_D)) {
 
-			this.camera.getPosition().add(getRight().mul(0.05f * this.speed));
+			this.camera.getPosition().add(getRight().mul(deltatime * this.speed));
 			this.camera.recalculateViewProjection();
 
 		}
 
 		if (Input.isKeyPressed(Input.KEY_R)) {
 
-			this.camera.getPosition().add(getUp().mul(0.05f * this.speed));
+			this.camera.getPosition().add(getUp().mul(deltatime * this.speed));
 			this.camera.recalculateViewProjection();
 
 		} else if (Input.isKeyPressed(Input.KEY_F)) {
 
-			this.camera.getPosition().add(getDown().mul(0.05f * this.speed));
+			this.camera.getPosition().add(getDown().mul(deltatime * this.speed));
 			this.camera.recalculateViewProjection();
 
 		}

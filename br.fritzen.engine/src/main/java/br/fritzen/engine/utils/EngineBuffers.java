@@ -41,6 +41,9 @@ public class EngineBuffers {
 			floatBuffer.put(quadVertexBuffer[i].color.y);
 			floatBuffer.put(quadVertexBuffer[i].color.z);
 			floatBuffer.put(quadVertexBuffer[i].color.w);
+			
+			floatBuffer.put(quadVertexBuffer[i].texIndex);
+			floatBuffer.put(quadVertexBuffer[i].tillingFactor);
 		}
 		
 		floatBuffer.rewind();
