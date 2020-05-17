@@ -42,7 +42,7 @@ public class Player {
 		for (int i = 0; i < 6; i++) {
 			listOfCoordsRunning[i] = new Vector2f(1 + i, 14);
 		}
-		running = new Animator2D("Running", textureA, new Vector2f(50, 37), listOfCoordsRunning, 0.2f);
+		running = new Animator2D("Running", textureA, new Vector2f(50, 37), listOfCoordsRunning, 0.1f);
 		
 		
 		Vector2f[] listOfCoordsAttacking = new Vector2f[17];
@@ -63,7 +63,7 @@ public class Player {
 		
 	}
 	
-	float totalJump = 1.5f;
+	float totalJump = 1f;
 	float jumpingTime = 0;
 	public void update(float deltatime) {
 		

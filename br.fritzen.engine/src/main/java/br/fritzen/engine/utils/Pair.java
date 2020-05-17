@@ -16,5 +16,8 @@ public class Pair<T, Q> {
 	@Setter
 	private Q value;
 	
-	
+	@Override
+	public String toString() {
+		return "KEY: " + key + " --> VALUE: " + value;
+	}
 }

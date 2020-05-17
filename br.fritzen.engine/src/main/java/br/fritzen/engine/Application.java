@@ -2,6 +2,7 @@ package br.fritzen.engine;
 
 import br.fritzen.engine.core.EngineLog;
 import br.fritzen.engine.core.MainLoopFixedFPS;
+import br.fritzen.engine.core.MainLoopUnlimited;
 import br.fritzen.engine.core.OSDetection;
 import br.fritzen.engine.core.OSDetection.OSType;
 import br.fritzen.engine.core.layers.Layer;
@@ -15,7 +16,7 @@ import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.window.Window;
 
 
-public class Application extends MainLoopFixedFPS {
+public class Application extends MainLoopUnlimited {
 
 	private static Application instance = null;
 	
