@@ -41,5 +41,6 @@ public class SubTexture2D {
 		texCoords[1] = new Vector2f(max.x, min.y);
 		texCoords[2] = new Vector2f(max.x, max.y);
 		texCoords[3] = new Vector2f(min.x, max.y);
+		
 	}
 }

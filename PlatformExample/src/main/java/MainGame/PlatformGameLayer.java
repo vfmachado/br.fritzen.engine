@@ -15,8 +15,8 @@ public class PlatformGameLayer extends Layer {
 
 	private Player player;
 	
-	private static final float ROWS = 80;
-	private static final float COLS = 100;
+	private static final float ROWS = 20;
+	private static final float COLS = 40;
 	private static final float OFFSET = 0.2f;
 	private static final float SIZE = 0.2f;
 	
@@ -33,7 +33,7 @@ public class PlatformGameLayer extends Layer {
 		
 		this.cameraController = new OrthographicCameraController(1280f/720f);
 		
-		this.player = new Player(new Vector2f(0, 0));
+		this.player = new Player(new Vector2f(0, -5));
 	}
 
 	
@@ -52,7 +52,7 @@ public class PlatformGameLayer extends Layer {
 	
 		RenderCommand.clear();
 		Renderer2D.beginScene(cameraController.getCamera());
-
+/*
 		size.set(SIZE, SIZE);
 		
 		for (float x = -COLS/2; x < COLS/2; x += OFFSET) {
@@ -64,7 +64,7 @@ public class PlatformGameLayer extends Layer {
 				Renderer2D.drawQuad(position, size, color);
 			}
 		}
-
+*/
 		player.draw();
 		
 		Renderer2D.endScene();
@@ -74,5 +74,6 @@ public class PlatformGameLayer extends Layer {
 	@Override
 	public void onEvent(Event e) {
 		cameraController.onEvent(e);
+		player.onEvent(e);
 	}
 }

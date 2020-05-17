@@ -31,6 +31,8 @@ public abstract class Renderer2D {
 	
 	private static int drawCalls;
 	
+	private static Vector3f[] quadVertexPositions;
+	
 	public static void init() {
 		
 		ByteBuffer textureData = BufferUtils.createByteBuffer(16);
@@ -43,7 +45,13 @@ public abstract class Renderer2D {
 		textureData.flip();
 		
 		blankTexture.setData(textureData, 1);
-		
+	
+		quadVertexPositions = new Vector3f[4];
+		quadVertexPositions[0] = new Vector3f(-0.5f, -0.5f, 0.0f);
+		quadVertexPositions[1] = new Vector3f(0.5f, -0.5f, 0.0f);
+		quadVertexPositions[2] = new Vector3f(0.5f,  0.5f, 0.0f);
+		quadVertexPositions[3] = new Vector3f(-0.5f,  0.5f, 0.0f);
+				
 	}
 	
 	
@@ -87,7 +95,7 @@ public abstract class Renderer2D {
 	public static void flush() {
 		
 		//bind textures
-		for (int i = 0; i < sData.getTextureSlotIndex(); i++) {
+		for (int i = 0; i <= sData.getTextureSlotIndex(); i++) {
 			RendererAPI.get().bindTexture(i, sData.getTextureSlot()[i]);
 		}
 		
@@ -102,6 +110,7 @@ public abstract class Renderer2D {
 		
 		flush();
 		sData.setTextureSlotIndex(1);
+		
 	}
 	
 	
@@ -219,6 +228,8 @@ public abstract class Renderer2D {
 		Renderer2D.drawQuad(tmpVec3.set(position, 0), size, subtexture, Colors.WHITE);
 	}
 	
+	private static Matrix4f tmpTrans = new Matrix4f();
+	private static Vector3f tmpVec = new Vector3f();
 	public static void drawQuad(Vector3f position, Vector2f size, SubTexture2D subtexture, Vector4f color) {
 
 		float textureIndex = -1;
@@ -241,35 +252,16 @@ public abstract class Renderer2D {
 			sData.setTextureSlotIndex(sData.getTextureSlotIndex()+1);
 		}
 		
-		//BOTTOM - LEFT
-		sData.getQuadPointer().position.set(position);
-		sData.getQuadPointer().color.set(color);
-		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[0]);
-		sData.getQuadPointer().texIndex = textureIndex;
-		sData.increaseQuadPointer();
+		tmpTrans.identity().translate(position).scale(size.x, size.y, 1);
 		
-		//BOTTOM - RIGHT
-		sData.getQuadPointer().position.set(position.x + size.x, position.y, position.z);
-		sData.getQuadPointer().color.set(color);
-		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[1]);
-		sData.getQuadPointer().texIndex = textureIndex;
-		sData.increaseQuadPointer();
-		
-		//UP - RIGHT
-		sData.getQuadPointer().position.set(position.x + size.x, position.y + size.y, position.z);
-		sData.getQuadPointer().color.set(color);
-		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[2]);
-		sData.getQuadPointer().texIndex = textureIndex;
-		sData.increaseQuadPointer();
-		
-		//UP - LEFT
-		sData.getQuadPointer().position.set(position.x, position.y + size.y, position.z);
-		sData.getQuadPointer().color.set(color);
-		sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[3]);
-		sData.getQuadPointer().texIndex = textureIndex;
-		sData.increaseQuadPointer();
-		
-		
+		for (int i = 0; i < 4; i++) {
+			sData.getQuadPointer().position.set(tmpVec.set(quadVertexPositions[i]).mulPosition(tmpTrans));
+			sData.getQuadPointer().color.set(color);
+			sData.getQuadPointer().texCoord.set(subtexture.getTexCoords()[i]);
+			sData.getQuadPointer().texIndex = textureIndex;
+			sData.increaseQuadPointer();
+		}
+				
 		if (sData.mustFlush())	flush();
 
 	}

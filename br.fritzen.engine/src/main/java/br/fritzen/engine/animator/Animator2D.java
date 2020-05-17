@@ -43,10 +43,15 @@ public class Animator2D {
 
 
 	public void draw(Vector2f position, Vector2f size) {
-		Renderer2D.drawQuad(position, size, this.currentTexture);
+		draw(position, size, 1, 1);
 	}
 	
+	private Vector2f tmpSize = new Vector2f();
+	public void draw(Vector2f position, Vector2f size, float directionX, float directionY) {
+		Renderer2D.drawQuad(position, tmpSize.set(size).mul(directionX, directionY), this.currentTexture);
+	}
 	
+		
 	public void update(float deltatime) {
 		
 		amountTime += deltatime;
