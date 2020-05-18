@@ -5,9 +5,11 @@ import org.joml.Vector2f;
 import br.fritzen.engine.renderer.Renderer2D;
 import br.fritzen.engine.renderer.SubTexture2D;
 import br.fritzen.engine.renderer.Texture2D;
+import lombok.Getter;
 
 public class Animator2D {
 
+	@Getter
 	private String name;
 	
 	private Texture2D spriteSheet;
@@ -68,6 +70,12 @@ public class Animator2D {
 			amountTime = 0;
 		}
 		
+	}
+
+
+	public void restart() {
+		this.currentCoord = 0;
+		this.amountTime = 0;
 	}
 }
 

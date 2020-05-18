@@ -5,11 +5,19 @@ import org.joml.Vector2f;
 import br.fritzen.engine.animator.Animator2D;
 import br.fritzen.engine.core.input.Input;
 import br.fritzen.engine.events.Event;
+import br.fritzen.engine.events.EventCategory;
+import br.fritzen.engine.events.EventType;
+import br.fritzen.engine.events.key.KeyEvent;
 import br.fritzen.engine.renderer.Texture2D;
+import core.StateGraph;
+import core.StateNode;
+import imgui.Key;
 
 public class Player {
 
-	private Animator2D currentAnimator;
+	private StateGraph stateGraph;
+	
+	//private Animator2D currentAnimator;
 	
 	private Animator2D running;
 	private Animator2D iddle;
@@ -18,7 +26,7 @@ public class Player {
 	
 	private Texture2D textureA = Texture2D.create("textures/tiles/adventurerSheet.png");
 	
-	private boolean isJumping = false;
+	//private boolean isJumping = false;
 	
 	private Vector2f position;
 	private Vector2f size;
@@ -56,17 +64,113 @@ public class Player {
 		for (int i = 0; i < 10; i++) {
 			listOfCoordsJumping[i] = new Vector2f(i % 7, 13 - (i / 7));
 		}
-		jumping = new Animator2D("Jumping", textureA, new Vector2f(50, 37), listOfCoordsJumping, 0.1f);
+		jumping = new Animator2D("Jumping", textureA, new Vector2f(50, 37), listOfCoordsJumping, 0.15f);
 		
 		
-		this.currentAnimator = iddle;
+		//this.currentAnimator = iddle;
 		
+		
+		StateNode iddleState = new StateNode("IDDLE", iddle) {
+			@Override
+			public void onUpdate(float deltatime) {
+				this.getAnimation().update(deltatime);
+			}
+		};
+		
+		StateNode runningState = new StateNode("RUNNING", running) {
+			
+			@Override
+			public void onTrigger() {
+				super.onTrigger();
+				
+				//change the direction
+				if (Input.isKeyPressed(Input.KEY_LEFT))
+					direction = -1f;
+				
+				else if (Input.isKeyPressed(Input.KEY_RIGHT))
+					direction = 1;
+				
+				else 
+					stateGraph.trigger("ARROW RELEASED");
+			}
+		
+			@Override
+			public void onUpdate(float deltatime) {
+				this.getAnimation().update(deltatime);
+				position.x += direction * speed * deltatime;
+	
+			}
+		};
+
+		StateNode jumpingState = new StateNode("JUMPING", jumping) {
+			
+			float maxUpTime = 1.0f;
+			float totalUpTime = 0;
+			float initialY;
+			float falling = 1;
+			float jumpForce;
+			
+			@Override
+			public void onTrigger() {
+				super.onTrigger();
+				
+				initialY = position.y;
+				totalUpTime = 0;
+				jumpForce = 20;
+				
+				this.getAnimation().restart();
+			}
+		
+			@Override
+			public void onUpdate(float deltatime) {
+				
+				this.getAnimation().update(deltatime);
+				
+				if (Input.isKeyPressed(Input.KEY_SPACE) && totalUpTime < maxUpTime) {
+					totalUpTime += deltatime;
+					position.y += jumpForce  * deltatime;
+					falling = 1;
+					jumpForce *= 0.95f;
+				} else {
+					//FALLING
+					
+					float deltaY= (speed + falling) * deltatime;
+					falling++;
+					
+					if (deltaY < position.y - initialY) {
+						position.y  -= deltaY;
+						
+					//END JUMP
+					} else {
+						position.y = initialY;
+						//stateGraph.trigger("FINISH JUMP");
+						
+						stateGraph.setInitial(stateGraph.getLastNode());
+						stateGraph.getCurrentNode().onTrigger();
+					}
+				}
+				
+			}
+		};
+
+		//map of relations on state graph
+		iddleState.addPath(runningState, "ARROW LR");
+		runningState.addPath(iddleState, "ARROW RELEASED");
+				
+		iddleState.addPath(jumpingState, "SPACE");
+		runningState.addPath(jumpingState, "SPACE");
+		
+		jumpingState.addPath(iddleState, "FINISH JUMP");	
+		
+		stateGraph = new StateGraph();
+		stateGraph.setInitial(iddleState);
+
 	}
 	
-	float totalJump = 1f;
-	float jumpingTime = 0;
+	//float totalJump = 1f;
+	//float jumpingTime = 0;
 	public void update(float deltatime) {
-		
+		/*
 		this.currentAnimator = iddle;
 		
 		if (Input.isKeyPressed(Input.KEY_SPACE) || isJumping ) {
@@ -98,16 +202,47 @@ public class Player {
 			this.direction = 1f;
 			
 		}
-		this.currentAnimator.update(deltatime);	
+		this.currentAnimator.update(deltatime);
+		*/	
+		
+		//this.stateGraph.getCurrentNode().getAnimation().update(deltatime);
+		this.stateGraph.getCurrentNode().onUpdate(deltatime);
 	}
 
 	
 	public void draw() {
-		this.currentAnimator.draw(position, size, direction, 1);
+		//this.currentAnimator.draw(position, size, direction, 1);
+		this.stateGraph.getCurrentNode().getAnimation().draw(position, size, direction, 1);
 	}
 
-	
+	boolean jumpIsEnabled = true;
 	public void onEvent(Event e) {
+		
+		if (e.getEventCategory() == EventCategory.Keyboard) {
+			
+			KeyEvent ke = (KeyEvent) e;
+			
+			if (ke.getEventType() == EventType.KeyPressedEvent) {
+				
+				if (ke.getKeyCode() == Input.KEY_LEFT || ke.getKeyCode() == Input.KEY_RIGHT)
+					this.stateGraph.trigger("ARROW LR");
+				
+				if (ke.getKeyCode() == Input.KEY_SPACE && jumpIsEnabled) {
+					this.stateGraph.trigger("SPACE");
+					jumpIsEnabled = false;
+				}
+				
+			} else if (ke.getEventType() == EventType.KeyReleasedEvent) {
+				
+				if (ke.getKeyCode() == Input.KEY_LEFT || ke.getKeyCode() == Input.KEY_RIGHT)
+					this.stateGraph.trigger("ARROW RELEASED");
+				
+				if (ke.getKeyCode() == Input.KEY_SPACE) {
+					jumpIsEnabled = true;
+				}
+			}
+			
+		}
 		
 	}
 	
