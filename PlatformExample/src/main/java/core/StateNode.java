@@ -12,6 +12,9 @@ public class StateNode {
 
 	private String name;
 	
+	@Setter
+	private StateGraph graphReference;
+	
 	@Getter
 	@Setter
 	private Animator2D animation;
@@ -39,6 +42,11 @@ public class StateNode {
 	
 	public void onUpdate(float deltatime) {
 		
+	}
+	
+	
+	public void onEnd() {
+		this.graphReference.finishState();
 	}
 	
 	public void addPath(StateNode midA, String trigger) {

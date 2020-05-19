@@ -49,4 +49,20 @@ public class StateGraph {
 		}
 		
 	}
+
+
+	public void finishState() {
+		this.setInitial(this.getLastNode());
+		this.getCurrentNode().onTrigger();
+	}
+
+
+	public void addPath(StateNode stateA, StateNode stateB, String trigger) {
+		
+		stateA.setGraphReference(this);
+		stateB.setGraphReference(this);
+		
+		stateA.addPath(stateB, trigger);
+		
+	}
 }

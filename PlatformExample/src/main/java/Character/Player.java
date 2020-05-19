@@ -8,16 +8,15 @@ import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventCategory;
 import br.fritzen.engine.events.EventType;
 import br.fritzen.engine.events.key.KeyEvent;
+import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.renderer.Texture2D;
 import core.StateGraph;
 import core.StateNode;
-import imgui.Key;
+
 
 public class Player {
 
 	private StateGraph stateGraph;
-	
-	//private Animator2D currentAnimator;
 	
 	private Animator2D running;
 	private Animator2D iddle;
@@ -26,13 +25,12 @@ public class Player {
 	
 	private Texture2D textureA = Texture2D.create("textures/tiles/adventurerSheet.png");
 	
-	//private boolean isJumping = false;
-	
 	private Vector2f position;
 	private Vector2f size;
 	
 	private float direction = 1;
-	private float speed = 5f;
+	private float speed = 0f;
+	private float defaultSpeed = 8f;
 	
 	public Player(Vector2f position) {
 	
@@ -57,7 +55,7 @@ public class Player {
 		for (int i = 0; i < 17; i++) {
 			listOfCoordsAttacking[i] = new Vector2f(i % 7, 9 - (i / 7));
 		}
-		attacking = new Animator2D("Attacking", textureA, new Vector2f(50, 37), listOfCoordsAttacking, 0.15f);
+		attacking = new Animator2D("Attacking", textureA, new Vector2f(50, 37), listOfCoordsAttacking, 0.1f);
 		
 		
 		Vector2f[] listOfCoordsJumping = new Vector2f[10];
@@ -67,8 +65,7 @@ public class Player {
 		jumping = new Animator2D("Jumping", textureA, new Vector2f(50, 37), listOfCoordsJumping, 0.15f);
 		
 		
-		//this.currentAnimator = iddle;
-		
+		AttackA attackingState = new AttackA("AttackA", attacking);
 		
 		StateNode iddleState = new StateNode("IDDLE", iddle) {
 			@Override
@@ -81,24 +78,25 @@ public class Player {
 			
 			@Override
 			public void onTrigger() {
-				super.onTrigger();
-				
-				//change the direction
-				if (Input.isKeyPressed(Input.KEY_LEFT))
-					direction = -1f;
-				
-				else if (Input.isKeyPressed(Input.KEY_RIGHT))
-					direction = 1;
-				
-				else 
-					stateGraph.trigger("ARROW RELEASED");
+				super.onTrigger();			
 			}
 		
 			@Override
 			public void onUpdate(float deltatime) {
 				this.getAnimation().update(deltatime);
-				position.x += direction * speed * deltatime;
-	
+				
+				if (Input.isKeyPressed(Input.KEY_LEFT)) {
+					direction = -1f;
+					speed = defaultSpeed;
+				}
+				else if (Input.isKeyPressed(Input.KEY_RIGHT)) {
+					direction = 1;
+					speed = defaultSpeed;
+				}
+				else { 
+					stateGraph.trigger("ARROW RELEASED");
+					speed = 0;
+				}
 			}
 		};
 
@@ -110,15 +108,26 @@ public class Player {
 			float falling = 1;
 			float jumpForce;
 			
+			boolean available = true;
+			boolean fallingControl = false;
+			
 			@Override
 			public void onTrigger() {
 				super.onTrigger();
 				
 				initialY = position.y;
 				totalUpTime = 0;
-				jumpForce = 20;
+				jumpForce = 30;
+				fallingControl = false;
 				
 				this.getAnimation().restart();
+				
+				if (!available) {
+					stateGraph.setInitial(stateGraph.getLastNode());
+					//stateGraph.getCurrentNode().onTrigger();
+				}
+				else
+					available = false;
 			}
 		
 			@Override
@@ -126,13 +135,32 @@ public class Player {
 				
 				this.getAnimation().update(deltatime);
 				
-				if (Input.isKeyPressed(Input.KEY_SPACE) && totalUpTime < maxUpTime) {
+				//allow change the direction in the middle of jump
+				if (Input.isKeyPressed(Input.KEY_LEFT)) {
+					direction = -1f;
+					speed = defaultSpeed + 0;
+				}
+				else if (Input.isKeyPressed(Input.KEY_RIGHT)) {
+					direction = 1;
+					speed = defaultSpeed + 0;
+				}
+				else { 
+					stateGraph.trigger("ARROW RELEASED");
+					speed = 0;
+				}
+				
+							
+				if (Input.isKeyPressed(Input.KEY_UP) && totalUpTime < maxUpTime && !fallingControl) {
+					
 					totalUpTime += deltatime;
 					position.y += jumpForce  * deltatime;
 					falling = 1;
-					jumpForce *= 0.95f;
+					jumpForce *= 0.9f;
+					
 				} else {
+					
 					//FALLING
+					fallingControl = true;
 					
 					float deltaY= (speed + falling) * deltatime;
 					falling++;
@@ -143,70 +171,37 @@ public class Player {
 					//END JUMP
 					} else {
 						position.y = initialY;
-						//stateGraph.trigger("FINISH JUMP");
-						
-						stateGraph.setInitial(stateGraph.getLastNode());
-						stateGraph.getCurrentNode().onTrigger();
+						available = true;
+						stateGraph.finishState();
 					}
 				}
 				
 			}
 		};
 
-		//map of relations on state graph
-		iddleState.addPath(runningState, "ARROW LR");
-		runningState.addPath(iddleState, "ARROW RELEASED");
-				
-		iddleState.addPath(jumpingState, "SPACE");
-		runningState.addPath(jumpingState, "SPACE");
-		
-		jumpingState.addPath(iddleState, "FINISH JUMP");	
-		
 		stateGraph = new StateGraph();
 		stateGraph.setInitial(iddleState);
 
+		//map of relations on state graph
+		stateGraph.addPath(iddleState, runningState, "ARROW LR");
+		stateGraph.addPath(runningState, iddleState, "ARROW RELEASED");
+		
+		stateGraph.addPath(iddleState, jumpingState, "UP");
+		stateGraph.addPath(runningState, jumpingState, "UP");
+		
+		stateGraph.addPath(jumpingState, iddleState, "FINISH JUMP");
+		
+		//map attack
+		stateGraph.addPath(iddleState, attackingState, "ATTACK");
+		stateGraph.addPath(runningState, attackingState, "ATTACK");
+		
 	}
 	
-	//float totalJump = 1f;
-	//float jumpingTime = 0;
+	
 	public void update(float deltatime) {
-		/*
-		this.currentAnimator = iddle;
 		
-		if (Input.isKeyPressed(Input.KEY_SPACE) || isJumping ) {
-			this.currentAnimator = jumping;
-			isJumping = true;
-			jumpingTime += deltatime;
-			
-			if (jumpingTime < totalJump/2) {
-				position.y += 8 * deltatime;
-			} else {
-				position.y -= 8 * deltatime;
-			}
-			
-			if (jumpingTime >= totalJump) {
-				position.y = -5;	//reseting
-				isJumping = false;
-				jumpingTime = 0;
-			}
-		}
-		
-		if (Input.isKeyPressed(Input.KEY_LEFT)) {
-			this.position.x -= speed * deltatime;
-			if (!isJumping) this.currentAnimator = running;
-			this.direction = -1f;
-			
-		} else if (Input.isKeyPressed(Input.KEY_RIGHT)) {
-			this.position.x += speed * deltatime;
-			if (!isJumping) this.currentAnimator = running;
-			this.direction = 1f;
-			
-		}
-		this.currentAnimator.update(deltatime);
-		*/	
-		
-		//this.stateGraph.getCurrentNode().getAnimation().update(deltatime);
 		this.stateGraph.getCurrentNode().onUpdate(deltatime);
+		position.x += direction * speed * deltatime;
 	}
 
 	
@@ -215,7 +210,7 @@ public class Player {
 		this.stateGraph.getCurrentNode().getAnimation().draw(position, size, direction, 1);
 	}
 
-	boolean jumpIsEnabled = true;
+	
 	public void onEvent(Event e) {
 		
 		if (e.getEventCategory() == EventCategory.Keyboard) {
@@ -227,21 +222,14 @@ public class Player {
 				if (ke.getKeyCode() == Input.KEY_LEFT || ke.getKeyCode() == Input.KEY_RIGHT)
 					this.stateGraph.trigger("ARROW LR");
 				
-				if (ke.getKeyCode() == Input.KEY_SPACE && jumpIsEnabled) {
-					this.stateGraph.trigger("SPACE");
-					jumpIsEnabled = false;
+				if (ke.getKeyCode() == Input.KEY_UP && ((KeyPressedEvent)ke).getRepeatCount() == 0) {
+					this.stateGraph.trigger("UP");
 				}
 				
-			} else if (ke.getEventType() == EventType.KeyReleasedEvent) {
-				
-				if (ke.getKeyCode() == Input.KEY_LEFT || ke.getKeyCode() == Input.KEY_RIGHT)
-					this.stateGraph.trigger("ARROW RELEASED");
-				
-				if (ke.getKeyCode() == Input.KEY_SPACE) {
-					jumpIsEnabled = true;
+				if (ke.getKeyCode() == Input.KEY_SPACE && ((KeyPressedEvent)ke).getRepeatCount() == 0) {
+					this.stateGraph.trigger("ATTACK");
 				}
 			}
-			
 		}
 		
 	}
