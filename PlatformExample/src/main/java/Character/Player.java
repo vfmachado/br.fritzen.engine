@@ -12,6 +12,7 @@ import br.fritzen.engine.events.key.KeyPressedEvent;
 import br.fritzen.engine.renderer.Texture2D;
 import core.StateGraph;
 import core.StateNode;
+import lombok.Data;
 
 
 public class Player {
@@ -28,12 +29,18 @@ public class Player {
 	private Vector2f position;
 	private Vector2f size;
 	
-	private float direction = 1;
-	private float speed = 0f;
-	private float defaultSpeed = 8f;
+	@Data
+	public class PlayerData {
+		public float direction = 1;
+		public float speed = 0f;
+		public float defaultSpeed = 8f;
+	}
+	
+	PlayerData data;
 	
 	public Player(Vector2f position) {
 	
+		this.data = new PlayerData();
 		this.position = position;
 		this.size = new Vector2f(1.3513f * 4, 1 * 4);
 		
@@ -65,7 +72,7 @@ public class Player {
 		jumping = new Animator2D("Jumping", textureA, new Vector2f(50, 37), listOfCoordsJumping, 0.15f);
 		
 		
-		AttackA attackingState = new AttackA("AttackA", attacking);
+		AttackA attackingState = new AttackA("AttackA", attacking, data);
 		
 		StateNode iddleState = new StateNode("IDDLE", iddle) {
 			@Override
@@ -86,16 +93,16 @@ public class Player {
 				this.getAnimation().update(deltatime);
 				
 				if (Input.isKeyPressed(Input.KEY_LEFT)) {
-					direction = -1f;
-					speed = defaultSpeed;
+					data.direction = -1f;
+					data.speed = data.defaultSpeed;
 				}
 				else if (Input.isKeyPressed(Input.KEY_RIGHT)) {
-					direction = 1;
-					speed = defaultSpeed;
+					data.direction = 1;
+					data.speed = data.defaultSpeed;
 				}
 				else { 
 					stateGraph.trigger("ARROW RELEASED");
-					speed = 0;
+					data.speed = 0;
 				}
 			}
 		};
@@ -137,16 +144,16 @@ public class Player {
 				
 				//allow change the direction in the middle of jump
 				if (Input.isKeyPressed(Input.KEY_LEFT)) {
-					direction = -1f;
-					speed = defaultSpeed + 0;
+					data.direction = -1f;
+					data.speed = data.defaultSpeed + 0;
 				}
 				else if (Input.isKeyPressed(Input.KEY_RIGHT)) {
-					direction = 1;
-					speed = defaultSpeed + 0;
+					data.direction = 1;
+					data.speed = data.defaultSpeed + 0;
 				}
 				else { 
 					stateGraph.trigger("ARROW RELEASED");
-					speed = 0;
+					data.speed = 0;
 				}
 				
 							
@@ -162,7 +169,7 @@ public class Player {
 					//FALLING
 					fallingControl = true;
 					
-					float deltaY= (speed + falling) * deltatime;
+					float deltaY= (data.speed + falling) * deltatime;
 					falling++;
 					
 					if (deltaY < position.y - initialY) {
@@ -201,13 +208,13 @@ public class Player {
 	public void update(float deltatime) {
 		
 		this.stateGraph.getCurrentNode().onUpdate(deltatime);
-		position.x += direction * speed * deltatime;
+		position.x += data.direction * data.speed * deltatime;
 	}
 
 	
 	public void draw() {
 		//this.currentAnimator.draw(position, size, direction, 1);
-		this.stateGraph.getCurrentNode().getAnimation().draw(position, size, direction, 1);
+		this.stateGraph.getCurrentNode().getAnimation().draw(position, size, data.direction, 1);
 	}
 
 	
