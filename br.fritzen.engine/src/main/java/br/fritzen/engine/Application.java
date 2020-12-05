@@ -1,7 +1,6 @@
 package br.fritzen.engine;
 
 import br.fritzen.engine.core.EngineLog;
-import br.fritzen.engine.core.MainLoopFixedFPS;
 import br.fritzen.engine.core.MainLoopUnlimited;
 import br.fritzen.engine.core.OSDetection;
 import br.fritzen.engine.core.OSDetection.OSType;
@@ -10,10 +9,14 @@ import br.fritzen.engine.core.layers.LayerStack;
 import br.fritzen.engine.events.Event;
 import br.fritzen.engine.events.EventDispatcher;
 import br.fritzen.engine.events.window.WindowCloseEvent;
+import br.fritzen.engine.imgui.GUI;
+import br.fritzen.engine.imgui.ImGuiLayer;
 import br.fritzen.engine.platform.windows.WindowsWindowImpl;
+import br.fritzen.engine.renderer.GraphicsContext;
 import br.fritzen.engine.renderer.RenderCommand;
 import br.fritzen.engine.renderer.Renderer;
 import br.fritzen.engine.window.Window;
+import imgui.ImGui;
 
 
 public class Application extends MainLoopUnlimited {
@@ -22,12 +25,14 @@ public class Application extends MainLoopUnlimited {
 	
 	private Window window;
 	
+	private GraphicsContext graphicsContext;
+	
 	private EventDispatcher dispatcher;
 	
 	private LayerStack layerStack;
 	
-	//private ImGuiLayer imguiLayer;
-
+	private ImGuiLayer imguiLayer;
+	
 			
 	
 	private Application(String title, int width, int height) {
@@ -44,8 +49,10 @@ public class Application extends MainLoopUnlimited {
 		
 		instance = new Application(title, width, height);
 		
-		if (OSDetection.getOS() == OSType.Windows)
+		if (OSDetection.getOS() == OSType.Windows) {
 			instance.window = new WindowsWindowImpl(width, height, title);
+			instance.graphicsContext = instance.window.getContext();
+		}
 
 		Renderer.init();
 		
@@ -76,8 +83,8 @@ public class Application extends MainLoopUnlimited {
 	@Override
 	protected void init() {
 		
-		//imguiLayer = new ImGuiLayer();
-		//layerStack.pushOverlay(imguiLayer);
+		imguiLayer = new ImGuiLayer();
+		layerStack.pushOverlay(imguiLayer);
 		
 	}
 
@@ -113,7 +120,6 @@ public class Application extends MainLoopUnlimited {
 		}
 		
 		
-		/*
 		imguiLayer.begin();
 		
 		
@@ -122,25 +128,21 @@ public class Application extends MainLoopUnlimited {
 		}
 		
 		imguiLayer.end();
-		*/
-		/*
 		ImGui imgui = ImGui.INSTANCE;
 
 		imgui.begin("Renderer Info", GUI.TRUE, GUI.NONE_FLAG);
-		/*
-		imgui.text("Vendor: " + graphicsContext.getVendor());
-		imgui.text("Renderer: " + graphicsContext.getRenderer());
-		imgui.text("Version: " + graphicsContext.getVersion());
+		imgui.text("Vendor: " + instance.graphicsContext.getVendor());
+		imgui.text("Renderer: " + instance.graphicsContext.getRenderer());
+		imgui.text("Version: " + instance.graphicsContext.getVersion());
 
-		imgui.text("FPS: " + 1000f/loopTime + "\t" + loopTime + " ms" );
-		imgui.text("Median Values:");
-		
+//		imgui.text("FPS: " + 1000f/loopTime + "\t" + loopTime + " ms" );
+//		imgui.text("Median Values:");
+//		
 		imgui.text("FPS: " + 1000f/median + "\t" + median + " ms" );
 		imgui.end();
 		
 		imguiLayer.end();
-		*/
-
+		
 		//the update method from window is related to render (VSYNC) or update ??
 		getWindow().onUpdate();
 	}

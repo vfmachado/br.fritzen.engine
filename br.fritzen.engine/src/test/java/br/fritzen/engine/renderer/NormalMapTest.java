@@ -87,14 +87,12 @@ public class NormalMapTest extends Layer {
 		planeFlat.getTransform()
 			.translate(-2, 0, 0)
 			.rotate((float) Math.toRadians(90), EngineState.Y_AXIS)
-			.rotate((float) Math.toRadians(90), EngineState.Z_AXIS)
-			;
+			.rotate((float) Math.toRadians(90), EngineState.Z_AXIS);
 		
 		planeWithNormal.getTransform()
 			.translate(2, 0, 0)
 			.rotate((float) Math.toRadians(90), EngineState.Y_AXIS)
-			.rotate((float) Math.toRadians(90), EngineState.Z_AXIS)
-			;
+			.rotate((float) Math.toRadians(90), EngineState.Z_AXIS);
 		
 		scene.add(planeFlat);
 		scene.add(planeWithNormal);

@@ -20,7 +20,7 @@ public class EngineFiles {
 	public static String loadTextFile(final String filename) throws IOException {
 		
 		long time = System.currentTimeMillis();
-		
+
 		File file = new File(EngineFiles.class.getClassLoader().getResource(filename).getFile());
 		
 		BufferedReader reader = new BufferedReader(new FileReader(file));

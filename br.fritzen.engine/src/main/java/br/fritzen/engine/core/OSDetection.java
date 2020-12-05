@@ -4,10 +4,10 @@ package br.fritzen.engine.core;
  * 
  * Use this class with the only available method @getOs to get an OSType value
  * <ul>
- * <li>Windows</li>
- * <li>MacOS</li>
- * <li>Linux</li>
- * <li>Other - when the system wasn't recognized.</li>
+ * 	<li>Windows</li>
+ * 	<li>MacOS</li>
+ * 	<li>Linux</li>
+ * 	<li>Other - when the system wasn't recognized.</li>
  * </ul>
  * @author fritz
  *

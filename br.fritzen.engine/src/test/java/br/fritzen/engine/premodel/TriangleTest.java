@@ -60,7 +60,7 @@ public class TriangleTest {
 			
 			@Override
 			public void onImGuiRender() {
-
+				
 			}
 
 			@Override
